@@ -20,7 +20,7 @@ One flat folder. Files are numbered in reading order, which is also interview or
 ├── 09 - Rules and Compliance.md
 ├── 10 - Design Direction.md
 ├── 11 - Wireframes.md
-├── 11.01 - Wireframe - <Screen Name>.html     one per screen, journey order
+├── 11.01 - Wireframe - <Screen Name>.html     one per screen with its states, journey order
 ├── 12 - Success Measures.md
 ├── 13 - Open Questions and Assumptions.md     append-mode
 ├── 14 - Glossary.md                           append-mode
@@ -48,7 +48,7 @@ Documents are written in interview order, one at a time, and the founder reviews
 | 08 Platform, Integrations and Content | Platform per persona; rented services; day-one content with owners |
 | 09 Rules and Compliance | Sensitive data, consent, jurisdictions — flags, not legal advice |
 | 10 Design Direction | Reference apps, five-second feeling, style pick, voice |
-| 11 Wireframes | Screen index: screen → journey step → Must feature → 11.NN file |
+| 11 Wireframes | Screen index: screen → journey step → Must feature → states → 11.NN file |
 | 12 Success Measures | 3–5 measures and what the product must record for each |
 | 13 Open Questions and Assumptions | Unknowns and assumptions with impact — the kickoff agenda |
 | 14 Glossary | Founder's domain terms, their definitions |
@@ -58,10 +58,10 @@ Documents are written in interview order, one at a time, and the founder reviews
 - Plain language; any technical or domain term gets a row in 14.
 - Complete, then as short as completeness allows: nothing missing that an engineer would need, nothing present that they would skip.
 - Nothing invented: every statement traces to the founder; every unknown is a 13 row. "I don't know" is a valid answer.
-- Diagrams are Mermaid. Wireframes are self-contained grayscale HTML — layout and flow only, never visual polish.
+- Diagrams are Mermaid. Wireframes are self-contained grayscale HTML — layout, flow and states only, never visual polish.
 
 ## Packaging
 
-Before zipping, a consistency pass: personas ↔ journeys, Must items ↔ acceptance criteria, wireframes ↔ journey steps and Must features, sensitive fields in 07 ↔ flags in 09, every document 01–12 present. Anything that disagrees is fixed with the founder before zipping.
+Before zipping, a consistency pass: personas ↔ journeys, Must items ↔ acceptance criteria, wireframes ↔ journey steps and Must features, screen states ↔ unhappy paths in 06 and none cells in 07, sensitive fields in 07 ↔ flags in 09, every document 01–12 present. Anything that disagrees is fixed with the founder before zipping.
 
 The folder is zipped as `<product-slug>-spec-<YYYY-MM-DD>.zip` and sent to Incubyte — including `intake/` and 13, because open questions are part of the deliverable.

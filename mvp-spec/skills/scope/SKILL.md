@@ -25,7 +25,7 @@ Never ask what the founder can spend. If they volunteer a figure, note it in 13 
 
 Expect this; a founder who has just told you four journeys usually wants all of them. The ceiling holds, and the Later list is what makes that a good conversation rather than a disappointing one.
 
-Cut to what fits, then show the founder the Later list as the second phase it is: not features they lost, but the ones already specified and waiting, in an order that follows what users need next. A founder who leaves with a buildable first version and a visible roadmap has more than one who leaves with a wish list nobody costed.
+Cut to what fits, then show the founder the Later list as the second phase it is: not features they lost, but the ones already written down and waiting, in an order that follows what users need next, ready to be specified when their turn comes. A founder who leaves with a buildable first version and a visible roadmap has more than one who leaves with a wish list nobody costed.
 
 Never quietly overfill the Must list to keep a founder happy. An overfull first version is the failure this document exists to prevent, and an engineer reading 05 has no way to tell which Musts were real. Where a founder pushes hard on something that does not fit, record the push in 13 so Incubyte knows before kickoff.
 

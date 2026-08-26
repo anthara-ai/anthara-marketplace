@@ -18,6 +18,7 @@ Read every document and check the pairs the schema names:
 - Every persona in 03 has a journey in 04, and no journey belongs to a persona 03 does not list.
 - Every Must in 05 has acceptance criteria in 06, and 06 contains nothing that is not a Must.
 - Every user-facing Must has a screen in 11, and every screen traces to a journey step and a feature.
+- Every unhappy path decided in 06 and every none cell in 07 appears as a state on its screen in 11.
 - Every sensitive field flagged in 07 has a flag in 09.
 - Every noun a feature in 06 touches is tracked in 07.
 - Every document 01 to 12 exists.
