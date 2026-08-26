@@ -1,0 +1,14 @@
+{
+  "name": "anthara-marketplace",
+  "owner": {
+    "name": "Anthara AI",
+    "url": "https://anthara.ai"
+  },
+  "plugins": [
+    {
+      "name": "mvp-spec",
+      "source": "./mvp-spec",
+      "description": "Interviews a founder and writes an estimable MVP spec package for Incubyte"
+    }
+  ]
+}

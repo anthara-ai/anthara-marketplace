@@ -1,0 +1,39 @@
+---
+name: data-and-permissions
+description: This skill should be used when the mvp-spec interview reaches "07 - Data and Permissions.md", or when the founder wants to define "what the app keeps track of", "who can see what", "permissions", "roles and access", "data model", or "sensitive data". Writes the plain-language data model and the persona-by-noun permissions matrix.
+---
+
+# 07 Data and Permissions
+
+Phase 07 of the `mvp-spec` interview. The interview rules and package contract live in the `mvp-spec` skill; if this phase was entered directly rather than from that skill, read `${CLAUDE_PLUGIN_ROOT}/skills/mvp-spec/SKILL.md` first.
+
+## Goal
+
+Write `07 - Data and Permissions.md`: what the app keeps track of, and who may see and change each thing. With more than one persona this is never trivial. Can the parent read the child's journal? Can the child see the therapist's notes? Those are product, ethical and legal decisions at once, and they are the founder's to make.
+
+## What the document must answer
+
+- The nouns: each thing the app keeps track of, framed as "what does the app remember", what each contains, and where it comes from. Child profiles, mood entries, sessions, notes.
+- The permissions matrix: personas down the side, nouns across the top, each cell see, edit or none. Where a cell depends on a relationship (a therapist sees only their own clients), say so in the cell.
+- Sensitive fields flagged: health, children, payments, identity, anything the founder would not want leaked.
+
+## Where founders go wrong
+
+- They think permissions are obvious. Walk every cell out loud anyway; the surprising ones are the point.
+- They answer for the happy relationship and forget the broken one: the parent who is no longer the guardian, the therapist who leaves the practice. Ask who loses access and when.
+- They are silent on a cell. An unanswered cell is a row in 13, never a silent "none".
+- They describe storage rather than meaning. Keep nouns in founder language; engineers translate.
+
+## Before offering next
+
+Every noun that appears in 04 and 06 is listed, every matrix cell was answered by the founder or sent to 13, and sensitive fields are flagged.
+
+## Feeds
+
+- 09: every sensitive flag here must have a matching flag there.
+- 13: every unanswered cell, with what depends on it.
+- 14: every noun whose name is specific to the founder's domain.
+
+## Then
+
+Write the file, tell the founder which file to review and that saying next moves the interview on, then continue with the loop in the `mvp-spec` skill.
