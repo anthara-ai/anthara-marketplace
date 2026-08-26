@@ -13,9 +13,9 @@ Write `11 - Wireframes.md` and one `11.NN - Wireframe - <Screen Name>.html` file
 
 ## Asking
 
-Ask in prose while walking a screen; the founder is reacting to something in front of them and their words matter.
+Confirm the screen list with AskUserQuestion before drawing anything, as a multi-select of the screens 05 and 06 imply, so a missing screen surfaces in a list rather than after it is drawn. Use it again whenever a screen exposes a decision with a small set of answers: where a control goes, which of two flows a step follows, whether something is one screen or two.
 
-Use AskUserQuestion to confirm the screen list before drawing anything, and when a screen exposes a decision with a small set of answers: where a control goes, which of two flows a step follows, whether something is one screen or two.
+Prose is for the founder's reaction while walking a finished screen; they are responding to something in front of them and their own words matter.
 
 ## What to produce
 

@@ -13,9 +13,9 @@ Write `07 - Data and Permissions.md`: what the app keeps track of, and who may s
 
 ## Asking
 
-The permissions matrix is the clearest use of AskUserQuestion in the whole interview. Every cell is see, edit, or none, sometimes with a relationship qualifier, so ask cell by cell with those as the options and include one that means the founder has not decided, which goes to 13. A matrix walked this way is quick; the same matrix asked in prose produces "the parent can see most of it" and a gap nobody notices until build.
+The permissions matrix is the clearest use of AskUserQuestion in the interview. Every cell is see, edit, or none, sometimes with a relationship qualifier, so ask cell by cell with those as the options and include one meaning the founder has not decided, which goes to 13. Group up to four cells for one noun into a single call. A matrix walked this way is quick; the same matrix asked in prose produces "the parent can see most of it" and a gap nobody notices until build.
 
-Ask in prose what the app keeps track of, since the list of nouns is unbounded.
+The nouns themselves can be a multi-select once the journeys are written: offer what 04 and 06 imply the app keeps track of and let the founder confirm, correct and add. Prose is for what a noun contains when the founder needs to explain it.
 
 ## What the document must answer
 

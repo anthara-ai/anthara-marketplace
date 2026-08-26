@@ -13,9 +13,11 @@ Write `03 - Personas.md`: every distinct kind of user, with enough about each th
 
 ## Asking
 
-Ask in prose who uses the product and what each persona is trying to get done; the answers are unbounded.
+Use AskUserQuestion for nearly everything here. Tech comfort and how often each persona shows up are obvious menus. So is the operator question, and a menu is what makes it answerable: offer that the founder does it themselves, a team member does, a persona already listed does, or nobody does and the document should say why.
 
-Use AskUserQuestion for the per-persona attributes that are genuinely a small set: tech comfort, and how often they show up (daily, weekly, only when something is wrong). Use it too for the operator question, since a founder who has not thought about it answers a menu more readily than a blank prompt: offer that the founder does it themselves, that a team member does, that a persona already listed does it, or that nobody does and the document should say why.
+Even "who else uses this" works as a multi-select once one persona exists: offer the kinds of user this sort of product usually has and let the founder add their own. A founder who cannot answer "who are your users" in the abstract will recognise a missing persona on sight.
+
+Prose is for what each persona is trying to get done, in the founder's words.
 
 ## What the document must answer
 

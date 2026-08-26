@@ -13,9 +13,9 @@ Write `04 - User Journeys.md`: one end-to-end story per persona in plain narrati
 
 ## Asking
 
-Ask in prose. A journey is a story and menus break the telling.
+A journey is a story and the telling has to be the founder's, so the narrative itself is prose.
 
-The exception is the handoff mechanism, which is a genuine small set and which founders otherwise leave half-specified: when one persona's action reaches another, use AskUserQuestion to settle whether the other side is interrupted (notification, email, SMS) or finds out on next login, and whether it happens immediately or in a batch.
+Everything around the narrative suits AskUserQuestion, and using it keeps a long story from stalling. The handoff mechanism is the clearest case, and the one founders leave half-specified: when one persona's action reaches another, ask whether the other side is interrupted (notification, email, SMS) or finds out on next login, and whether that happens immediately or in a batch. Use it too for where a journey starts (an invite, a search, a link from someone else), and to offer back the unhappy paths this kind of journey usually has so the founder can pick the ones that apply.
 
 ## What the document must answer
 

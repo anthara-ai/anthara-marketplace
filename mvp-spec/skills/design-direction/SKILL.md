@@ -13,9 +13,9 @@ Write `10 - Design Direction.md`: enough direction that Incubyte's designers sta
 
 ## Asking
 
-Use AskUserQuestion for the style pick when a founder has no reference apps to name: clean and minimal, soft and playful, glassy and translucent, bold and corporate. Use it for the five-second feeling per persona, and for the voice: warm and simple, clinical, cheeky.
+Use AskUserQuestion for the style pick when a founder has no reference apps to name (clean and minimal, soft and playful, glassy and translucent, bold and corporate), for the five-second feeling per persona, and for voice (warm and simple, clinical, cheeky). Ask what already exists as a multi-select: logo, colours, a name, a typeface, or naming and branding are part of the work.
 
-Ask in prose which apps they would steal the look of and what specifically they like about each, and get the two sample lines approved as written text rather than as a choice.
+Prose is for which apps they would steal the look of and what specifically they like about each, and the two sample lines must be approved as written text rather than picked from a list, since the wording is the deliverable.
 
 ## What the document must answer
 

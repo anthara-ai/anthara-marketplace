@@ -13,9 +13,11 @@ Write `05 - Scope.md`: the journeys in 04 cut down to a first version. This is s
 
 ## Asking
 
-This document is mostly menus, so lean on AskUserQuestion hard. Walk the journey steps and sort each one: Must, Later, or Never. Presenting the same three options step after step is what makes a long sort bearable, and it stops a founder answering "well, sort of" to a question that needs a decision.
+This document is almost entirely AskUserQuestion. Walk the journey steps and sort each one: Must, Later, Never. Asking the same three options step after step is what makes a long sort bearable, and it stops a founder answering "well, sort of" to a question that needs a decision. Cluster related steps into one call of up to four where the founder is moving quickly.
 
-Ask in prose for the one-line reason behind a cut that surprised you, and for the replay itself.
+Offer the non-goals as a multi-select too: the things a reasonable engineer might assume are included. A founder recognises what they do not want far faster than they generate it.
+
+Prose is for the reason behind a cut that surprised you, and for the replay itself.
 
 ## What the document must answer
 

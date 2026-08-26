@@ -13,9 +13,9 @@ Write `02 - Product Overview.md`: one page, at most, that anchors everything aft
 
 ## Asking
 
-Ask this one in prose. The product paragraph and the day-one success have to be in the founder's own words; a menu would put words in their mouth and this document is the tiebreaker for every later scope argument.
+This is the one document where prose leads. The product paragraph, the problem in the words of the person who has it, and day-one success have to be the founder's own telling; a menu would put words in their mouth, and this document is the tiebreaker for every later scope argument.
 
-AskUserQuestion earns its place only when playing back a choice you have already heard, for instance offering two phrasings of the one-liner you drafted from what they said and asking which is closer.
+AskUserQuestion still earns its place around the edges. Use it to narrow who the first version is for when the founder names several audiences, and to play back two or three phrasings of a one-liner you drafted from their words so they can pick the closest or write their own.
 
 ## What the document must answer
 

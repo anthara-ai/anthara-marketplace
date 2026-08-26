@@ -13,9 +13,9 @@ Write `01 - Business Context.md`: the frame around the engagement, not the produ
 
 ## Asking
 
-Nearly every answer here is menu-shaped, including the first one, so open with AskUserQuestion rather than easing in with prose. Who else is involved (just the founder, a cofounder, a small team, an agency already engaged), stage (idea, prototype, paying customers, funded), who signs off on scope and money, budget band, what is driving the timeline: all of these are menus. Offer a menu even where the founder could name a person, since picking the shape of the team is faster than composing a sentence about it and the names can follow. Offer bands rather than asking for a number; a founder who will not name a figure will often pick a range. Every one of these menus needs a way out, so include an option that means "I would rather not say" and send that to 13 as a decline.
+Every answer here suits AskUserQuestion, including the first one, so open with it rather than easing in with prose. Who else is involved (just the founder, a cofounder, a small team, an agency already engaged), stage, who signs off on scope and money, budget band, what is driving the timeline. Offer bands rather than asking for a figure; a founder who will not name a number will often pick a range, and the ones who want to be exact can type it.
 
-Ask in prose what already exists, since the answer is a list only the founder has.
+Even "what already exists that we should not redo" works as a multi-select: domain, brand, designs, code, content, a contract with another vendor. A founder reading that list remembers things a blank question would never surface.
 
 ## What the document must answer
 

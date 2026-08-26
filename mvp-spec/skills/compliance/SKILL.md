@@ -15,9 +15,9 @@ This document flags. It does not advise. Where a flag has legal weight, say plai
 
 ## Asking
 
-Use AskUserQuestion for the flags, since a founder rarely volunteers them but recognises them on sight. Offer the regulated categories and let the founder pick the ones that apply: health data, payments, children or other protected users, identity documents, location. Ask jurisdictions the same way, from the places the founder has actually mentioned.
+Use AskUserQuestion throughout. A founder rarely volunteers a flag but recognises one on sight, so offer the regulated categories as a multi-select: health data, payments, children or other protected users, identity documents, location. Ask jurisdictions the same way, seeded from the places the founder has already mentioned. Retention and deletion expectations are menus too.
 
-Ask in prose about anything the founder's own industry imposes, then record in 13 whatever needs a lawyer to confirm.
+Prose is for anything the founder's own industry imposes that no menu would guess, and for what they already know about their obligations. Whatever needs a lawyer to confirm goes to 13.
 
 ## What the document must answer
 

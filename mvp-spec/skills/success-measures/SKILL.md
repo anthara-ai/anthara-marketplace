@@ -13,9 +13,9 @@ Write `12 - Success Measures.md`: three to five things the founder should be abl
 
 ## Asking
 
-Use AskUserQuestion to narrow a long list to the three to five the founder would actually check; offering their own candidates back as a multi-select cuts faster than arguing each one.
+Use AskUserQuestion to narrow a long list to the three to five the founder would actually check, offering their own candidates back as a multi-select. Seed the options from what the product already records: the features in 06 make some measures free and others expensive, and a founder choosing from what is cheap picks better.
 
-Ask in prose what each measure would tell them and what good looks like in the first months, and send an "I don't know" straight to 13 rather than pressing for a target.
+Prose is for what each measure would tell them and why it means the product is working. Targets are a menu of ranges with an option meaning they cannot say yet, which goes to 13 rather than being pressed for.
 
 ## What the document must answer
 

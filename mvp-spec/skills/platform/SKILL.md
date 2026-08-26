@@ -13,9 +13,9 @@ Write `08 - Platform, Integrations and Content.md`: the three sets of decisions 
 
 ## Asking
 
-Use AskUserQuestion for the platform decisions, which are a closed set: phone app, website, or both, per persona; whether anything must work offline; whether anything must interrupt the user. Use it for each rented service too, since "are you buying this or building it" is a two-option question a founder can answer instantly.
+All of this suits AskUserQuestion. Platform per persona (phone app, website, both), whether anything must work offline, whether anything must interrupt the user. Each rented service is a two-option question, buy or build, that a founder answers instantly, and the list of candidates is itself a good multi-select: payments, email, SMS, video, calendar, sign-in with Google or Apple, maps, file storage.
 
-Ask in prose who owns each day-one content item; the owner is a name only the founder has.
+Day-one content works the same way: offer the content this kind of product needs on launch day as a multi-select, then ask per item who owns it, with the personas and team members from 01 and 03 as options.
 
 ## What the document must answer
 

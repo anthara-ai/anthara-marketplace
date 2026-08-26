@@ -13,9 +13,11 @@ Write `06 - Features and Acceptance Criteria.md`: every Must item from 05 made e
 
 ## Asking
 
-Use AskUserQuestion for the decisions inside a feature that have a small set of sane answers, and these are exactly the ones founders skip: where the paywall sits, whether there is a trial, what happens to a user's data when they delete their account, whether an invite expires. Offer the realistic options rather than asking an open question a founder cannot answer.
+Lean on AskUserQuestion for the decisions inside a feature, which are the ones founders skip: where the paywall sits, whether there is a trial, what happens to a user's data when they delete their account, whether an invite expires, who can cancel. Offer the realistic options rather than asking an open question a founder cannot answer cold.
 
-Ask in prose for the done-means statements themselves; they are the founder's own description of the feature working.
+Unhappy paths work well as a multi-select: offer the ways this kind of feature usually fails and let the founder pick and add. That surfaces far more than "what could go wrong here?".
+
+Prose is for the done-means statements themselves, which are the founder's own description of the feature working.
 
 ## What the document must answer
 
