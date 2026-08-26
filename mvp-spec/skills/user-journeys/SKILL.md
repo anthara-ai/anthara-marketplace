@@ -11,9 +11,9 @@ Phase 04 of the mvp-spec interview. How the interview works and the package cont
 
 Write `04 - User Journeys.md`: one end-to-end story per persona in plain narrative, each with a Mermaid diagram of the same flow. For a non-technical founder the journeys are the raw material of the spec; features fall out of them in 05 and 06.
 
-## Asking
+## Menus
 
-The narrative is prose; a story told through menus is not a story. Everything around it is a menu: where a journey starts, how a handoff reaches the other side and when, which of the usual unhappy paths apply.
+Walk each story one step at a time through the tool: what happens first, then next, each step offering the two or three things that usually happen at that point with free text for what actually does. Handoffs are menus, interrupted or pulled and now or batched, and the unhappy paths are a multi-select of the usual ones. Assemble the narrative from the answers; the founder reads it in the file.
 
 ## What the file contains
 

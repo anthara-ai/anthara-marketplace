@@ -21,9 +21,9 @@ Two yardsticks decide the cut, and they answer different questions.
 
 Never ask what the founder can spend. If they volunteer a figure, note it in 13 and carry on with the cut unchanged.
 
-## Asking
+## Menus
 
-Prose for the replay and for the reason behind a cut that surprised you. The sort itself is Must, Later, Never, step after step, and the non-goals are a multi-select of what a reasonable engineer might assume is included.
+The sort is Must, Later, Never, step after step, up to four steps a call. Non-goals are a multi-select of what a reasonable engineer might assume is included. For the reason behind a cut that surprised you, offer the likely reasons and let free text carry theirs. The replay is yours to write from the Must list; the founder checks it in the file.
 
 ## When more is wanted than fits
 

@@ -11,9 +11,9 @@ Phase 07 of the mvp-spec interview. How the interview works and the package cont
 
 Write `07 - Data and Permissions.md`: what the app keeps track of, and who may see and change each thing. With more than one persona this is never trivial. Can the parent read the child's journal? Can the child see the therapist's notes? Those are product, ethical and legal decisions at once, and they are the founder's to make.
 
-## Asking
+## Menus
 
-Prose only for what a noun contains when it needs explaining. The matrix is asked cell by cell, see, edit or none, with an option meaning the founder has not decided; up to four cells for one noun can share a call.
+The matrix is asked cell by cell, see, edit or none, with an option meaning the founder has not decided; up to four cells for one noun share a call. The nouns are a multi-select of what 04 and 06 imply the app tracks, plus free text. What a noun contains: offer the fields the domain suggests and let free text carry the rest.
 
 ## What the file contains
 

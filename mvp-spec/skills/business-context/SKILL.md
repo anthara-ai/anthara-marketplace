@@ -13,9 +13,9 @@ Write `01 - Business Context.md`: the frame around the engagement, not the produ
 
 The document has three sections and nothing else: who is involved, stage, and what already exists. Write only what the founder said. A section with nothing in it does not belong in the file, and neither does a note explaining what the interview did not cover.
 
-## Asking
+## Menus
 
-Everything here suits a menu, including the first question.
+Every question here is a menu, including the first: who else is involved, stage, who decides scope, and what already exists as a multi-select of the usual assets.
 
 ## What the file contains
 

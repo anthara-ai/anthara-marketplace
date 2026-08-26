@@ -11,9 +11,9 @@ Phase 10 of the mvp-spec interview. How the interview works and the package cont
 
 Write `10 - Design Direction.md`: enough direction that Incubyte's designers start from the founder's taste rather than their own, captured in founder language, not designer language.
 
-## Asking
+## Menus
 
-Prose for which apps they would steal the look of and why, and the two sample lines are approved as written text since the wording is the deliverable. Style, feeling per persona, voice and what already exists are menus; offer named products from their own domain as reference apps.
+Style, feeling per persona, voice, and what already exists are menus. Reference apps are a multi-select of named products from their own domain, plus free text for what they like about each. For the two sample lines, draft two or three in the chosen voice and let the founder pick, edit or replace; the words in the file are the ones they approved.
 
 ## What the file contains
 

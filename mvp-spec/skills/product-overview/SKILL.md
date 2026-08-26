@@ -13,9 +13,9 @@ Write `02 - Product Overview.md`: the anchor everything after it is judged again
 
 This is where the tree goes deepest. Everything after it inherits whatever is vague here, and founders answer in categories that sound like answers. Keep following branches well past the first thing that sounds complete, then write it complete and as short as completeness allows.
 
-## Asking
+## Menus
 
-Prose leads here and nowhere else: the product paragraph, the problem in the words of the person who has it, and day-one success are the founder's own telling. Menus fit around the edges, to narrow who the first version is for when several audiences are named, and to play back two or three phrasings of a one-liner so the founder can pick the closest or write their own.
+Ask even the open questions through the tool. For the problem, offer the two or three moments the domain suggests people hit it and let the free-text answer carry the founder's own. For who it is for, offer the people they have already mentioned. For the paragraph and for day-one success, draft two or three versions from what they have said and let them pick, edit or replace. The words in the file are theirs either way, because they review the file.
 
 ## What the file contains
 

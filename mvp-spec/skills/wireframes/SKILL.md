@@ -11,9 +11,9 @@ Phase 11 of the mvp-spec interview. How the interview works and the package cont
 
 Write `11 - Wireframes.md` and one `11.NN - Wireframe - <Screen Name>.html` file per screen. Lo-fi on purpose: grayscale boxes and labels showing layout and flow, nothing else. High fidelity here is a trap. The founder starts debating button colours instead of scope, and Incubyte's designers inherit anchoring they have to fight. The index says this in its own words so the reader knows the plainness is deliberate.
 
-## Asking
+## Menus
 
-Prose for the founder's reaction while walking a finished screen. The screen list is confirmed as a multi-select before anything is drawn, and a decision a screen exposes with a small set of answers is a menu.
+Confirm the screen list as a multi-select before drawing anything. A decision a screen exposes is a menu. When walking a finished screen, ask what to change as a menu of the likely adjustments with free text for the rest.
 
 ## What to produce
 
