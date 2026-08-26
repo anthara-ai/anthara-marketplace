@@ -11,10 +11,6 @@ Phase 11 of the mvp-spec interview. How the interview works and the package cont
 
 Write `11 - Wireframes.md` and one `11.NN - Wireframe - <Screen Name>.html` file per screen. Lo-fi on purpose: grayscale boxes and labels showing layout and flow, nothing else. High fidelity here is a trap. The founder starts debating button colours instead of scope, and Incubyte's designers inherit anchoring they have to fight. The index says this in its own words so the reader knows the plainness is deliberate.
 
-## Menus
-
-Confirm the screen list as a multi-select before drawing anything. A decision a screen exposes is a menu. When walking a finished screen, ask what to change as a menu of the likely adjustments with free text for the rest.
-
 ## What to produce
 
 - One HTML file per screen, numbered in journey order, self-contained: no external stylesheets, scripts, fonts or images. Grayscale only. Boxes with labels for every region and control, real copy where the voice from 10 has been approved, placeholder text elsewhere. Plain links between screens where the flow matters. Readable at a glance in a browser at any width.

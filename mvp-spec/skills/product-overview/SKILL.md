@@ -13,10 +13,6 @@ Write `02 - Product Overview.md`: the anchor everything after it is judged again
 
 This is where the tree goes deepest. Everything after it inherits whatever is vague here, and founders answer in categories that sound like answers. Keep following branches well past the first thing that sounds complete, then write it complete and as short as completeness allows.
 
-## Menus
-
-Ask even the open questions through the tool. For the problem, offer the two or three moments the domain suggests people hit it and let the free-text answer carry the founder's own. For who it is for, offer the people they have already mentioned. For the paragraph and for day-one success, draft two or three versions from what they have said and let them pick, edit or replace. The words in the file are theirs either way, because they review the file.
-
 ## What the file contains
 
 - The problem, in the words of the person who has it.

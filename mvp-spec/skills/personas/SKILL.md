@@ -11,10 +11,6 @@ Phase 03 of the mvp-spec interview. How the interview works and the package cont
 
 Write `03 - Personas.md`: every distinct kind of user, with enough about each that journeys (04) and the permissions matrix (07) can be built from it. An email app has one persona. A children's mental-health app has at least three: the child, the parent, the therapist, each with different goals, screens and permissions.
 
-## Menus
-
-Tech comfort, how often each persona shows up, and the operator question are menus; for the operator, offer that the founder does it, a team member does, a persona already listed does, or nobody does and the file says why. Who else uses it is a multi-select of the kinds of user this sort of product has, from the domain pass, plus free text. What each persona is trying to get done: offer the goals the domain suggests and let free text carry theirs.
-
 ## What the file contains
 
 For each persona:

@@ -11,13 +11,9 @@ Phase 10 of the mvp-spec interview. How the interview works and the package cont
 
 Write `10 - Design Direction.md`: enough direction that Incubyte's designers start from the founder's taste rather than their own, captured in founder language, not designer language.
 
-## Menus
-
-Style, feeling per persona, voice, and what already exists are menus. Reference apps are a multi-select of named products from their own domain, plus free text for what they like about each. For the two sample lines, draft two or three in the chosen voice and let the founder pick, edit or replace; the words in the file are the ones they approved.
-
 ## What the file contains
 
-- Reference apps: two or three apps whose look the founder would steal, and what specifically they like about each. "Like Calm, not like Excel" communicates more than any vocabulary. For founders without references, offer a plain menu: clean and minimal, soft and playful, glassy and translucent, bold and corporate.
+- Reference apps: two or three apps whose look the founder would steal, and what specifically they like about each. "Like Calm, not like Excel" communicates more than any vocabulary. For founders without references, offer a few styles that fit this product, each anchored by one or two widely known apps so the name means something; a style label on its own does not. Record both the style and the reference apps, since either alone is ambiguous to a designer.
 - The five-second feeling: what a user should feel when the product first opens. Calm and safe, energetic, professional. Per persona where it differs: playful for the child, reassuring for the parent, efficient for the therapist.
 - What exists already: logo, colours, a name, a typeface, or whether naming and branding are part of the work. Cross-check with the assets recorded in 01.
 - Voice: how the app talks. Warm and simple, clinical, cheeky. Capture it as two sample lines written in that voice, a welcome message and an error message, and get both approved word for word.

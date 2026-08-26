@@ -11,10 +11,6 @@ Phase 08 of the mvp-spec interview. How the interview works and the package cont
 
 Write `08 - Platform, Integrations and Content.md`: the three sets of decisions that swing build cost more than almost anything else and that otherwise get made silently by the developer.
 
-## Menus
-
-All menus: platform per persona, offline, interruptions, buy or build for each rented service, launch-day content as a multi-select named from the domain, and owners picked from the people in 01 and 03.
-
 ## What the file contains
 
 - Platform per persona, decided by where they physically are when they use the product: a child on a tablet at home, a therapist on a laptop between sessions. Phone app, website or both, and why. Whether anything must work offline. Whether anything must interrupt the user: notifications, reminders, alerts.

@@ -13,10 +13,6 @@ Write `09 - Rules and Compliance.md`: only what shapes the build. The founder do
 
 This document flags. It does not advise. Where a flag has legal weight, say plainly that the founder should confirm it with counsel and record that as an open item in 13.
 
-## Menus
-
-Flags are a multi-select of the regulated categories plus any regime the domain pass showed plainly applies, offered as something to confirm with counsel rather than as a finding. Jurisdictions, retention and deletion are menus. For anything the founder's own industry imposes, offer what the domain pass found and let free text carry the rest.
-
 ## What the file contains
 
 - Regulated data the product touches: health, payments, identity documents, financial records, location.

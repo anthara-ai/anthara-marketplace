@@ -21,10 +21,6 @@ Two yardsticks decide the cut, and they answer different questions.
 
 Never ask what the founder can spend. If they volunteer a figure, note it in 13 and carry on with the cut unchanged.
 
-## Menus
-
-The sort is Must, Later, Never, step after step, up to four steps a call. Non-goals are a multi-select of what a reasonable engineer might assume is included. For the reason behind a cut that surprised you, offer the likely reasons and let free text carry theirs. The replay is yours to write from the Must list; the founder checks it in the file.
-
 ## When more is wanted than fits
 
 Expect this; a founder who has just told you four journeys usually wants all of them. The ceiling holds, and the Later list is what makes that a good conversation rather than a disappointing one.
@@ -35,7 +31,7 @@ Never quietly overfill the Must list to keep a founder happy. An overfull first 
 
 ## What the file contains
 
-- Every step of every journey sorted into Must (v1), Later or Never, with a one-line reason each. The reason names which yardstick decided it: that it does not fit a first version, or that a persona reaches day-one value without it.
+- Every step of every journey sorted into Must (v1), Later or Never, asked one step at a time, with a one-line reason each. The reason names which yardstick decided it: that it does not fit a first version, or that a persona reaches day-one value without it.
 - An explicit non-goals list: things a reasonable engineer might assume are included and are not.
 - The replay: a persona's first week told again using only Must items, written into the document. The replay is where missing steps show up before a developer finds them.
 

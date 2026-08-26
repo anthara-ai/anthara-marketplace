@@ -11,10 +11,6 @@ Phase 06 of the mvp-spec interview. How the interview works and the package cont
 
 Write `06 - Features and Acceptance Criteria.md`: every Must item from 05 made estimable. This is the single biggest upgrade from "spec" to "estimable spec". Founders can produce acceptance criteria when asked about one feature at a time.
 
-## Menus
-
-The decisions inside a feature are menus: where the paywall sits, whether there is a trial, what deletion does, whether an invite expires, who can cancel. Unhappy paths are a multi-select of the ways this kind of feature fails, including the ones specific to the domain. Done-means statements: draft two to four from what the founder has said and let them accept, edit in free text, or add.
-
 ## What the file contains
 
 For each Must feature:

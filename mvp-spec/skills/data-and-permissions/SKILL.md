@@ -11,14 +11,10 @@ Phase 07 of the mvp-spec interview. How the interview works and the package cont
 
 Write `07 - Data and Permissions.md`: what the app keeps track of, and who may see and change each thing. With more than one persona this is never trivial. Can the parent read the child's journal? Can the child see the therapist's notes? Those are product, ethical and legal decisions at once, and they are the founder's to make.
 
-## Menus
-
-The matrix is asked cell by cell, see, edit or none, with an option meaning the founder has not decided; up to four cells for one noun share a call. The nouns are a multi-select of what 04 and 06 imply the app tracks, plus free text. What a noun contains: offer the fields the domain suggests and let free text carry the rest.
-
 ## What the file contains
 
 - The nouns: each thing the app keeps track of, framed as "what does the app remember", what each contains, and where it comes from. Child profiles, mood entries, sessions, notes.
-- The permissions matrix: personas down the side, nouns across the top, each cell see, edit or none. Where a cell depends on a relationship (a therapist sees only their own clients), say so in the cell.
+- The permissions matrix: personas down the side, nouns across the top, each cell see, edit or none, asked cell by cell. Where a cell depends on a relationship (a therapist sees only their own clients), say so in the cell.
 - Sensitive fields flagged: health, children, payments, identity, anything the founder would not want leaked.
 
 ## Where founders go wrong

@@ -11,10 +11,6 @@ Phase 12 of the mvp-spec interview. How the interview works and the package cont
 
 Write `12 - Success Measures.md`: three to five things the founder should be able to see after launch to know the product is working, and for each one what the product has to record to make it visible. Instrumenting at build time is nearly free; adding it later is expensive.
 
-## Menus
-
-Narrow to three to five as a multi-select of their own candidates, seeded from what 06 already records. Targets are a menu of ranges with an option meaning they cannot say yet. What a measure would tell them: offer the readings and let free text carry theirs.
-
 ## What the file contains
 
 For each measure:
