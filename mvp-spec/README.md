@@ -1,17 +1,34 @@
 # mvp-spec
 
-A Claude Code plugin that interviews a startup founder and writes an estimable MVP spec package: personas, journeys, scope, acceptance criteria, data and permissions, compliance flags, design direction, lo-fi wireframes and success measures. The finished folder is zipped and sent to Incubyte, whose engineers estimate and build from it without talking to the founder first.
+A plugin for Claude Cowork and Claude Code that interviews a startup founder and writes an estimable MVP spec package: personas, journeys, scope, acceptance criteria, data and permissions, compliance flags, design direction, lo-fi wireframes and success measures. The finished folder is zipped and sent to Incubyte, whose engineers estimate and build from it without talking to the founder first.
 
 ## Install
 
-From the Anthara marketplace:
+The plugin works in both Claude Cowork and Claude Code. Install it in whichever you use.
+
+### Claude Cowork
+
+Plugins need a paid plan (Pro, Max, Team or Enterprise).
+
+1. Open **Customize** in the sidebar, then the **Plugins** tab.
+2. Select **Add marketplace** and enter `anthara-ai/anthara-marketplace`, or the full URL `https://github.com/anthara-ai/anthara-marketplace`.
+3. Find **mvp-spec** among the plugins from that marketplace and click **Install**.
+4. Open the installed plugin to see the skills it added. Nothing needs enabling by hand; there are no connectors or hooks to authorise.
+
+On an Enterprise plan an administrator may have to allow the marketplace first. Full details are in the [Cowork plugin docs](https://claude.com/docs/cowork/guide/plugins).
+
+### Claude Code
+
+You need [Claude Code](https://code.claude.com/docs/en/overview) installed and signed in. Then, inside Claude Code, add the Anthara marketplace once and install the plugin:
 
 ```text
 /plugin marketplace add anthara-ai/anthara-marketplace
 /plugin install mvp-spec@anthara-marketplace
 ```
 
-For local development, from this repository's root:
+Start a new Claude Code session afterwards so the skills load. To check they did, type `/mvp-spec:mvp-spec` and it should offer to start the interview.
+
+For local development, from a checkout of this repository:
 
 ```bash
 claude --plugin-dir ./mvp-spec
@@ -19,9 +36,37 @@ claude --plugin-dir ./mvp-spec
 
 ## Use
 
-Start Claude Code in the directory where the spec folder should live and say what you want in your own words, for example "spec my product" or "continue my spec", or run `/mvp-spec:mvp-spec`.
+The interview is the same in Cowork and Code; only how you start it differs.
 
-The interview asks one question at a time, asks for any existing materials first (deck, sketches, competitor screenshots), and writes one document at a time. Review each file and say next to move on. Close the terminal whenever you like; the next session picks up at the first document not yet written.
+### First session
+
+1. Start the interview.
+
+   In **Cowork**, open a new task and say what you want in your own words, for example "spec my product". The spec folder is created in the task's files.
+
+   In **Code**, make an empty folder for the spec, start Claude Code inside it, and say the same thing, or run `/mvp-spec:mvp-spec`:
+
+   ```bash
+   mkdir my-product-spec && cd my-product-spec
+   claude
+   ```
+
+2. The interview asks for the product name and creates `<product-slug>-spec/`.
+3. It asks for anything you already have: a pitch deck, notes, sketches, competitor screenshots, a Figma link. Give it file paths or links, or say you have nothing. Whatever you hand over is copied into `intake/` unchanged and read before any questions are asked.
+4. It then works through the documents in order, one question at a time. Answer in plain language. "I don't know" is a fine answer; it gets recorded as an open question rather than guessed.
+5. When a document is written, it tells you which file to open. Read the file, ask for any changes, and say **next** when you are happy with it. The next document does not start until you do.
+
+### Stopping and resuming
+
+Stop whenever you like; nothing is lost. Come back to the same Cowork task, or start Claude Code in the same folder again, and say "continue my spec". The interview picks up at the first document not yet written, after asking you to review the last one it wrote.
+
+### Changing something earlier
+
+Say what you want to change, for example "revisit personas" or "the parent should not see the child's journal". The relevant document is updated and you are asked to review the file again.
+
+### Finishing
+
+After the last document, a consistency check runs across the whole package. Anything that disagrees is raised with you and fixed before packaging. Then `00 - Start Here.md` is written for the engineers who will read the package, and everything is zipped as `<product-slug>-spec-<YYYY-MM-DD>.zip` beside the spec folder. Send that zip to Incubyte.
 
 ## What it produces
 
