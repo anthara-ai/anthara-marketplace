@@ -7,7 +7,7 @@ A Claude Code plugin that interviews a startup founder and writes an estimable M
 From the Anthara marketplace:
 
 ```text
-/plugin marketplace add anthara-ai/anthara-plugins
+/plugin marketplace add anthara-ai/anthara-marketplace
 /plugin install mvp-spec@anthara-marketplace
 ```
 
