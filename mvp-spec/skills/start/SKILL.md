@@ -1,6 +1,7 @@
 ---
 name: start
-description: This skill should be used when a founder asks to "spec my product", "write an MVP spec", "start a spec", "continue my spec", "resume the spec interview", "turn my idea into a spec", or wants a product idea turned into a spec package Incubyte can estimate and build from. This is the entry point for the mvp-spec interview: invoke it to begin and again to resume, and it runs every other mvp-spec skill in turn.
+description: "This skill should be used when a founder asks to \"spec my product\", \"write an MVP spec\", \"start a spec\", \"continue my spec\", \"resume the spec interview\", \"turn my idea into a spec\", or wants a product idea turned into a spec package Incubyte can estimate and build from. This is the entry point for the mvp-spec interview: invoke it to begin and again to resume, and it runs every other mvp-spec skill in turn."
+allowed-tools: AskUserQuestion
 ---
 
 # mvp-spec
@@ -11,7 +12,7 @@ The package layout, writing rules and packaging are the contract in `references/
 
 ## The loop
 
-1. Look for a `*-spec/` directory in the working directory. If there is none, ask for the product name, derive a kebab-case slug, and create `<slug>-spec/` with an `intake/` folder and empty `13 - Open Questions and Assumptions.md` and `14 - Glossary.md`.
+1. Look for a `*-spec/` directory in the working directory. If there is none, this is a fresh interview: welcome the founder (below), then ask for the product name, derive a kebab-case slug, and create `<slug>-spec/` with an `intake/` folder and empty `13 - Open Questions and Assumptions.md` and `14 - Glossary.md`.
 2. On a fresh folder, do intake (below) before anything else.
 3. Find the first document in 01 to 12 whose file does not exist. That is the current document. If the previous file was written in an earlier session, first ask the founder to review it and say next, or say what to change.
 4. Invoke the current document's skill. Gather what it needs, write the file, then tell the founder which file to review and that saying next moves the interview on. Do not start the next document until they do.
@@ -20,16 +21,31 @@ The package layout, writing rules and packaging are the contract in `references/
 
 Documents are written in order. 13 and 14 are appended to throughout and are never the current document.
 
+## Welcome
+
+Open a fresh interview with a short, warm welcome in your own words. Write it fresh each time; there is no script, and it should sound like the start of a conversation rather than a status report.
+
+What it needs to convey:
+
+- This is a lot of questions, and it will take a while.
+- The questions are the point. What comes out is not just a document: the founder will understand their own product better by the end, and so will the interviewer.
+- The founder can stop any time and pick up where they left off.
+- "I don't know" is a perfectly good answer to any of it.
+
+What to avoid: listing the twelve documents, naming the phases, explaining the folder structure, or describing the process as a pipeline. A founder does not need the map before the first question, and a wall of process is a cold open. Warmth and honesty about the length; the mechanics reveal themselves as the interview goes.
+
 ## Intake before interrogation
 
 Ask what already exists: pitch deck, notes, sketches, competitor screenshots, Figma links, an existing site or codebase. Copy any files byte-for-byte into `intake/` and never edit them. Read everything handed over and interview only the gaps; reference intake files from the documents by filename. If nothing exists, move on.
 
 ## Interview rules
 
-These apply for every document. Document skills do not restate them.
+These apply for every document. Document skills do not restate them, except that each has an Asking section naming which of its own questions are menu-shaped.
 
 - Ask one question at a time. A five-part question gets a one-part answer from a founder.
-- Use AskUserQuestion when the answer is a choice from a small set. Ask in free prose when the founder's own words are the point.
+- Use AskUserQuestion whenever the answer is a choice from a small set, and prefer it over typing the options into prose. Non-technical founders answer a menu far more readily than an open question, it keeps a long interview moving, and it makes skipped decisions visible instead of letting them pass as vague agreement. Where an answer might be "I have not decided", give the menu an option that says so and send it to 13.
+- Ask in free prose when the founder's own words are what the document needs: descriptions, stories, reasons, names. Never flatten those into a menu.
+- Each document skill has an Asking section saying which of its questions are menu-shaped and which need prose. Follow it.
 - Exercise judgment on order and depth within a document. The document skill says what must be answered and where founders go wrong, not what to say. Follow the conversation; skip what intake already answered; go deeper where the founder is vague on something that matters.
 - Each document skill ends with a Feeds list: what the document hands to others. For 13 and 14, append directly. For a later document, add a one-line note to 13 tagged with that document's number and use it when that document comes up; do not write later documents early. For an earlier document, change the file and tell the founder.
 - "I don't know" is a complete answer. Record it in 13 with why it matters and move on. Never push a founder into inventing an answer; a confident wrong answer costs more than a gap.

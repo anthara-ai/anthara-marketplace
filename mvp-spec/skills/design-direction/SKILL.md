@@ -1,6 +1,6 @@
 ---
 name: design-direction
-description: This skill is one step of the mvp-spec founder interview and is invoked by the `start` skill, not directly. It writes "10 - Design Direction.md": reference apps, the five-second feeling, existing brand assets and the app voice.
+description: "This skill is one step of the mvp-spec founder interview and is invoked by the `start` skill, not directly. It writes \"10 - Design Direction.md\": reference apps, the five-second feeling, existing brand assets and the app voice."
 ---
 
 # 10 Design Direction
@@ -23,6 +23,12 @@ Write `10 - Design Direction.md`: enough direction that Incubyte's designers sta
 - They reach for design vocabulary they do not quite mean. Return to reference apps and feelings.
 - They have strong opinions about colour and none about voice. Voice quietly drives every screen's copy; do not skip it.
 - They give one feeling for a product with three personas. Ask per persona.
+
+## Asking
+
+Use AskUserQuestion for the style pick when a founder has no reference apps to name: clean and minimal, soft and playful, glassy and translucent, bold and corporate. Use it for the five-second feeling per persona, and for the voice: warm and simple, clinical, cheeky.
+
+Ask in prose which apps they would steal the look of and what specifically they like about each, and get the two sample lines approved as written text rather than as a choice.
 
 ## Before offering next
 

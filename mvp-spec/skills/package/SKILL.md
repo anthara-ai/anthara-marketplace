@@ -1,6 +1,6 @@
 ---
 name: package
-description: This skill is the final step of the mvp-spec founder interview and is invoked by the `start` skill, not directly. It runs the cross-document consistency pass, writes "00 - Start Here.md" and zips the package for Incubyte.
+description: "This skill is the final step of the mvp-spec founder interview and is invoked by the `start` skill, not directly. It runs the cross-document consistency pass, writes \"00 - Start Here.md\" and zips the package for Incubyte."
 ---
 
 # Package

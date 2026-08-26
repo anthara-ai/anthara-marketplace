@@ -1,6 +1,6 @@
 ---
 name: product-overview
-description: This skill is one step of the mvp-spec founder interview and is invoked by the `start` skill, not directly. It writes "02 - Product Overview.md": the one-page anchor: problem, who it is for, and day-one success.
+description: "This skill is one step of the mvp-spec founder interview and is invoked by the `start` skill, not directly. It writes \"02 - Product Overview.md\": the one-page anchor: problem, who it is for, and day-one success."
 ---
 
 # 02 Product Overview
@@ -23,6 +23,12 @@ Write `02 - Product Overview.md`: one page, at most, that anchors everything aft
 - They write a pitch, not a description. Superlatives, market size and vision statements belong in the deck in `intake/`, not here. If the paragraph could describe three other products, it is not done.
 - They name several audiences at once. Pin down the person the first version is for; the others may become personas in 03 or go to Later in 05.
 - They describe features instead of the change. Ask what is different for the user afterwards, not what the screens do.
+
+## Asking
+
+Ask this one in prose. The product paragraph and the day-one success have to be in the founder's own words; a menu would put words in their mouth and this document is the tiebreaker for every later scope argument.
+
+AskUserQuestion earns its place only when playing back a choice you have already heard, for instance offering two phrasings of the one-liner you drafted from what they said and asking which is closer.
 
 ## Before offering next
 

@@ -1,6 +1,6 @@
 ---
 name: scope
-description: This skill is one step of the mvp-spec founder interview and is invoked by the `start` skill, not directly. It writes "05 - Scope.md": the Must, Later and Never sort, the non-goals list and the Must-only replay.
+description: "This skill is one step of the mvp-spec founder interview and is invoked by the `start` skill, not directly. It writes \"05 - Scope.md\": the Must, Later and Never sort, the non-goals list and the Must-only replay."
 ---
 
 # 05 Scope
@@ -23,6 +23,12 @@ Write `05 - Scope.md`: the journeys in 04 cut down to a first version. This is s
 - They cut the operator's work. Approving, moderating and answering support still have to happen on day one; if they are Later, say who does them by hand and record it here.
 - They agree to the cut in the abstract and put steps back during the replay. That is the replay doing its job; update the sort and run it again.
 - Scope creeps back in through "obviously we also need". Write the obvious things into Must or the non-goals list; nothing stays implied.
+
+## Asking
+
+This document is mostly menus, so lean on AskUserQuestion hard. Walk the journey steps and sort each one: Must, Later, or Never. Presenting the same three options step after step is what makes a long sort bearable, and it stops a founder answering "well, sort of" to a question that needs a decision.
+
+Ask in prose for the one-line reason behind a cut that surprised you, and for the replay itself.
 
 ## Before offering next
 

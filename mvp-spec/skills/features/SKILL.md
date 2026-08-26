@@ -1,6 +1,6 @@
 ---
 name: features
-description: This skill is one step of the mvp-spec founder interview and is invoked by the `start` skill, not directly. It writes "06 - Features and Acceptance Criteria.md": plain done-means statements and unhappy-path handling for every Must item.
+description: "This skill is one step of the mvp-spec founder interview and is invoked by the `start` skill, not directly. It writes \"06 - Features and Acceptance Criteria.md\": plain done-means statements and unhappy-path handling for every Must item."
 ---
 
 # 06 Features and Acceptance Criteria
@@ -31,6 +31,12 @@ Across features:
 - Done-means statements drift into implementation ("uses OAuth"). Keep them to what a user can do or see.
 - They specify Later items because they are excited about them. Nothing non-Must belongs in this document; move it to 13 or 05.
 - They treat deletion and offboarding as someone else's problem. Ask directly what a user who leaves takes with them and what disappears.
+
+## Asking
+
+Use AskUserQuestion for the decisions inside a feature that have a small set of sane answers, and these are exactly the ones founders skip: where the paywall sits, whether there is a trial, what happens to a user's data when they delete their account, whether an invite expires. Offer the realistic options rather than asking an open question a founder cannot answer.
+
+Ask in prose for the done-means statements themselves; they are the founder's own description of the feature working.
 
 ## Before offering next
 

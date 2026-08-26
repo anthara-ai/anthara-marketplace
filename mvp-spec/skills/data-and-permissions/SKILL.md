@@ -1,6 +1,6 @@
 ---
 name: data-and-permissions
-description: This skill is one step of the mvp-spec founder interview and is invoked by the `start` skill, not directly. It writes "07 - Data and Permissions.md": the plain-language data model and the persona-by-noun permissions matrix.
+description: "This skill is one step of the mvp-spec founder interview and is invoked by the `start` skill, not directly. It writes \"07 - Data and Permissions.md\": the plain-language data model and the persona-by-noun permissions matrix."
 ---
 
 # 07 Data and Permissions
@@ -23,6 +23,12 @@ Write `07 - Data and Permissions.md`: what the app keeps track of, and who may s
 - They answer for the happy relationship and forget the broken one: the parent who is no longer the guardian, the therapist who leaves the practice. Ask who loses access and when.
 - They are silent on a cell. An unanswered cell is a row in 13, never a silent "none".
 - They describe storage rather than meaning. Keep nouns in founder language; engineers translate.
+
+## Asking
+
+The permissions matrix is the clearest use of AskUserQuestion in the whole interview. Every cell is see, edit, or none, sometimes with a relationship qualifier, so ask cell by cell with those as the options and include one that means the founder has not decided, which goes to 13. A matrix walked this way is quick; the same matrix asked in prose produces "the parent can see most of it" and a gap nobody notices until build.
+
+Ask in prose what the app keeps track of, since the list of nouns is unbounded.
 
 ## Before offering next
 

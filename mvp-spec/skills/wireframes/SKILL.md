@@ -1,6 +1,6 @@
 ---
 name: wireframes
-description: This skill is one step of the mvp-spec founder interview and is invoked by the `start` skill, not directly. It writes "11 - Wireframes.md": one self-contained grayscale HTML wireframe per screen, plus the screen index.
+description: "This skill is one step of the mvp-spec founder interview and is invoked by the `start` skill, not directly. It writes \"11 - Wireframes.md\": one self-contained grayscale HTML wireframe per screen, plus the screen index."
 ---
 
 # 11 Wireframes
@@ -24,6 +24,12 @@ Derive the screen list from 05 and 06: every user-facing Must needs a screen, an
 - Draw a screen, ask the founder to open it, and walk through it against the journey step it serves. One screen at a time.
 - When a screen reveals a missing feature or step, that is a finding, not a wireframe problem: update 05 and 06, tell the founder, and carry on.
 - Redirect colour, font and imagery comments to 10. Layout and flow only here.
+
+## Asking
+
+Ask in prose while walking a screen; the founder is reacting to something in front of them and their words matter.
+
+Use AskUserQuestion to confirm the screen list before drawing anything, and when a screen exposes a decision with a small set of answers: where a control goes, which of two flows a step follows, whether something is one screen or two.
 
 ## Before offering next
 

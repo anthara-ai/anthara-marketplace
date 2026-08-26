@@ -1,6 +1,6 @@
 ---
 name: personas
-description: This skill is one step of the mvp-spec founder interview and is invoked by the `start` skill, not directly. It writes "03 - Personas.md": every distinct kind of user, including who pays and who operates the product.
+description: "This skill is one step of the mvp-spec founder interview and is invoked by the `start` skill, not directly. It writes \"03 - Personas.md\": every distinct kind of user, including who pays and who operates the product."
 ---
 
 # 03 Personas
@@ -27,6 +27,12 @@ Across personas: a plain map of who pays, who uses, and who operates.
 - They see only the obvious user. Two questions surface the rest: "Who pays, and is that the same person who uses it?" and "Who runs it day to day: approving people, moderating content, answering support?"
 - They leave out themselves. There is almost always an operator or back-office persona, often the founder, and if it is missing from the spec it gets bolted on painfully later. The document must either contain the operator persona or state explicitly why there is none.
 - They split one persona into several by demographics that change nothing about goals, screens or permissions. Merge those; a persona earns its place by needing something different from the product.
+
+## Asking
+
+Ask in prose who uses the product and what each persona is trying to get done; the answers are unbounded.
+
+Use AskUserQuestion for the per-persona attributes that are genuinely a small set: tech comfort, and how often they show up (daily, weekly, only when something is wrong). Use it too for the operator question, since a founder who has not thought about it answers a menu more readily than a blank prompt: offer that the founder does it themselves, that a team member does, that a persona already listed does it, or that nobody does and the document should say why.
 
 ## Before offering next
 

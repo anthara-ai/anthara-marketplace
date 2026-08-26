@@ -1,6 +1,6 @@
 ---
 name: business-context
-description: This skill is one step of the mvp-spec founder interview and is invoked by the `start` skill, not directly. It writes "01 - Business Context.md": the engagement frame: stage, decision-maker, existing assets, budget band and timeline.
+description: "This skill is one step of the mvp-spec founder interview and is invoked by the `start` skill, not directly. It writes \"01 - Business Context.md\": the engagement frame: stage, decision-maker, existing assets, budget band and timeline."
 ---
 
 # 01 Business Context
@@ -24,6 +24,12 @@ Write `01 - Business Context.md`: the frame around the engagement, not the produ
 - They describe the product when asked about the business. Redirect gently; the product gets its own document next.
 - They avoid the budget question. Ask it plainly and once. A declined answer is recorded in 13 as a decline, never guessed at.
 - They forget assets already commissioned elsewhere. "What have you already paid someone for?" surfaces them.
+
+## Asking
+
+Use AskUserQuestion for the menu-shaped answers here, and it is most of them: stage (idea, prototype, paying customers, funded), who signs off on scope and money, budget band, what is driving the timeline. Offer bands rather than asking for a number; a founder who will not name a figure will often pick a range. Every one of these menus needs a way out, so include an option that means "I would rather not say" and send that to 13 as a decline.
+
+Ask in prose what already exists, since the answer is a list only the founder has.
 
 ## Before offering next
 

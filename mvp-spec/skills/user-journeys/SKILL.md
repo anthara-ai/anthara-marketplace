@@ -1,6 +1,6 @@
 ---
 name: user-journeys
-description: This skill is one step of the mvp-spec founder interview and is invoked by the `start` skill, not directly. It writes "04 - User Journeys.md": one end-to-end narrative per persona, with cross-persona handoffs and unhappy paths.
+description: "This skill is one step of the mvp-spec founder interview and is invoked by the `start` skill, not directly. It writes \"04 - User Journeys.md\": one end-to-end narrative per persona, with cross-persona handoffs and unhappy paths."
 ---
 
 # 04 User Journeys
@@ -25,6 +25,12 @@ Unhappy paths flagged inline as the story is told: the invite that is never acce
 - They describe handoffs from one side only. "The therapist sees the mood entry" is half a handoff. Ask how it gets there and when the therapist finds out.
 - They tell the happy path as if it always happens. Ask what goes wrong at each step and note it; do not solve it yet.
 - They narrate features rather than a day. Keep asking what the person does next.
+
+## Asking
+
+Ask in prose. A journey is a story and menus break the telling.
+
+The exception is the handoff mechanism, which is a genuine small set and which founders otherwise leave half-specified: when one persona's action reaches another, use AskUserQuestion to settle whether the other side is interrupted (notification, email, SMS) or finds out on next login, and whether it happens immediately or in a batch.
 
 ## Before offering next
 

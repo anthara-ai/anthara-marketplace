@@ -1,6 +1,6 @@
 ---
 name: success-measures
-description: This skill is one step of the mvp-spec founder interview and is invoked by the `start` skill, not directly. It writes "12 - Success Measures.md": three to five measures and what the product must record for each.
+description: "This skill is one step of the mvp-spec founder interview and is invoked by the `start` skill, not directly. It writes \"12 - Success Measures.md\": three to five measures and what the product must record for each."
 ---
 
 # 12 Success Measures
@@ -25,6 +25,12 @@ For each measure:
 - They pick vanity numbers: downloads, page views. Ask what number going up would change a decision they make.
 - They name a measure nothing records. If no feature captures it, either a Must is missing or the measure is not a v1 measure; take it to the founder.
 - They list ten. Cut to the three to five they would actually check.
+
+## Asking
+
+Use AskUserQuestion to narrow a long list to the three to five the founder would actually check; offering their own candidates back as a multi-select cuts faster than arguing each one.
+
+Ask in prose what each measure would tell them and what good looks like in the first months, and send an "I don't know" straight to 13 rather than pressing for a target.
 
 ## Before offering next
 

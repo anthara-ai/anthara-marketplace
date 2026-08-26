@@ -1,6 +1,6 @@
 ---
 name: compliance
-description: This skill is one step of the mvp-spec founder interview and is invoked by the `start` skill, not directly. It writes "09 - Rules and Compliance.md": the compliance flags that shape the build, without giving legal advice.
+description: "This skill is one step of the mvp-spec founder interview and is invoked by the `start` skill, not directly. It writes \"09 - Rules and Compliance.md\": the compliance flags that shape the build, without giving legal advice."
 ---
 
 # 09 Rules and Compliance
@@ -27,6 +27,12 @@ This document flags. It does not advise. Where a flag has legal weight, say plai
 - They assume compliance can be added later. Every sensitive field in 07 becomes a flag here now.
 - They know the rule but not that it applies to them: "we are not a healthcare company, we just store mood entries".
 - They over-scope it into a legal project. Keep to flags and the founder's expectations; Incubyte and counsel take it from there.
+
+## Asking
+
+Use AskUserQuestion for the flags, since a founder rarely volunteers them but recognises them on sight. Offer the regulated categories and let the founder pick the ones that apply: health data, payments, children or other protected users, identity documents, location. Ask jurisdictions the same way, from the places the founder has actually mentioned.
+
+Ask in prose about anything the founder's own industry imposes, then record in 13 whatever needs a lawyer to confirm.
 
 ## Before offering next
 
