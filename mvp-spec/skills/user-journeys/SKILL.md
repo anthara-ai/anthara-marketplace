@@ -11,6 +11,12 @@ Phase 04 of the mvp-spec interview. The interview rules and package contract liv
 
 Write `04 - User Journeys.md`: one end-to-end story per persona in plain narrative, each with a Mermaid diagram of the same flow. For a non-technical founder the journeys are the raw material of the spec; features fall out of them in 05 and 06.
 
+## Asking
+
+Ask in prose. A journey is a story and menus break the telling.
+
+The exception is the handoff mechanism, which is a genuine small set and which founders otherwise leave half-specified: when one persona's action reaches another, use AskUserQuestion to settle whether the other side is interrupted (notification, email, SMS) or finds out on next login, and whether it happens immediately or in a batch.
+
 ## What the document must answer
 
 For each persona, as a story: how they first arrive, what onboarding looks like, what a normal day with the product looks like, and what brings them back.
@@ -25,12 +31,6 @@ Unhappy paths flagged inline as the story is told: the invite that is never acce
 - They describe handoffs from one side only. "The therapist sees the mood entry" is half a handoff. Ask how it gets there and when the therapist finds out.
 - They tell the happy path as if it always happens. Ask what goes wrong at each step and note it; do not solve it yet.
 - They narrate features rather than a day. Keep asking what the person does next.
-
-## Asking
-
-Ask in prose. A journey is a story and menus break the telling.
-
-The exception is the handoff mechanism, which is a genuine small set and which founders otherwise leave half-specified: when one persona's action reaches another, use AskUserQuestion to settle whether the other side is interrupted (notification, email, SMS) or finds out on next login, and whether it happens immediately or in a batch.
 
 ## Before offering next
 

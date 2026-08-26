@@ -13,6 +13,12 @@ Write `09 - Rules and Compliance.md`: only what shapes the build. The founder do
 
 This document flags. It does not advise. Where a flag has legal weight, say plainly that the founder should confirm it with counsel and record that as an open item in 13.
 
+## Asking
+
+Use AskUserQuestion for the flags, since a founder rarely volunteers them but recognises them on sight. Offer the regulated categories and let the founder pick the ones that apply: health data, payments, children or other protected users, identity documents, location. Ask jurisdictions the same way, from the places the founder has actually mentioned.
+
+Ask in prose about anything the founder's own industry imposes, then record in 13 whatever needs a lawyer to confirm.
+
 ## What the document must answer
 
 - Regulated data the product touches: health, payments, identity documents, financial records, location.
@@ -27,12 +33,6 @@ This document flags. It does not advise. Where a flag has legal weight, say plai
 - They assume compliance can be added later. Every sensitive field in 07 becomes a flag here now.
 - They know the rule but not that it applies to them: "we are not a healthcare company, we just store mood entries".
 - They over-scope it into a legal project. Keep to flags and the founder's expectations; Incubyte and counsel take it from there.
-
-## Asking
-
-Use AskUserQuestion for the flags, since a founder rarely volunteers them but recognises them on sight. Offer the regulated categories and let the founder pick the ones that apply: health data, payments, children or other protected users, identity documents, location. Ask jurisdictions the same way, from the places the founder has actually mentioned.
-
-Ask in prose about anything the founder's own industry imposes, then record in 13 whatever needs a lawyer to confirm.
 
 ## Before offering next
 

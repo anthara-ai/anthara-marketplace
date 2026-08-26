@@ -11,6 +11,12 @@ Phase 11 of the mvp-spec interview. The interview rules and package contract liv
 
 Write `11 - Wireframes.md` and one `11.NN - Wireframe - <Screen Name>.html` file per screen. Lo-fi on purpose: grayscale boxes and labels showing layout and flow, nothing else. High fidelity here is a trap. The founder starts debating button colours instead of scope, and Incubyte's designers inherit anchoring they have to fight. The index says this in its own words so the reader knows the plainness is deliberate.
 
+## Asking
+
+Ask in prose while walking a screen; the founder is reacting to something in front of them and their words matter.
+
+Use AskUserQuestion to confirm the screen list before drawing anything, and when a screen exposes a decision with a small set of answers: where a control goes, which of two flows a step follows, whether something is one screen or two.
+
 ## What to produce
 
 - One HTML file per screen, numbered in journey order, self-contained: no external stylesheets, scripts, fonts or images. Grayscale only. Boxes with labels for every region and control, real copy where the voice from 10 has been approved, placeholder text elsewhere. Plain links between screens where the flow matters. Readable at a glance in a browser at any width.
@@ -24,12 +30,6 @@ Derive the screen list from 05 and 06: every user-facing Must needs a screen, an
 - Draw a screen, ask the founder to open it, and walk through it against the journey step it serves. One screen at a time.
 - When a screen reveals a missing feature or step, that is a finding, not a wireframe problem: update 05 and 06, tell the founder, and carry on.
 - Redirect colour, font and imagery comments to 10. Layout and flow only here.
-
-## Asking
-
-Ask in prose while walking a screen; the founder is reacting to something in front of them and their words matter.
-
-Use AskUserQuestion to confirm the screen list before drawing anything, and when a screen exposes a decision with a small set of answers: where a control goes, which of two flows a step follows, whether something is one screen or two.
 
 ## Before offering next
 

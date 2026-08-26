@@ -11,6 +11,12 @@ Phase 06 of the mvp-spec interview. The interview rules and package contract liv
 
 Write `06 - Features and Acceptance Criteria.md`: every Must item from 05 made estimable. This is the single biggest upgrade from "spec" to "estimable spec". Founders can produce acceptance criteria when asked about one feature at a time.
 
+## Asking
+
+Use AskUserQuestion for the decisions inside a feature that have a small set of sane answers, and these are exactly the ones founders skip: where the paywall sits, whether there is a trial, what happens to a user's data when they delete their account, whether an invite expires. Offer the realistic options rather than asking an open question a founder cannot answer.
+
+Ask in prose for the done-means statements themselves; they are the founder's own description of the feature working.
+
 ## What the document must answer
 
 For each Must feature:
@@ -31,12 +37,6 @@ Across features:
 - Done-means statements drift into implementation ("uses OAuth"). Keep them to what a user can do or see.
 - They specify Later items because they are excited about them. Nothing non-Must belongs in this document; move it to 13 or 05.
 - They treat deletion and offboarding as someone else's problem. Ask directly what a user who leaves takes with them and what disappears.
-
-## Asking
-
-Use AskUserQuestion for the decisions inside a feature that have a small set of sane answers, and these are exactly the ones founders skip: where the paywall sits, whether there is a trial, what happens to a user's data when they delete their account, whether an invite expires. Offer the realistic options rather than asking an open question a founder cannot answer.
-
-Ask in prose for the done-means statements themselves; they are the founder's own description of the feature working.
 
 ## Before offering next
 

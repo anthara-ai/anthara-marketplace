@@ -11,6 +11,12 @@ Phase 12 of the mvp-spec interview. The interview rules and package contract liv
 
 Write `12 - Success Measures.md`: three to five things the founder should be able to see after launch to know the product is working, and for each one what the product has to record to make it visible. Instrumenting at build time is nearly free; adding it later is expensive.
 
+## Asking
+
+Use AskUserQuestion to narrow a long list to the three to five the founder would actually check; offering their own candidates back as a multi-select cuts faster than arguing each one.
+
+Ask in prose what each measure would tell them and what good looks like in the first months, and send an "I don't know" straight to 13 rather than pressing for a target.
+
 ## What the document must answer
 
 For each measure:
@@ -25,12 +31,6 @@ For each measure:
 - They pick vanity numbers: downloads, page views. Ask what number going up would change a decision they make.
 - They name a measure nothing records. If no feature captures it, either a Must is missing or the measure is not a v1 measure; take it to the founder.
 - They list ten. Cut to the three to five they would actually check.
-
-## Asking
-
-Use AskUserQuestion to narrow a long list to the three to five the founder would actually check; offering their own candidates back as a multi-select cuts faster than arguing each one.
-
-Ask in prose what each measure would tell them and what good looks like in the first months, and send an "I don't know" straight to 13 rather than pressing for a target.
 
 ## Before offering next
 

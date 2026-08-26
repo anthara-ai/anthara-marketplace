@@ -11,6 +11,12 @@ Phase 08 of the mvp-spec interview. The interview rules and package contract liv
 
 Write `08 - Platform, Integrations and Content.md`: the three sets of decisions that swing build cost more than almost anything else and that otherwise get made silently by the developer.
 
+## Asking
+
+Use AskUserQuestion for the platform decisions, which are a closed set: phone app, website, or both, per persona; whether anything must work offline; whether anything must interrupt the user. Use it for each rented service too, since "are you buying this or building it" is a two-option question a founder can answer instantly.
+
+Ask in prose who owns each day-one content item; the owner is a name only the founder has.
+
 ## What the document must answer
 
 - Platform per persona, decided by where they physically are when they use the product: a child on a tablet at home, a therapist on a laptop between sessions. Phone app, website or both, and why. Whether anything must work offline. Whether anything must interrupt the user: notifications, reminders, alerts.
@@ -23,12 +29,6 @@ Write `08 - Platform, Integrations and Content.md`: the three sets of decisions 
 - They pick a platform from preference rather than from where the user is. Ask about the moment of use, not the device they like.
 - They ship an empty app. "The app is built but has nothing in it" is one of the most common launch failures and a one-question fix at spec time. Every content item needs a named owner and a rough date.
 - They forget that notifications are a product decision with cost. Ask what must interrupt a user and what can wait for next login.
-
-## Asking
-
-Use AskUserQuestion for the platform decisions, which are a closed set: phone app, website, or both, per persona; whether anything must work offline; whether anything must interrupt the user. Use it for each rented service too, since "are you buying this or building it" is a two-option question a founder can answer instantly.
-
-Ask in prose who owns each day-one content item; the owner is a name only the founder has.
 
 ## Before offering next
 

@@ -11,6 +11,12 @@ Phase 05 of the mvp-spec interview. The interview rules and package contract liv
 
 Write `05 - Scope.md`: the journeys in 04 cut down to a first version. This is subtraction, not brainstorming. For a first-time founder the non-goals list is the single highest-value section of the whole spec; it is the defence against "while we're at it".
 
+## Asking
+
+This document is mostly menus, so lean on AskUserQuestion hard. Walk the journey steps and sort each one: Must, Later, or Never. Presenting the same three options step after step is what makes a long sort bearable, and it stops a founder answering "well, sort of" to a question that needs a decision.
+
+Ask in prose for the one-line reason behind a cut that surprised you, and for the replay itself.
+
 ## What the document must answer
 
 - Every step of every journey sorted into Must (v1), Later or Never, with a one-line reason each. Use the budget and timeline from 01 and the day-one success from 02 as the tiebreakers, and say so when they decide a call.
@@ -23,12 +29,6 @@ Write `05 - Scope.md`: the journeys in 04 cut down to a first version. This is s
 - They cut the operator's work. Approving, moderating and answering support still have to happen on day one; if they are Later, say who does them by hand and record it here.
 - They agree to the cut in the abstract and put steps back during the replay. That is the replay doing its job; update the sort and run it again.
 - Scope creeps back in through "obviously we also need". Write the obvious things into Must or the non-goals list; nothing stays implied.
-
-## Asking
-
-This document is mostly menus, so lean on AskUserQuestion hard. Walk the journey steps and sort each one: Must, Later, or Never. Presenting the same three options step after step is what makes a long sort bearable, and it stops a founder answering "well, sort of" to a question that needs a decision.
-
-Ask in prose for the one-line reason behind a cut that surprised you, and for the replay itself.
 
 ## Before offering next
 

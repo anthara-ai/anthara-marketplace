@@ -11,6 +11,12 @@ Phase 07 of the mvp-spec interview. The interview rules and package contract liv
 
 Write `07 - Data and Permissions.md`: what the app keeps track of, and who may see and change each thing. With more than one persona this is never trivial. Can the parent read the child's journal? Can the child see the therapist's notes? Those are product, ethical and legal decisions at once, and they are the founder's to make.
 
+## Asking
+
+The permissions matrix is the clearest use of AskUserQuestion in the whole interview. Every cell is see, edit, or none, sometimes with a relationship qualifier, so ask cell by cell with those as the options and include one that means the founder has not decided, which goes to 13. A matrix walked this way is quick; the same matrix asked in prose produces "the parent can see most of it" and a gap nobody notices until build.
+
+Ask in prose what the app keeps track of, since the list of nouns is unbounded.
+
 ## What the document must answer
 
 - The nouns: each thing the app keeps track of, framed as "what does the app remember", what each contains, and where it comes from. Child profiles, mood entries, sessions, notes.
@@ -23,12 +29,6 @@ Write `07 - Data and Permissions.md`: what the app keeps track of, and who may s
 - They answer for the happy relationship and forget the broken one: the parent who is no longer the guardian, the therapist who leaves the practice. Ask who loses access and when.
 - They are silent on a cell. An unanswered cell is a row in 13, never a silent "none".
 - They describe storage rather than meaning. Keep nouns in founder language; engineers translate.
-
-## Asking
-
-The permissions matrix is the clearest use of AskUserQuestion in the whole interview. Every cell is see, edit, or none, sometimes with a relationship qualifier, so ask cell by cell with those as the options and include one that means the founder has not decided, which goes to 13. A matrix walked this way is quick; the same matrix asked in prose produces "the parent can see most of it" and a gap nobody notices until build.
-
-Ask in prose what the app keeps track of, since the list of nouns is unbounded.
 
 ## Before offering next
 
