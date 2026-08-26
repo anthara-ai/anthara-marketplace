@@ -84,7 +84,7 @@ When every document is written, a consistency pass runs across the package, `00 
 
 ## How it is built
 
-`skills/start` is the orchestrator and the only skill a founder invokes: it owns the spec folder, the intake step, the interview rules and the hand-off between documents. Each numbered document has its own skill under `skills/` that says what the document must answer, where founders reliably go wrong, and what to check before offering to move on. The phase skills give guidance, not scripts; the interviewer decides what to ask and in which order within a phase.
+`skills/start` is the orchestrator and the only skill a founder invokes: it owns the spec folder, the intake step, the interview rules and the hand-off between documents. Each numbered document has its own skill under `skills/` that says what the finished file contains, where founders reliably go wrong, and what done looks like. The skills give guidance, not scripts: the interviewer treats the spec as a tree, follows each answer into the questions that hang off it, and stops when an engineer could build from the document and the founder would recognise it as theirs.
 
 | Document | Skill |
 |---|---|

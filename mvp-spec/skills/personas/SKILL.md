@@ -5,21 +5,17 @@ description: "This skill is one step of the mvp-spec founder interview and is in
 
 # 03 Personas
 
-Phase 03 of the mvp-spec interview. The interview rules and package contract live in the `start` skill; if this phase was entered directly rather than from that skill, read `${CLAUDE_PLUGIN_ROOT}/skills/start/SKILL.md` first.
+Phase 03 of the mvp-spec interview. How the interview works and the package contract live in the `start` skill; if this phase was entered directly rather than from that skill, read `${CLAUDE_PLUGIN_ROOT}/skills/start/SKILL.md` first.
 
 ## Goal
 
 Write `03 - Personas.md`: every distinct kind of user, with enough about each that journeys (04) and the permissions matrix (07) can be built from it. An email app has one persona. A children's mental-health app has at least three: the child, the parent, the therapist, each with different goals, screens and permissions.
 
-## Asking
+## Menus
 
-Use AskUserQuestion for nearly everything here. Tech comfort and how often each persona shows up are obvious menus. So is the operator question, and a menu is what makes it answerable: offer that the founder does it themselves, a team member does, a persona already listed does, or nobody does and the document should say why.
+Tech comfort, how often each persona shows up, and the operator question are menus; for the operator, offer that the founder does it, a team member does, a persona already listed does, or nobody does and the file says why. Who else uses it is a multi-select of the kinds of user this sort of product has, from the domain pass, plus free text. What each persona is trying to get done: offer the goals the domain suggests and let free text carry theirs.
 
-Even "who else uses this" works as a multi-select once one persona exists: offer the kinds of user this sort of product usually has and let the founder add their own. A founder who cannot answer "who are your users" in the abstract will recognise a missing persona on sight.
-
-Prose is for what each persona is trying to get done, in the founder's words.
-
-## What the document must answer
+## What the file contains
 
 For each persona:
 
@@ -36,9 +32,9 @@ Across personas: a plain map of who pays, who uses, and who operates.
 - They leave out themselves. There is almost always an operator or back-office persona, often the founder, and if it is missing from the spec it gets bolted on painfully later. The document must either contain the operator persona or state explicitly why there is none.
 - They split one persona into several by demographics that change nothing about goals, screens or permissions. Merge those; a persona earns its place by needing something different from the product.
 
-## Before offering next
+## Done when
 
-An operator persona is present or explicitly ruled out with the reason written down, and every persona has the four answers above.
+Every person who will touch the product, including whoever operates it, has an entry, and you could say what each of them does with it on an ordinary day. If there is no operator, the file says why.
 
 ## Feeds
 

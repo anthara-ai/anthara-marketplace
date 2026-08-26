@@ -5,17 +5,15 @@ description: "This skill is one step of the mvp-spec founder interview and is in
 
 # 11 Wireframes
 
-Phase 11 of the mvp-spec interview. The interview rules and package contract live in the `start` skill; if this phase was entered directly rather than from that skill, read `${CLAUDE_PLUGIN_ROOT}/skills/start/SKILL.md` first.
+Phase 11 of the mvp-spec interview. How the interview works and the package contract live in the `start` skill; if this phase was entered directly rather than from that skill, read `${CLAUDE_PLUGIN_ROOT}/skills/start/SKILL.md` first.
 
 ## Goal
 
 Write `11 - Wireframes.md` and one `11.NN - Wireframe - <Screen Name>.html` file per screen. Lo-fi on purpose: grayscale boxes and labels showing layout and flow, nothing else. High fidelity here is a trap. The founder starts debating button colours instead of scope, and Incubyte's designers inherit anchoring they have to fight. The index says this in its own words so the reader knows the plainness is deliberate.
 
-## Asking
+## Menus
 
-Confirm the screen list with AskUserQuestion before drawing anything, as a multi-select of the screens 05 and 06 imply, so a missing screen surfaces in a list rather than after it is drawn. Use it again whenever a screen exposes a decision with a small set of answers: where a control goes, which of two flows a step follows, whether something is one screen or two.
-
-Prose is for the founder's reaction while walking a finished screen; they are responding to something in front of them and their own words matter.
+Confirm the screen list as a multi-select before drawing anything. A decision a screen exposes is a menu. When walking a finished screen, ask what to change as a menu of the likely adjustments with free text for the rest.
 
 ## What to produce
 
@@ -31,9 +29,9 @@ Derive the screen list from 05 and 06: every user-facing Must needs a screen, an
 - When a screen reveals a missing feature or step, that is a finding, not a wireframe problem: update 05 and 06, tell the founder, and carry on.
 - Redirect colour, font and imagery comments to 10. Layout and flow only here.
 
-## Before offering next
+## Done when
 
-Every user-facing Must in 05 has a screen, every screen in the index traces to a journey step and a feature, and the index states the lo-fi rationale.
+Every user-facing Must has a screen, every screen traces to a journey step and a feature, the index says the plainness is deliberate, and the founder has walked every screen.
 
 ## Feeds
 

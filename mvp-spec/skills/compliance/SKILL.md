@@ -5,7 +5,7 @@ description: "This skill is one step of the mvp-spec founder interview and is in
 
 # 09 Rules and Compliance
 
-Phase 09 of the mvp-spec interview. The interview rules and package contract live in the `start` skill; if this phase was entered directly rather than from that skill, read `${CLAUDE_PLUGIN_ROOT}/skills/start/SKILL.md` first.
+Phase 09 of the mvp-spec interview. How the interview works and the package contract live in the `start` skill; if this phase was entered directly rather than from that skill, read `${CLAUDE_PLUGIN_ROOT}/skills/start/SKILL.md` first.
 
 ## Goal
 
@@ -13,13 +13,11 @@ Write `09 - Rules and Compliance.md`: only what shapes the build. The founder do
 
 This document flags. It does not advise. Where a flag has legal weight, say plainly that the founder should confirm it with counsel and record that as an open item in 13.
 
-## Asking
+## Menus
 
-Use AskUserQuestion throughout. A founder rarely volunteers a flag but recognises one on sight, so offer the regulated categories as a multi-select: health data, payments, children or other protected users, identity documents, location. Ask jurisdictions the same way, seeded from the places the founder has already mentioned. Retention and deletion expectations are menus too.
+Flags are a multi-select of the regulated categories plus any regime the domain pass showed plainly applies, offered as something to confirm with counsel rather than as a finding. Jurisdictions, retention and deletion are menus. For anything the founder's own industry imposes, offer what the domain pass found and let free text carry the rest.
 
-Prose is for anything the founder's own industry imposes that no menu would guess, and for what they already know about their obligations. Whatever needs a lawyer to confirm goes to 13.
-
-## What the document must answer
+## What the file contains
 
 - Regulated data the product touches: health, payments, identity documents, financial records, location.
 - Protected users: children imply parental consent and age rules; other groups may too.
@@ -34,9 +32,9 @@ Prose is for anything the founder's own industry imposes that no menu would gues
 - They know the rule but not that it applies to them: "we are not a healthcare company, we just store mood entries".
 - They over-scope it into a legal project. Keep to flags and the founder's expectations; Incubyte and counsel take it from there.
 
-## Before offering next
+## Done when
 
-Every sensitive flag in 07 is covered here, and jurisdictions and protected users are recorded.
+Every sensitive field in 07 has a flag here, the places users will be are named, and whatever needs a lawyer to confirm is a row in 13.
 
 ## Feeds
 

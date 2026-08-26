@@ -5,19 +5,17 @@ description: "This skill is one step of the mvp-spec founder interview and is in
 
 # 04 User Journeys
 
-Phase 04 of the mvp-spec interview. The interview rules and package contract live in the `start` skill; if this phase was entered directly rather than from that skill, read `${CLAUDE_PLUGIN_ROOT}/skills/start/SKILL.md` first.
+Phase 04 of the mvp-spec interview. How the interview works and the package contract live in the `start` skill; if this phase was entered directly rather than from that skill, read `${CLAUDE_PLUGIN_ROOT}/skills/start/SKILL.md` first.
 
 ## Goal
 
 Write `04 - User Journeys.md`: one end-to-end story per persona in plain narrative, each with a Mermaid diagram of the same flow. For a non-technical founder the journeys are the raw material of the spec; features fall out of them in 05 and 06.
 
-## Asking
+## Menus
 
-A journey is a story and the telling has to be the founder's, so the narrative itself is prose.
+Walk each story one step at a time through the tool: what happens first, then next, each step offering the two or three things that usually happen at that point with free text for what actually does. Handoffs are menus, interrupted or pulled and now or batched, and the unhappy paths are a multi-select of the usual ones. Assemble the narrative from the answers; the founder reads it in the file.
 
-Everything around the narrative suits AskUserQuestion, and using it keeps a long story from stalling. The handoff mechanism is the clearest case, and the one founders leave half-specified: when one persona's action reaches another, ask whether the other side is interrupted (notification, email, SMS) or finds out on next login, and whether that happens immediately or in a batch. Use it too for where a journey starts (an invite, a search, a link from someone else), and to offer back the unhappy paths this kind of journey usually has so the founder can pick the ones that apply.
-
-## What the document must answer
+## What the file contains
 
 For each persona, as a story: how they first arrive, what onboarding looks like, what a normal day with the product looks like, and what brings them back.
 
@@ -32,9 +30,9 @@ Unhappy paths flagged inline as the story is told: the invite that is never acce
 - They tell the happy path as if it always happens. Ask what goes wrong at each step and note it; do not solve it yet.
 - They narrate features rather than a day. Keep asking what the person does next.
 
-## Before offering next
+## Done when
 
-Every persona in 03 has a journey, and every handoff names both sides and its mechanism.
+You could tell each persona's story from before they have an account to their third week, including what goes wrong along the way, without inventing a step, and every handoff names both sides and how it reaches the other.
 
 ## Feeds
 

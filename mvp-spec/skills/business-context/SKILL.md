@@ -5,7 +5,7 @@ description: "This skill is one step of the mvp-spec founder interview and is in
 
 # 01 Business Context
 
-Phase 01 of the mvp-spec interview. The interview rules and package contract live in the `start` skill; if this phase was entered directly rather than from that skill, read `${CLAUDE_PLUGIN_ROOT}/skills/start/SKILL.md` first.
+Phase 01 of the mvp-spec interview. How the interview works and the package contract live in the `start` skill; if this phase was entered directly rather than from that skill, read `${CLAUDE_PLUGIN_ROOT}/skills/start/SKILL.md` first.
 
 ## Goal
 
@@ -13,13 +13,11 @@ Write `01 - Business Context.md`: the frame around the engagement, not the produ
 
 The document has three sections and nothing else: who is involved, stage, and what already exists. Write only what the founder said. A section with nothing in it does not belong in the file, and neither does a note explaining what the interview did not cover.
 
-## Asking
+## Menus
 
-Every answer here suits AskUserQuestion, including the first one, so open with it rather than easing in with prose. Who else is involved (just the founder, a cofounder, a small team, an agency already engaged), stage, and who makes the final call on scope.
+Every question here is a menu, including the first: who else is involved, stage, who decides scope, and what already exists as a multi-select of the usual assets.
 
-Even "what already exists that we should not redo" works as a multi-select: domain, brand, designs, code, content, a contract with another vendor. A founder reading that list remembers things a blank question would never surface.
-
-## What the document must answer
+## What the file contains
 
 - Who the founder is, who else is on the team, and who makes the final call on scope.
 - Stage: idea, prototype, paying customers, funded round.
@@ -30,9 +28,9 @@ Even "what already exists that we should not redo" works as a multi-select: doma
 - They describe the product when asked about the business. Redirect gently; the product gets its own document next.
 - They forget assets already commissioned elsewhere. "What have you already paid someone for?" surfaces them.
 
-## Before offering next
+## Done when
 
-Who is involved, the stage, and what already exists are captured.
+You could introduce the founder and their team to an Incubyte engineer, say how far along they are and who decides scope, and list what already exists that must not be rebuilt, without guessing at any of it.
 
 ## Feeds
 

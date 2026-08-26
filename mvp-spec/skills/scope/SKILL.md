@@ -5,7 +5,7 @@ description: "This skill is one step of the mvp-spec founder interview and is in
 
 # 05 Scope
 
-Phase 05 of the mvp-spec interview. The interview rules and package contract live in the `start` skill; if this phase was entered directly rather than from that skill, read `${CLAUDE_PLUGIN_ROOT}/skills/start/SKILL.md` first.
+Phase 05 of the mvp-spec interview. How the interview works and the package contract live in the `start` skill; if this phase was entered directly rather than from that skill, read `${CLAUDE_PLUGIN_ROOT}/skills/start/SKILL.md` first.
 
 ## Goal
 
@@ -21,13 +21,9 @@ Two yardsticks decide the cut, and they answer different questions.
 
 Never ask what the founder can spend. If they volunteer a figure, note it in 13 and carry on with the cut unchanged.
 
-## Asking
+## Menus
 
-This document is almost entirely AskUserQuestion. Walk the journey steps and sort each one: Must, Later, Never. Asking the same three options step after step is what makes a long sort bearable, and it stops a founder answering "well, sort of" to a question that needs a decision. Cluster related steps into one call of up to four where the founder is moving quickly.
-
-Offer the non-goals as a multi-select too: the things a reasonable engineer might assume are included. A founder recognises what they do not want far faster than they generate it.
-
-Prose is for the reason behind a cut that surprised you, and for the replay itself.
+The sort is Must, Later, Never, step after step, up to four steps a call. Non-goals are a multi-select of what a reasonable engineer might assume is included. For the reason behind a cut that surprised you, offer the likely reasons and let free text carry theirs. The replay is yours to write from the Must list; the founder checks it in the file.
 
 ## When more is wanted than fits
 
@@ -37,7 +33,7 @@ Cut to what fits, then show the founder the Later list as the second phase it is
 
 Never quietly overfill the Must list to keep a founder happy. An overfull first version is the failure this document exists to prevent, and an engineer reading 05 has no way to tell which Musts were real. Where a founder pushes hard on something that does not fit, record the push in 13 so Incubyte knows before kickoff.
 
-## What the document must answer
+## What the file contains
 
 - Every step of every journey sorted into Must (v1), Later or Never, with a one-line reason each. The reason names which yardstick decided it: that it does not fit a first version, or that a persona reaches day-one value without it.
 - An explicit non-goals list: things a reasonable engineer might assume are included and are not.
@@ -50,9 +46,9 @@ Never quietly overfill the Must list to keep a founder happy. An overfull first 
 - They agree to the cut in the abstract and put steps back during the replay. That is the replay doing its job; update the sort and run it again.
 - Scope creeps back in through "obviously we also need". Write the obvious things into Must or the non-goals list; nothing stays implied.
 
-## Before offering next
+## Done when
 
-The Must list fits a first version, every journey step is sorted with a reason, the non-goals list exists, and at least one journey has been replayed Must-only with the replay recorded in the document.
+Every journey step has a home, the Must list fits a first version, the non-goals are written down, and the founder has retold a first week using only what is in Must and found nothing missing.
 
 ## Feeds
 

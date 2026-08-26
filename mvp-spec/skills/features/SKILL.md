@@ -5,21 +5,17 @@ description: "This skill is one step of the mvp-spec founder interview and is in
 
 # 06 Features and Acceptance Criteria
 
-Phase 06 of the mvp-spec interview. The interview rules and package contract live in the `start` skill; if this phase was entered directly rather than from that skill, read `${CLAUDE_PLUGIN_ROOT}/skills/start/SKILL.md` first.
+Phase 06 of the mvp-spec interview. How the interview works and the package contract live in the `start` skill; if this phase was entered directly rather than from that skill, read `${CLAUDE_PLUGIN_ROOT}/skills/start/SKILL.md` first.
 
 ## Goal
 
 Write `06 - Features and Acceptance Criteria.md`: every Must item from 05 made estimable. This is the single biggest upgrade from "spec" to "estimable spec". Founders can produce acceptance criteria when asked about one feature at a time.
 
-## Asking
+## Menus
 
-Lean on AskUserQuestion for the decisions inside a feature, which are the ones founders skip: where the paywall sits, whether there is a trial, what happens to a user's data when they delete their account, whether an invite expires, who can cancel. Offer the realistic options rather than asking an open question a founder cannot answer cold.
+The decisions inside a feature are menus: where the paywall sits, whether there is a trial, what deletion does, whether an invite expires, who can cancel. Unhappy paths are a multi-select of the ways this kind of feature fails, including the ones specific to the domain. Done-means statements: draft two to four from what the founder has said and let them accept, edit in free text, or add.
 
-Unhappy paths work well as a multi-select: offer the ways this kind of feature usually fails and let the founder pick and add. That surfaces far more than "what could go wrong here?".
-
-Prose is for the done-means statements themselves, which are the founder's own description of the feature working.
-
-## What the document must answer
+## What the file contains
 
 For each Must feature:
 
@@ -40,9 +36,9 @@ Across features:
 - They specify Later items because they are excited about them. Nothing non-Must belongs in this document; move it to 13 or 05.
 - They treat deletion and offboarding as someone else's problem. Ask directly what a user who leaves takes with them and what disappears.
 
-## Before offering next
+## Done when
 
-Every Must item in 05 has a description, a persona and step, and two to four done-means statements; unhappy paths, lifecycle and monetization are covered; nothing non-Must is present.
+An engineer could build every Must and know when it is finished, every way a feature can go wrong has a decided outcome or a row in 13, and nothing that is not a Must is in the file.
 
 ## Feeds
 

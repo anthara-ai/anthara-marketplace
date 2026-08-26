@@ -5,19 +5,17 @@ description: "This skill is one step of the mvp-spec founder interview and is in
 
 # 12 Success Measures
 
-Phase 12 of the mvp-spec interview. The interview rules and package contract live in the `start` skill; if this phase was entered directly rather than from that skill, read `${CLAUDE_PLUGIN_ROOT}/skills/start/SKILL.md` first.
+Phase 12 of the mvp-spec interview. How the interview works and the package contract live in the `start` skill; if this phase was entered directly rather than from that skill, read `${CLAUDE_PLUGIN_ROOT}/skills/start/SKILL.md` first.
 
 ## Goal
 
 Write `12 - Success Measures.md`: three to five things the founder should be able to see after launch to know the product is working, and for each one what the product has to record to make it visible. Instrumenting at build time is nearly free; adding it later is expensive.
 
-## Asking
+## Menus
 
-Use AskUserQuestion to narrow a long list to the three to five the founder would actually check, offering their own candidates back as a multi-select. Seed the options from what the product already records: the features in 06 make some measures free and others expensive, and a founder choosing from what is cheap picks better.
+Narrow to three to five as a multi-select of their own candidates, seeded from what 06 already records. Targets are a menu of ranges with an option meaning they cannot say yet. What a measure would tell them: offer the readings and let free text carry theirs.
 
-Prose is for what each measure would tell them and why it means the product is working. Targets are a menu of ranges with an option meaning they cannot say yet, which goes to 13 rather than being pressed for.
-
-## What the document must answer
+## What the file contains
 
 For each measure:
 
@@ -32,9 +30,9 @@ For each measure:
 - They name a measure nothing records. If no feature captures it, either a Must is missing or the measure is not a v1 measure; take it to the founder.
 - They list ten. Cut to the three to five they would actually check.
 
-## Before offering next
+## Done when
 
-Three to five measures are recorded, and each names what gets recorded and by which feature.
+The founder could name the three to five numbers they will check after launch and, for each, the feature that records it.
 
 ## Feeds
 

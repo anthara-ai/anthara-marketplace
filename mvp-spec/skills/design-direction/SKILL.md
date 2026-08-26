@@ -5,19 +5,17 @@ description: "This skill is one step of the mvp-spec founder interview and is in
 
 # 10 Design Direction
 
-Phase 10 of the mvp-spec interview. The interview rules and package contract live in the `start` skill; if this phase was entered directly rather than from that skill, read `${CLAUDE_PLUGIN_ROOT}/skills/start/SKILL.md` first.
+Phase 10 of the mvp-spec interview. How the interview works and the package contract live in the `start` skill; if this phase was entered directly rather than from that skill, read `${CLAUDE_PLUGIN_ROOT}/skills/start/SKILL.md` first.
 
 ## Goal
 
 Write `10 - Design Direction.md`: enough direction that Incubyte's designers start from the founder's taste rather than their own, captured in founder language, not designer language.
 
-## Asking
+## Menus
 
-Use AskUserQuestion for the style pick when a founder has no reference apps to name (clean and minimal, soft and playful, glassy and translucent, bold and corporate), for the five-second feeling per persona, and for voice (warm and simple, clinical, cheeky). Ask what already exists as a multi-select: logo, colours, a name, a typeface, or naming and branding are part of the work.
+Style, feeling per persona, voice, and what already exists are menus. Reference apps are a multi-select of named products from their own domain, plus free text for what they like about each. For the two sample lines, draft two or three in the chosen voice and let the founder pick, edit or replace; the words in the file are the ones they approved.
 
-Prose is for which apps they would steal the look of and what specifically they like about each, and the two sample lines must be approved as written text rather than picked from a list, since the wording is the deliverable.
-
-## What the document must answer
+## What the file contains
 
 - Reference apps: two or three apps whose look the founder would steal, and what specifically they like about each. "Like Calm, not like Excel" communicates more than any vocabulary. For founders without references, offer a plain menu: clean and minimal, soft and playful, glassy and translucent, bold and corporate.
 - The five-second feeling: what a user should feel when the product first opens. Calm and safe, energetic, professional. Per persona where it differs: playful for the child, reassuring for the parent, efficient for the therapist.
@@ -30,9 +28,9 @@ Prose is for which apps they would steal the look of and what specifically they 
 - They have strong opinions about colour and none about voice. Voice quietly drives every screen's copy; do not skip it.
 - They give one feeling for a product with three personas. Ask per persona.
 
-## Before offering next
+## Done when
 
-Reference apps or a style pick are recorded, the five-second feeling is captured per persona where it differs, existing assets are listed, and the two sample lines are approved.
+A designer could start from the founder's taste rather than their own: references or a style, a feeling per persona where they differ, what already exists, and two approved lines in the app's voice.
 
 ## Feeds
 

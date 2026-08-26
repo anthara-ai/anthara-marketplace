@@ -5,19 +5,17 @@ description: "This skill is one step of the mvp-spec founder interview and is in
 
 # 07 Data and Permissions
 
-Phase 07 of the mvp-spec interview. The interview rules and package contract live in the `start` skill; if this phase was entered directly rather than from that skill, read `${CLAUDE_PLUGIN_ROOT}/skills/start/SKILL.md` first.
+Phase 07 of the mvp-spec interview. How the interview works and the package contract live in the `start` skill; if this phase was entered directly rather than from that skill, read `${CLAUDE_PLUGIN_ROOT}/skills/start/SKILL.md` first.
 
 ## Goal
 
 Write `07 - Data and Permissions.md`: what the app keeps track of, and who may see and change each thing. With more than one persona this is never trivial. Can the parent read the child's journal? Can the child see the therapist's notes? Those are product, ethical and legal decisions at once, and they are the founder's to make.
 
-## Asking
+## Menus
 
-The permissions matrix is the clearest use of AskUserQuestion in the interview. Every cell is see, edit, or none, sometimes with a relationship qualifier, so ask cell by cell with those as the options and include one meaning the founder has not decided, which goes to 13. Group up to four cells for one noun into a single call. A matrix walked this way is quick; the same matrix asked in prose produces "the parent can see most of it" and a gap nobody notices until build.
+The matrix is asked cell by cell, see, edit or none, with an option meaning the founder has not decided; up to four cells for one noun share a call. The nouns are a multi-select of what 04 and 06 imply the app tracks, plus free text. What a noun contains: offer the fields the domain suggests and let free text carry the rest.
 
-The nouns themselves can be a multi-select once the journeys are written: offer what 04 and 06 imply the app keeps track of and let the founder confirm, correct and add. Prose is for what a noun contains when the founder needs to explain it.
-
-## What the document must answer
+## What the file contains
 
 - The nouns: each thing the app keeps track of, framed as "what does the app remember", what each contains, and where it comes from. Child profiles, mood entries, sessions, notes.
 - The permissions matrix: personas down the side, nouns across the top, each cell see, edit or none. Where a cell depends on a relationship (a therapist sees only their own clients), say so in the cell.
@@ -30,9 +28,9 @@ The nouns themselves can be a multi-select once the journeys are written: offer 
 - They are silent on a cell. An unanswered cell is a row in 13, never a silent "none".
 - They describe storage rather than meaning. Keep nouns in founder language; engineers translate.
 
-## Before offering next
+## Done when
 
-Every noun that appears in 04 and 06 is listed, every matrix cell was answered by the founder or sent to 13, and sensitive fields are flagged.
+No cell in the matrix is your guess, every noun a feature touches is listed with what it contains and where it comes from, and every sensitive field is flagged.
 
 ## Feeds
 

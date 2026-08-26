@@ -5,19 +5,17 @@ description: "This skill is one step of the mvp-spec founder interview and is in
 
 # 08 Platform, Integrations and Content
 
-Phase 08 of the mvp-spec interview. The interview rules and package contract live in the `start` skill; if this phase was entered directly rather than from that skill, read `${CLAUDE_PLUGIN_ROOT}/skills/start/SKILL.md` first.
+Phase 08 of the mvp-spec interview. How the interview works and the package contract live in the `start` skill; if this phase was entered directly rather than from that skill, read `${CLAUDE_PLUGIN_ROOT}/skills/start/SKILL.md` first.
 
 ## Goal
 
 Write `08 - Platform, Integrations and Content.md`: the three sets of decisions that swing build cost more than almost anything else and that otherwise get made silently by the developer.
 
-## Asking
+## Menus
 
-All of this suits AskUserQuestion. Platform per persona (phone app, website, both), whether anything must work offline, whether anything must interrupt the user. Each rented service is a two-option question, buy or build, that a founder answers instantly, and the list of candidates is itself a good multi-select: payments, email, SMS, video, calendar, sign-in with Google or Apple, maps, file storage.
+All menus: platform per persona, offline, interruptions, buy or build for each rented service, launch-day content as a multi-select named from the domain, and owners picked from the people in 01 and 03.
 
-Day-one content works the same way: offer the content this kind of product needs on launch day as a multi-select, then ask per item who owns it, with the personas and team members from 01 and 03 as options.
-
-## What the document must answer
+## What the file contains
 
 - Platform per persona, decided by where they physically are when they use the product: a child on a tablet at home, a therapist on a laptop between sessions. Phone app, website or both, and why. Whether anything must work offline. Whether anything must interrupt the user: notifications, reminders, alerts.
 - Rented services: payments, email, SMS, video calls, calendar sync, sign-in with Google or Apple, maps, file storage. Each one named so the spec can say "buy, don't build".
@@ -30,9 +28,9 @@ Day-one content works the same way: offer the content this kind of product needs
 - They ship an empty app. "The app is built but has nothing in it" is one of the most common launch failures and a one-question fix at spec time. Every content item needs a named owner and a rough date.
 - They forget that notifications are a product decision with cost. Ask what must interrupt a user and what can wait for next login.
 
-## Before offering next
+## Done when
 
-Every persona has a platform decision with a reason, every rented service is named, and every content item has an owner.
+Every persona has a platform decided by where they are when they use the product, every rented service is named, and every piece of launch-day content has a named owner.
 
 ## Feeds
 
