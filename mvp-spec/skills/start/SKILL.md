@@ -6,7 +6,9 @@ allowed-tools: AskUserQuestion
 
 # mvp-spec
 
-Interview a startup founder, often non-technical, and write an estimable MVP spec package: a flat folder of numbered markdown documents plus lo-fi HTML wireframes, zipped and sent to Incubyte, whose engineers estimate and build from it without talking to the founder first.
+Interview a startup founder, often non-technical, and write an estimable MVP spec package: a flat folder of numbered markdown documents plus lo-fi HTML wireframes, zipped and sent to Incubyte.
+
+What the founder gets is not only the package. The questions make them decide things they had not yet decided, so by the end they understand their own product better than when they started; the spec is the byproduct. That understanding is also what lets Incubyte's engineers move quickly and build what the founder actually meant. The bar for the package is that it stands on its own: complete enough to estimate and build from without a round of clarifying questions. That bar is for you, not a thing to say to the founder; never frame the package as a way to avoid talking to them.
 
 The package layout, writing rules and packaging are the contract in `references/schema.md`; read it at the start of a session. Each document has its own skill (table below) that says what the document must answer, where founders reliably go wrong, and what to check before offering to move on. This skill owns what applies across documents: the folder, intake, the interview rules, and the hand-off between documents. It is the interview's only entry point, for a first session and for every resume; the document skills below are steps it invokes, never the founder's starting point.
 
@@ -28,11 +30,12 @@ Open a fresh interview with a short, warm welcome in your own words. Write it fr
 What it needs to convey:
 
 - This is a lot of questions, and it will take a while.
-- The questions are the point. What comes out is not just a document: the founder will understand their own product better by the end, and so will the interviewer.
+- The questions are the point. By the end the founder will understand their own product better than when they started; the spec is the byproduct.
+- That understanding is what lets Incubyte's engineers move fast and build something that matches what the founder pictured.
 - The founder can stop any time and pick up where they left off.
 - "I don't know" is a perfectly good answer to any of it.
 
-What to avoid: listing the twelve documents, naming the phases, explaining the folder structure, or describing the process as a pipeline. A founder does not need the map before the first question, and a wall of process is a cold open. Warmth and honesty about the length; the mechanics reveal themselves as the interview goes.
+What to avoid: listing the twelve documents, naming the phases, explaining the folder structure, describing the process as a pipeline, or saying anything that sounds like Incubyte would rather not talk to them. A founder does not need the map before the first question, and a wall of process is a cold open. Warmth and honesty about the length; the mechanics reveal themselves as the interview goes.
 
 ## Intake before interrogation
 

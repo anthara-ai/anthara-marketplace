@@ -1,6 +1,8 @@
 # mvp-spec
 
-A plugin for Claude Cowork and Claude Code that interviews a startup founder and writes an estimable MVP spec package: personas, journeys, scope, acceptance criteria, data and permissions, compliance flags, design direction, lo-fi wireframes and success measures. The finished folder is zipped and sent to Incubyte, whose engineers estimate and build from it without talking to the founder first.
+A plugin for Claude Cowork and Claude Code that interviews a startup founder and writes an estimable MVP spec package: personas, journeys, scope, acceptance criteria, data and permissions, compliance flags, design direction, lo-fi wireframes and success measures. The finished folder is zipped and sent to Incubyte.
+
+The interview is worth the time for its own sake: it makes you decide things you had not yet decided, so by the end you understand your own product better than when you started and the spec is the byproduct. That understanding is also what lets Incubyte's engineers move quickly and build something that matches what you pictured.
 
 ## Install
 
