@@ -11,7 +11,7 @@ Phase 01 of the mvp-spec interview. The interview rules and package contract liv
 
 Write `01 - Business Context.md`: the frame around the engagement, not the product. Who is behind it, how far along they are, and what has already been paid for and should not be rebuilt.
 
-This document deliberately does not ask about money. Budget shapes scope, so it is asked in 05 at the moment it is used, once the founder has seen the interview produce something. Asking a stranger their budget in the first two minutes reads as a sales qualification and costs more trust than the answer is worth this early. Timeline is not asked at all: Incubyte builds MVPs and gets first customers online, so the working assumption is as soon as possible, and a founder with a real external deadline volunteers it without being asked. If one is volunteered, record it here.
+Neither budget nor timeline is asked, here or anywhere. Scope is cut in 05 against a first version of roughly a month and against what the end user needs on day one, which are better yardsticks than a figure the founder is often guessing at, and asking a stranger their budget early reads as a sales qualification. Both are still worth having when offered: if the founder volunteers a budget or a real external deadline at any point in the interview, record it in this document.
 
 ## Asking
 
