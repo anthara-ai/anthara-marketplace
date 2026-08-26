@@ -1,11 +1,11 @@
 ---
 name: product-overview
-description: This skill should be used when the mvp-spec interview reaches "02 - Product Overview.md", or when the founder wants to "describe the product", "explain what it does", "write the overview", or define "who it is for" and "what success looks like on day one". Writes the one-page anchor the rest of the spec is judged against.
+description: This skill is one step of the mvp-spec founder interview and is invoked by the `start` skill, not directly. It writes "02 - Product Overview.md": the one-page anchor: problem, who it is for, and day-one success.
 ---
 
 # 02 Product Overview
 
-Phase 02 of the `mvp-spec` interview. The interview rules and package contract live in the `mvp-spec` skill; if this phase was entered directly rather than from that skill, read `${CLAUDE_PLUGIN_ROOT}/skills/mvp-spec/SKILL.md` first.
+Phase 02 of the mvp-spec interview. The interview rules and package contract live in the `start` skill; if this phase was entered directly rather than from that skill, read `${CLAUDE_PLUGIN_ROOT}/skills/start/SKILL.md` first.
 
 ## Goal
 
@@ -36,4 +36,4 @@ The founder says it reads like their idea, and it fits on one page.
 
 ## Then
 
-Write the file, tell the founder which file to review and that saying next moves the interview on, then continue with the loop in the `mvp-spec` skill.
+Write the file, tell the founder which file to review and that saying next moves the interview on, then continue with the loop in the `start` skill.

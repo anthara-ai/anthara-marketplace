@@ -1,11 +1,11 @@
 ---
 name: platform
-description: This skill should be used when the mvp-spec interview reaches "08 - Platform, Integrations and Content.md", or when the founder asks "app or website", "iOS or Android", "notifications", "offline", "payments", "email", "sign in with Google", "third-party services", or "who writes the content". Decides platform per persona, names every rented service and assigns an owner to all day-one content.
+description: This skill is one step of the mvp-spec founder interview and is invoked by the `start` skill, not directly. It writes "08 - Platform, Integrations and Content.md": platform per persona, rented services and day-one content owners.
 ---
 
 # 08 Platform, Integrations and Content
 
-Phase 08 of the `mvp-spec` interview. The interview rules and package contract live in the `mvp-spec` skill; if this phase was entered directly rather than from that skill, read `${CLAUDE_PLUGIN_ROOT}/skills/mvp-spec/SKILL.md` first.
+Phase 08 of the mvp-spec interview. The interview rules and package contract live in the `start` skill; if this phase was entered directly rather than from that skill, read `${CLAUDE_PLUGIN_ROOT}/skills/start/SKILL.md` first.
 
 ## Goal
 
@@ -36,4 +36,4 @@ Every persona has a platform decision with a reason, every rented service is nam
 
 ## Then
 
-Write the file, tell the founder which file to review and that saying next moves the interview on, then continue with the loop in the `mvp-spec` skill.
+Write the file, tell the founder which file to review and that saying next moves the interview on, then continue with the loop in the `start` skill.

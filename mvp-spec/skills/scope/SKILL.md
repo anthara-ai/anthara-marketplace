@@ -1,11 +1,11 @@
 ---
 name: scope
-description: This skill should be used when the mvp-spec interview reaches "05 - Scope.md", or when the founder wants to decide "what is in v1", "what to cut", "must have vs nice to have", "MVP scope", "non-goals", or "what we are not building". Sorts journey steps into Must, Later and Never and records the Must-only replay.
+description: This skill is one step of the mvp-spec founder interview and is invoked by the `start` skill, not directly. It writes "05 - Scope.md": the Must, Later and Never sort, the non-goals list and the Must-only replay.
 ---
 
 # 05 Scope
 
-Phase 05 of the `mvp-spec` interview. The interview rules and package contract live in the `mvp-spec` skill; if this phase was entered directly rather than from that skill, read `${CLAUDE_PLUGIN_ROOT}/skills/mvp-spec/SKILL.md` first.
+Phase 05 of the mvp-spec interview. The interview rules and package contract live in the `start` skill; if this phase was entered directly rather than from that skill, read `${CLAUDE_PLUGIN_ROOT}/skills/start/SKILL.md` first.
 
 ## Goal
 
@@ -36,4 +36,4 @@ Every journey step is sorted with a reason, the non-goals list exists, and at le
 
 ## Then
 
-Write the file, tell the founder which file to review and that saying next moves the interview on, then continue with the loop in the `mvp-spec` skill.
+Write the file, tell the founder which file to review and that saying next moves the interview on, then continue with the loop in the `start` skill.

@@ -1,11 +1,11 @@
 ---
 name: personas
-description: This skill should be used when the mvp-spec interview reaches "03 - Personas.md", or when the founder wants to define "who uses the app", "the users", "user types", "roles", "add a persona", or "revisit personas". Captures every distinct kind of user, including who pays and who operates the product.
+description: This skill is one step of the mvp-spec founder interview and is invoked by the `start` skill, not directly. It writes "03 - Personas.md": every distinct kind of user, including who pays and who operates the product.
 ---
 
 # 03 Personas
 
-Phase 03 of the `mvp-spec` interview. The interview rules and package contract live in the `mvp-spec` skill; if this phase was entered directly rather than from that skill, read `${CLAUDE_PLUGIN_ROOT}/skills/mvp-spec/SKILL.md` first.
+Phase 03 of the mvp-spec interview. The interview rules and package contract live in the `start` skill; if this phase was entered directly rather than from that skill, read `${CLAUDE_PLUGIN_ROOT}/skills/start/SKILL.md` first.
 
 ## Goal
 
@@ -41,4 +41,4 @@ An operator persona is present or explicitly ruled out with the reason written d
 
 ## Then
 
-Write the file, tell the founder which file to review and that saying next moves the interview on, then continue with the loop in the `mvp-spec` skill.
+Write the file, tell the founder which file to review and that saying next moves the interview on, then continue with the loop in the `start` skill.

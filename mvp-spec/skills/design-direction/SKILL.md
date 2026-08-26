@@ -1,11 +1,11 @@
 ---
 name: design-direction
-description: This skill should be used when the mvp-spec interview reaches "10 - Design Direction.md", or when the founder wants to talk about "look and feel", "design style", "apps I like", "branding", "logo", "colours", "tone of voice", or "how the app should feel". Captures reference apps, the five-second feeling, existing brand assets and two approved lines in the app's voice.
+description: This skill is one step of the mvp-spec founder interview and is invoked by the `start` skill, not directly. It writes "10 - Design Direction.md": reference apps, the five-second feeling, existing brand assets and the app voice.
 ---
 
 # 10 Design Direction
 
-Phase 10 of the `mvp-spec` interview. The interview rules and package contract live in the `mvp-spec` skill; if this phase was entered directly rather than from that skill, read `${CLAUDE_PLUGIN_ROOT}/skills/mvp-spec/SKILL.md` first.
+Phase 10 of the mvp-spec interview. The interview rules and package contract live in the `start` skill; if this phase was entered directly rather than from that skill, read `${CLAUDE_PLUGIN_ROOT}/skills/start/SKILL.md` first.
 
 ## Goal
 
@@ -36,4 +36,4 @@ Reference apps or a style pick are recorded, the five-second feeling is captured
 
 ## Then
 
-Write the file, tell the founder which file to review and that saying next moves the interview on, then continue with the loop in the `mvp-spec` skill.
+Write the file, tell the founder which file to review and that saying next moves the interview on, then continue with the loop in the `start` skill.

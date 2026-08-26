@@ -1,11 +1,11 @@
 ---
 name: success-measures
-description: This skill should be used when the mvp-spec interview reaches "12 - Success Measures.md", or when the founder wants to define "how we know it is working", "success metrics", "KPIs", "what to measure", "analytics", or "what to track after launch". Captures three to five measures and what the product must record to make each visible.
+description: This skill is one step of the mvp-spec founder interview and is invoked by the `start` skill, not directly. It writes "12 - Success Measures.md": three to five measures and what the product must record for each.
 ---
 
 # 12 Success Measures
 
-Phase 12 of the `mvp-spec` interview. The interview rules and package contract live in the `mvp-spec` skill; if this phase was entered directly rather than from that skill, read `${CLAUDE_PLUGIN_ROOT}/skills/mvp-spec/SKILL.md` first.
+Phase 12 of the mvp-spec interview. The interview rules and package contract live in the `start` skill; if this phase was entered directly rather than from that skill, read `${CLAUDE_PLUGIN_ROOT}/skills/start/SKILL.md` first.
 
 ## Goal
 
@@ -37,4 +37,4 @@ Three to five measures are recorded, and each names what gets recorded and by wh
 
 ## Then
 
-Write the file, tell the founder which file to review and that saying next moves the interview on, then continue with the loop in the `mvp-spec` skill.
+Write the file, tell the founder which file to review and that saying next moves the interview on, then continue with the loop in the `start` skill.

@@ -1,11 +1,11 @@
 ---
 name: user-journeys
-description: This skill should be used when the mvp-spec interview reaches "04 - User Journeys.md", or when the founder wants to "walk through how it works", "describe the flow", "user journey", "onboarding", "what happens when", or how one user's action reaches another. Writes one end-to-end narrative per persona with cross-persona handoffs.
+description: This skill is one step of the mvp-spec founder interview and is invoked by the `start` skill, not directly. It writes "04 - User Journeys.md": one end-to-end narrative per persona, with cross-persona handoffs and unhappy paths.
 ---
 
 # 04 User Journeys
 
-Phase 04 of the `mvp-spec` interview. The interview rules and package contract live in the `mvp-spec` skill; if this phase was entered directly rather than from that skill, read `${CLAUDE_PLUGIN_ROOT}/skills/mvp-spec/SKILL.md` first.
+Phase 04 of the mvp-spec interview. The interview rules and package contract live in the `start` skill; if this phase was entered directly rather than from that skill, read `${CLAUDE_PLUGIN_ROOT}/skills/start/SKILL.md` first.
 
 ## Goal
 
@@ -40,4 +40,4 @@ Every persona in 03 has a journey, and every handoff names both sides and its me
 
 ## Then
 
-Write the file, tell the founder which file to review and that saying next moves the interview on, then continue with the loop in the `mvp-spec` skill.
+Write the file, tell the founder which file to review and that saying next moves the interview on, then continue with the loop in the `start` skill.

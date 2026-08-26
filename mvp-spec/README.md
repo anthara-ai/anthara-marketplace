@@ -13,7 +13,7 @@ Plugins need a paid plan (Pro, Max, Team or Enterprise).
 1. Open **Customize** in the sidebar, then the **Plugins** tab.
 2. Select **Add marketplace** and enter `anthara-ai/anthara-marketplace`, or the full URL `https://github.com/anthara-ai/anthara-marketplace`.
 3. Find **mvp-spec** among the plugins from that marketplace and click **Install**.
-4. Open the installed plugin to see the skills it added. Nothing needs enabling by hand; there are no connectors or hooks to authorise.
+4. Open the installed plugin to see the skills it added. Nothing needs enabling by hand; there are no connectors or hooks to authorise. The only one you invoke yourself is **start**; the rest are steps it runs for you.
 
 On an Enterprise plan an administrator may have to allow the marketplace first. Full details are in the [Cowork plugin docs](https://claude.com/docs/cowork/guide/plugins).
 
@@ -26,7 +26,7 @@ You need [Claude Code](https://code.claude.com/docs/en/overview) installed and s
 /plugin install mvp-spec@anthara-marketplace
 ```
 
-Start a new Claude Code session afterwards so the skills load. To check they did, type `/mvp-spec:mvp-spec` and it should offer to start the interview.
+Start a new Claude Code session afterwards so the skills load. To check they did, type `/mvp-spec:start` and it should offer to begin the interview.
 
 For local development, from a checkout of this repository:
 
@@ -40,11 +40,17 @@ The interview is the same in Cowork and Code; only how you start it differs.
 
 ### First session
 
-1. Start the interview.
+1. Start the interview by invoking the **start** skill:
 
-   In **Cowork**, open a new task and say what you want in your own words, for example "spec my product". The spec folder is created in the task's files.
+   ```text
+   /mvp-spec:start
+   ```
 
-   In **Code**, make an empty folder for the spec, start Claude Code inside it, and say the same thing, or run `/mvp-spec:mvp-spec`:
+   Saying what you want in your own words works too, for example "spec my product". Either way `start` is the skill that runs; it is the only one you invoke, both now and every time you come back.
+
+   In **Cowork**, open a new task and run it there. The spec folder is created in the task's files.
+
+   In **Code**, make an empty folder for the spec and start Claude Code inside it first:
 
    ```bash
    mkdir my-product-spec && cd my-product-spec
@@ -58,7 +64,7 @@ The interview is the same in Cowork and Code; only how you start it differs.
 
 ### Stopping and resuming
 
-Stop whenever you like; nothing is lost. Come back to the same Cowork task, or start Claude Code in the same folder again, and say "continue my spec". The interview picks up at the first document not yet written, after asking you to review the last one it wrote.
+Stop whenever you like; nothing is lost. Come back to the same Cowork task, or start Claude Code in the same folder again, and run `/mvp-spec:start` again (or say "continue my spec"). The same skill handles resuming: it picks up at the first document not yet written, after asking you to review the last one it wrote.
 
 ### Changing something earlier
 
@@ -70,13 +76,13 @@ After the last document, a consistency check runs across the whole package. Anyt
 
 ## What it produces
 
-One flat folder, `<product-slug>-spec/`, with numbered documents `00` to `14`, one HTML wireframe per screen, and an `intake/` folder holding whatever the founder handed over, untouched. Documents are written in order and the founder reviews each file before the next is started. The full layout and rules are in `skills/mvp-spec/references/schema.md`.
+One flat folder, `<product-slug>-spec/`, with numbered documents `00` to `14`, one HTML wireframe per screen, and an `intake/` folder holding whatever the founder handed over, untouched. Documents are written in order and the founder reviews each file before the next is started. The full layout and rules are in `skills/start/references/schema.md`.
 
 When every document is written, a consistency pass runs across the package, `00 - Start Here.md` is written for the receiving engineers, and the folder is zipped as `<product-slug>-spec-<YYYY-MM-DD>.zip`.
 
 ## How it is built
 
-`skills/mvp-spec` is the orchestrator: it owns the spec folder, the intake step, the interview rules and the hand-off between documents. Each numbered document has its own skill under `skills/` that says what the document must answer, where founders reliably go wrong, and what to check before offering to move on. The phase skills give guidance, not scripts; the interviewer decides what to ask and in which order within a phase.
+`skills/start` is the orchestrator and the only skill a founder invokes: it owns the spec folder, the intake step, the interview rules and the hand-off between documents. Each numbered document has its own skill under `skills/` that says what the document must answer, where founders reliably go wrong, and what to check before offering to move on. The phase skills give guidance, not scripts; the interviewer decides what to ask and in which order within a phase.
 
 | Document | Skill |
 |---|---|

@@ -1,11 +1,11 @@
 ---
 name: compliance
-description: This skill should be used when the mvp-spec interview reaches "09 - Rules and Compliance.md", or when the founder mentions "health data", "children", "parental consent", "HIPAA", "GDPR", "payments", "regulation", "privacy", "data retention", or which countries the product will operate in. Records the compliance flags that shape the build without giving legal advice.
+description: This skill is one step of the mvp-spec founder interview and is invoked by the `start` skill, not directly. It writes "09 - Rules and Compliance.md": the compliance flags that shape the build, without giving legal advice.
 ---
 
 # 09 Rules and Compliance
 
-Phase 09 of the `mvp-spec` interview. The interview rules and package contract live in the `mvp-spec` skill; if this phase was entered directly rather than from that skill, read `${CLAUDE_PLUGIN_ROOT}/skills/mvp-spec/SKILL.md` first.
+Phase 09 of the mvp-spec interview. The interview rules and package contract live in the `start` skill; if this phase was entered directly rather than from that skill, read `${CLAUDE_PLUGIN_ROOT}/skills/start/SKILL.md` first.
 
 ## Goal
 
@@ -39,4 +39,4 @@ Every sensitive flag in 07 is covered here, and jurisdictions and protected user
 
 ## Then
 
-Write the file, tell the founder which file to review and that saying next moves the interview on, then continue with the loop in the `mvp-spec` skill.
+Write the file, tell the founder which file to review and that saying next moves the interview on, then continue with the loop in the `start` skill.

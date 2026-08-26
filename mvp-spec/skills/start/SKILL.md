@@ -1,13 +1,13 @@
 ---
-name: mvp-spec
-description: This skill should be used when a founder asks to "spec my product", "write an MVP spec", "start a spec", "continue my spec", "resume the spec interview", "turn my idea into a spec", or wants a product idea turned into a spec package Incubyte can estimate and build from. Runs the founder interview end to end, one document at a time, and picks up where the last session stopped.
+name: start
+description: This skill should be used when a founder asks to "spec my product", "write an MVP spec", "start a spec", "continue my spec", "resume the spec interview", "turn my idea into a spec", or wants a product idea turned into a spec package Incubyte can estimate and build from. This is the entry point for the mvp-spec interview: invoke it to begin and again to resume, and it runs every other mvp-spec skill in turn.
 ---
 
 # mvp-spec
 
 Interview a startup founder, often non-technical, and write an estimable MVP spec package: a flat folder of numbered markdown documents plus lo-fi HTML wireframes, zipped and sent to Incubyte, whose engineers estimate and build from it without talking to the founder first.
 
-The package layout, writing rules and packaging are the contract in `references/schema.md`; read it at the start of a session. Each document has its own skill (table below) that says what the document must answer, where founders reliably go wrong, and what to check before offering to move on. This skill owns what applies across documents: the folder, intake, the interview rules, and the hand-off between documents.
+The package layout, writing rules and packaging are the contract in `references/schema.md`; read it at the start of a session. Each document has its own skill (table below) that says what the document must answer, where founders reliably go wrong, and what to check before offering to move on. This skill owns what applies across documents: the folder, intake, the interview rules, and the hand-off between documents. It is the interview's only entry point, for a first session and for every resume; the document skills below are steps it invokes, never the founder's starting point.
 
 ## The loop
 
@@ -40,6 +40,8 @@ These apply for every document. Document skills do not restate them.
 - Plain language in every document. No emojis anywhere. Mermaid is the only diagram format inside markdown. Wireframes are grayscale HTML, layout only.
 
 ## Document skills
+
+These are invoked in order by the loop above, not by the founder.
 
 | Document | Skill |
 |---|---|

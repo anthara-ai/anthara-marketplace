@@ -1,11 +1,11 @@
 ---
 name: package
-description: This skill should be used when every document 01 to 12 in an mvp-spec folder has been written and reviewed, or when the founder asks to "package the spec", "zip it up", "send it to Incubyte", "run the consistency check", or "finish the spec". Runs the cross-document consistency pass, writes "00 - Start Here.md" and produces the zip.
+description: This skill is the final step of the mvp-spec founder interview and is invoked by the `start` skill, not directly. It runs the cross-document consistency pass, writes "00 - Start Here.md" and zips the package for Incubyte.
 ---
 
 # Package
 
-Final step of the `mvp-spec` interview. The interview rules and package contract live in the `mvp-spec` skill; if this step was entered directly rather than from that skill, read `${CLAUDE_PLUGIN_ROOT}/skills/mvp-spec/SKILL.md` first. The consistency pairs and zip naming are in `${CLAUDE_PLUGIN_ROOT}/skills/mvp-spec/references/schema.md`.
+Final step of the mvp-spec interview. The interview rules and package contract live in the `start` skill; if this step was entered directly rather than from that skill, read `${CLAUDE_PLUGIN_ROOT}/skills/start/SKILL.md` first. The consistency pairs and zip naming are in `${CLAUDE_PLUGIN_ROOT}/skills/start/references/schema.md`.
 
 ## Goal
 

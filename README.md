@@ -17,6 +17,7 @@ This repository is a marketplace, so it works in both Claude Cowork and Claude C
 1. Open **Customize** in the sidebar, then the **Plugins** tab.
 2. Select **Add marketplace** and enter `anthara-ai/anthara-marketplace`, or the full URL `https://github.com/anthara-ai/anthara-marketplace`.
 3. The plugins in this repository now appear alongside the other marketplaces. Select one and click **Install**.
+4. Start mvp-spec by invoking its **start** skill (`/mvp-spec:start`) in a new task.
 
 Click **Update** on the marketplace to pull the latest version of its plugins. See the [Cowork plugin docs](https://claude.com/docs/cowork/guide/plugins) for details, including uploading a plugin from a file and organization-managed plugins.
 
@@ -27,7 +28,7 @@ Click **Update** on the marketplace to pull the latest version of its plugins. S
 /plugin install mvp-spec@anthara-marketplace
 ```
 
-Start a new Claude Code session afterwards and the plugin's skills are available. See the [Claude Code plugin docs](https://code.claude.com/docs/en/discover-plugins) for more.
+Start a new Claude Code session afterwards and the plugin's skills are available; begin mvp-spec with `/mvp-spec:start`. See the [Claude Code plugin docs](https://code.claude.com/docs/en/discover-plugins) for more.
 
 If this repository is private, whoever installs from it needs GitHub access to it.
 
