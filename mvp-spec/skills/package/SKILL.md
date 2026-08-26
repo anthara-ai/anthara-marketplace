@@ -5,7 +5,7 @@ description: "This skill is the final step of the mvp-spec founder interview and
 
 # Package
 
-Final step of the mvp-spec interview. The interview rules and package contract live in the `start` skill; if this step was entered directly rather than from that skill, read `${CLAUDE_PLUGIN_ROOT}/skills/start/SKILL.md` first. The consistency pairs and zip naming are in `${CLAUDE_PLUGIN_ROOT}/skills/start/references/schema.md`.
+Final step of the mvp-spec interview. How the interview works and the package contract live in the `start` skill; if this step was entered directly rather than from that skill, read `${CLAUDE_PLUGIN_ROOT}/skills/start/SKILL.md` first. The consistency pairs and zip naming are in `${CLAUDE_PLUGIN_ROOT}/skills/start/references/schema.md`.
 
 ## Goal
 
@@ -41,7 +41,7 @@ Orientation for an Incubyte engineer opening the folder cold:
 
 From the parent of the spec folder, create `<product-slug>-spec-<YYYY-MM-DD>.zip` containing the whole folder: every document, every wireframe, `intake/`, 13 and 14. Verify the archive lists the expected files.
 
-## Before finishing
+## Done when
 
 The consistency pass is clean and recorded in 00, and the zip exists with the expected contents.
 

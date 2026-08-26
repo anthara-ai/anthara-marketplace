@@ -5,19 +5,19 @@ description: "This skill is one step of the mvp-spec founder interview and is in
 
 # 02 Product Overview
 
-Phase 02 of the mvp-spec interview. The interview rules and package contract live in the `start` skill; if this phase was entered directly rather than from that skill, read `${CLAUDE_PLUGIN_ROOT}/skills/start/SKILL.md` first.
+Phase 02 of the mvp-spec interview. How the interview works and the package contract live in the `start` skill; if this phase was entered directly rather than from that skill, read `${CLAUDE_PLUGIN_ROOT}/skills/start/SKILL.md` first.
 
 ## Goal
 
-Write `02 - Product Overview.md`: one page, at most, that anchors everything after it. This document is the tiebreaker for every scope argument later, so it has to read like the founder's idea and nobody else's.
+Write `02 - Product Overview.md`: the anchor everything after it is judged against, and the tiebreaker for every scope argument later, so it has to read like the founder's idea and nobody else's.
+
+This is where the tree goes deepest. Everything after it inherits whatever is vague here, and founders answer in categories that sound like answers. Keep following branches well past the first thing that sounds complete, then write it complete and as short as completeness allows.
 
 ## Asking
 
-This is the one document where prose leads. The product paragraph, the problem in the words of the person who has it, and day-one success have to be the founder's own telling; a menu would put words in their mouth, and this document is the tiebreaker for every later scope argument.
+Prose leads here and nowhere else: the product paragraph, the problem in the words of the person who has it, and day-one success are the founder's own telling. Menus fit around the edges, to narrow who the first version is for when several audiences are named, and to play back two or three phrasings of a one-liner so the founder can pick the closest or write their own.
 
-AskUserQuestion still earns its place around the edges. Use it to narrow who the first version is for when the founder names several audiences, and to play back two or three phrasings of a one-liner you drafted from their words so they can pick the closest or write their own.
-
-## What the document must answer
+## What the file contains
 
 - The problem, in the words of the person who has it.
 - What the product is and who it is for, in one paragraph.
@@ -26,13 +26,14 @@ AskUserQuestion still earns its place around the edges. Use it to narrow who the
 
 ## Where founders go wrong
 
+- They answer in categories, and it sounds like an answer. Ask for the last time they watched someone have the problem; the product is in what they say next.
 - They write a pitch, not a description. Superlatives, market size and vision statements belong in the deck in `intake/`, not here. If the paragraph could describe three other products, it is not done.
 - They name several audiences at once. Pin down the person the first version is for; the others may become personas in 03 or go to Later in 05.
 - They describe features instead of the change. Ask what is different for the user afterwards, not what the screens do.
 
-## Before offering next
+## Done when
 
-The founder says it reads like their idea, and it fits on one page.
+You could describe the product to a stranger in a paragraph, name the one person it is for and the moment their problem happens, and say what they walk away with after their first session, and the founder would correct nothing. "Helps people manage their diet" is not there yet; the product is in the specifics underneath.
 
 ## Feeds
 
