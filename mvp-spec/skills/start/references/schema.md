@@ -38,11 +38,11 @@ Documents are written in interview order, one at a time, and the founder reviews
 | File | Holds |
 |---|---|
 | 00 Start Here | Orientation, product one-liner, document list, packaging date |
-| 01 Business Context | Founder, team, stage, existing assets, budget band, timeline |
+| 01 Business Context | Founder, team, stage, existing assets |
 | 02 Product Overview | One-page anchor: problem, who it's for, day-one success |
 | 03 Personas | Every user kind; buyer / user / operator map |
 | 04 User Journeys | Per-persona narrative + Mermaid diagram; cross-persona handoffs; unhappy paths |
-| 05 Scope | Must / Later / Never; non-goals list; Must-only replay |
+| 05 Scope | Budget band; Must / Later / Never; non-goals list; Must-only replay |
 | 06 Features and Acceptance Criteria | Per Must feature: 2–4 plain done-means + unhappy paths |
 | 07 Data and Permissions | The nouns; persona × noun matrix (see / edit / none); sensitive fields flagged |
 | 08 Platform, Integrations and Content | Platform per persona; rented services; day-one content with owners |

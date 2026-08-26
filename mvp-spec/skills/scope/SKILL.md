@@ -13,7 +13,9 @@ Write `05 - Scope.md`: the journeys in 04 cut down to a first version. This is s
 
 ## Asking
 
-This document is almost entirely AskUserQuestion. Walk the journey steps and sort each one: Must, Later, Never. Asking the same three options step after step is what makes a long sort bearable, and it stops a founder answering "well, sort of" to a question that needs a decision. Cluster related steps into one call of up to four where the founder is moving quickly.
+Open by asking the budget band, before the sort. Frame it as what it is: the tiebreaker for the cuts about to be made, not a qualification. Offer bands rather than asking for a figure, and always include an option meaning "I would rather not say", which goes to 13 as a decline. A founder who declines is not pressed again; day-one success from 02 carries the sort on its own.
+
+The rest is almost entirely AskUserQuestion. Walk the journey steps and sort each one: Must, Later, Never. Asking the same three options step after step is what makes a long sort bearable, and it stops a founder answering "well, sort of" to a question that needs a decision. Cluster related steps into one call of up to four where the founder is moving quickly.
 
 Offer the non-goals as a multi-select too: the things a reasonable engineer might assume are included. A founder recognises what they do not want far faster than they generate it.
 
@@ -21,7 +23,8 @@ Prose is for the reason behind a cut that surprised you, and for the replay itse
 
 ## What the document must answer
 
-- Every step of every journey sorted into Must (v1), Later or Never, with a one-line reason each. Use the budget and timeline from 01 and the day-one success from 02 as the tiebreakers, and say so when they decide a call.
+- Every step of every journey sorted into Must (v1), Later or Never, with a one-line reason each. Use the budget band and the day-one success from 02 as the tiebreakers, and say so when they decide a call.
+- The budget band for the first version, asked here rather than in 01 because this is where it is used.
 - An explicit non-goals list: things a reasonable engineer might assume are included and are not.
 - The replay: a persona's first week told again using only Must items, written into the document. The replay is where missing steps show up before a developer finds them.
 
@@ -34,7 +37,7 @@ Prose is for the reason behind a cut that surprised you, and for the replay itse
 
 ## Before offering next
 
-Every journey step is sorted with a reason, the non-goals list exists, and at least one journey has been replayed Must-only with the replay recorded in the document.
+The budget band is captured or its decline recorded in 13, every journey step is sorted with a reason, the non-goals list exists, and at least one journey has been replayed Must-only with the replay recorded in the document.
 
 ## Feeds
 
