@@ -11,9 +11,13 @@ Phase 05 of the mvp-spec interview. The interview rules and package contract liv
 
 Write `05 - Scope.md`: the journeys in 04 cut down to a first version. This is subtraction, not brainstorming. For a first-time founder the non-goals list is the single highest-value section of the whole spec; it is the defence against "while we're at it".
 
+Incubyte builds a first version at a fixed price in about a month. The scope is therefore a fixed size, and the cut has to land inside it: this is the one document where the answer is genuinely constrained rather than open.
+
+Never state a price or a delivery date. Incubyte communicates its fee itself; a spec that quotes a figure becomes a sales document and goes stale the moment pricing changes. Say "a first version" and "a first phase", not a number.
+
 Two yardsticks decide the cut, and they answer different questions.
 
-**Does it fit?** A first version is roughly a month of build. That is the working size of an Incubyte MVP and it is the ceiling everything is measured against. Do not ask the founder how long they think something takes and do not present the month as a quoted delivery date; use it as your own sense of scale, and write reasons in its terms: "this does not fit a first version alongside the invite flow".
+**Does it fit?** A first version is about a month of build, and that is a ceiling rather than a target. Do not ask the founder how long they think something takes; use the month as your own sense of scale and write reasons in its terms: "this does not fit a first version alongside the invite flow".
 
 **Which matters more?** When two steps both fit, the tiebreaker is what the end user needs to get value on their first visit, from day-one success in 02. A step a persona cannot reach that value without is a Must; a step that makes the experience better once they already have it is Later. Ask the question out loud in those terms, because it is the one a founder can actually answer.
 
@@ -27,6 +31,14 @@ Offer the non-goals as a multi-select too: the things a reasonable engineer migh
 
 Prose is for the reason behind a cut that surprised you, and for the replay itself.
 
+## When more is wanted than fits
+
+Expect this; a founder who has just told you four journeys usually wants all of them. The ceiling holds, and the Later list is what makes that a good conversation rather than a disappointing one.
+
+Cut to what fits, then show the founder the Later list as the second phase it is: not features they lost, but the ones already specified and waiting, in an order that follows what users need next. A founder who leaves with a buildable first version and a visible roadmap has more than one who leaves with a wish list nobody costed.
+
+Never quietly overfill the Must list to keep a founder happy. An overfull first version is the failure this document exists to prevent, and an engineer reading 05 has no way to tell which Musts were real. Where a founder pushes hard on something that does not fit, record the push in 13 so Incubyte knows before kickoff.
+
 ## What the document must answer
 
 - Every step of every journey sorted into Must (v1), Later or Never, with a one-line reason each. The reason names which yardstick decided it: that it does not fit a first version, or that a persona reaches day-one value without it.
@@ -35,14 +47,14 @@ Prose is for the reason behind a cut that surprised you, and for the replay itse
 
 ## Where founders go wrong
 
-- Everything is a Must. Ask what happens to day-one success if a step is missing; if the user still walks away with it, the step is not a Must.
+- Everything is a Must. Ask what happens to day-one success if a step is missing; if the user still walks away with it, the step is not a Must. The fixed size is the backstop: when the list stops fitting, something moves to Later, and the founder chooses which.
 - They cut the operator's work. Approving, moderating and answering support still have to happen on day one; if they are Later, say who does them by hand and record it here.
 - They agree to the cut in the abstract and put steps back during the replay. That is the replay doing its job; update the sort and run it again.
 - Scope creeps back in through "obviously we also need". Write the obvious things into Must or the non-goals list; nothing stays implied.
 
 ## Before offering next
 
-Every journey step is sorted with a reason, the non-goals list exists, and at least one journey has been replayed Must-only with the replay recorded in the document.
+The Must list fits a first version, every journey step is sorted with a reason, the non-goals list exists, and at least one journey has been replayed Must-only with the replay recorded in the document.
 
 ## Feeds
 

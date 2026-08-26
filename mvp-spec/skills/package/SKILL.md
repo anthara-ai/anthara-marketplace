@@ -32,6 +32,7 @@ Orientation for an Incubyte engineer opening the folder cold:
 
 - The product one-liner from 02.
 - How to read the package: the numbered order is the reading order; 13 is the kickoff agenda; wireframes are deliberately lo-fi.
+- That 05 holds both the first version and the Later list, which is the roadmap beyond it. Do not quote a price or a date anywhere in the package.
 - The list of documents, and the note that the founder reviewed each one before the next was written.
 - The date of the consistency pass and that it was clean.
 - The list of files in `intake/` and what each is.

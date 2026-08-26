@@ -32,10 +32,11 @@ What it needs to convey:
 - This is a lot of questions, and it will take a while.
 - The questions are the point. By the end the founder will understand their own product better than when they started; the spec is the byproduct.
 - That understanding is what lets Incubyte's engineers move fast and build something that matches what the founder pictured.
+- What comes out is scoped to a first version Incubyte can build at a fixed price in about a month, so the interview is about finding the sharpest version of the idea rather than the biggest. Say this as reassurance, not as a limit: everything that does not make the first version is specified too, ready for what comes next.
 - The founder can stop any time and pick up where they left off.
 - "I don't know" is a perfectly good answer to any of it.
 
-What to avoid: listing the twelve documents, naming the phases, explaining the folder structure, describing the process as a pipeline, or saying anything that sounds like Incubyte would rather not talk to them. A founder does not need the map before the first question, and a wall of process is a cold open. Warmth and honesty about the length; the mechanics reveal themselves as the interview goes.
+What to avoid: listing the twelve documents, naming the phases, explaining the folder structure, describing the process as a pipeline, quoting a price or a delivery date, or saying anything that sounds like Incubyte would rather not talk to them. A founder does not need the map before the first question, and a wall of process is a cold open. Warmth and honesty about the length; the mechanics reveal themselves as the interview goes.
 
 ## Intake before interrogation
 
@@ -60,6 +61,7 @@ These apply for every document. Document skills do not restate them, except that
 - Any domain term the founder uses that an engineer would not know is a row in 14, in the founder's own definition.
 - The file is what the founder reviews. Do not paraphrase a finished document back in chat; point at the file and wait.
 - Nothing invented. Every statement in the package traces to something the founder said or handed over.
+- Never quote a price or a delivery date, in conversation or in any document. Incubyte communicates its fee itself. Scope is described as a first version or a first phase, never as a figure.
 - Plain language in every document. No emojis anywhere. Mermaid is the only diagram format inside markdown. Wireframes are grayscale HTML, layout only.
 
 ## Document skills
