@@ -38,7 +38,7 @@ Documents are written in interview order, one at a time, and the founder reviews
 | File | Holds |
 |---|---|
 | 00 Start Here | Orientation, product one-liner, document list, packaging date |
-| 01 Business Context | Founder, team, stage, existing assets; budget or deadline if volunteered |
+| 01 Business Context | Founder, team, stage, existing assets |
 | 02 Product Overview | One-page anchor: problem, who it's for, day-one success |
 | 03 Personas | Every user kind; buyer / user / operator map |
 | 04 User Journeys | Per-persona narrative + Mermaid diagram; cross-persona handoffs; unhappy paths |

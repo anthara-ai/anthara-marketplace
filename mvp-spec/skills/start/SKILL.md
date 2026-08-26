@@ -61,6 +61,7 @@ These apply for every document. Document skills do not restate them, except that
 - Any domain term the founder uses that an engineer would not know is a row in 14, in the founder's own definition.
 - The file is what the founder reviews. Do not paraphrase a finished document back in chat; point at the file and wait.
 - Nothing invented. Every statement in the package traces to something the founder said or handed over.
+- A document contains answers, never an account of the interview. Do not write that a subject was not raised, that a question was skipped, or why the interview works the way it does; a skill explaining its own reasoning is talking to you, not to the reader. A heading with nothing under it is left out of the file entirely.
 - Never quote a price or a delivery date, in conversation or in any document. Incubyte communicates its fee itself. Scope is described as a first version or a first phase, never as a figure.
 - Plain language in every document. No emojis anywhere. Mermaid is the only diagram format inside markdown. Wireframes are grayscale HTML, layout only.
 

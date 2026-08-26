@@ -11,7 +11,7 @@ Phase 01 of the mvp-spec interview. The interview rules and package contract liv
 
 Write `01 - Business Context.md`: the frame around the engagement, not the product. Who is behind it, how far along they are, and what has already been paid for and should not be rebuilt.
 
-Neither budget nor timeline is asked, here or anywhere. Scope is cut in 05 against a first version of roughly a month and against what the end user needs on day one, which are better yardsticks than a figure the founder is often guessing at, and asking a stranger their budget early reads as a sales qualification. Both are still worth having when offered: if the founder volunteers a budget or a real external deadline at any point in the interview, record it in this document.
+The document has three sections and nothing else: who is involved, stage, and what already exists. Write only what the founder said. A section with nothing in it does not belong in the file, and neither does a note explaining what the interview did not cover.
 
 ## Asking
 
@@ -36,7 +36,7 @@ Who is involved, the stage, and what already exists are captured.
 
 ## Feeds
 
-- 13: any team or decision-making detail the founder is unsure of.
+- 13: any team or decision-making detail the founder is unsure of. If the founder volunteers a budget or a deadline unprompted, it goes here too, as a one-line note. Never raise either subject.
 - 05: existing assets narrow what needs building. Note anything already paid for that a Must might otherwise duplicate.
 - 10: designs, a logo or brand work found here belong in the design direction too.
 

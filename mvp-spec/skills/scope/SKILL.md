@@ -11,9 +11,7 @@ Phase 05 of the mvp-spec interview. The interview rules and package contract liv
 
 Write `05 - Scope.md`: the journeys in 04 cut down to a first version. This is subtraction, not brainstorming. For a first-time founder the non-goals list is the single highest-value section of the whole spec; it is the defence against "while we're at it".
 
-Incubyte builds a first version at a fixed price in about a month. The scope is therefore a fixed size, and the cut has to land inside it: this is the one document where the answer is genuinely constrained rather than open.
-
-Never state a price or a delivery date. Incubyte communicates its fee itself; a spec that quotes a figure becomes a sales document and goes stale the moment pricing changes. Say "a first version" and "a first phase", not a number.
+Incubyte builds a first version at a fixed price in about a month, so the scope is a fixed size and the cut has to land inside it: this is the one document where the answer is genuinely constrained rather than open. The size is your yardstick, not a subject to raise. Never write a price or a date into the document or say one aloud; the words are "a first version" and "a first phase".
 
 Two yardsticks decide the cut, and they answer different questions.
 
@@ -21,7 +19,7 @@ Two yardsticks decide the cut, and they answer different questions.
 
 **Which matters more?** When two steps both fit, the tiebreaker is what the end user needs to get value on their first visit, from day-one success in 02. A step a persona cannot reach that value without is a Must; a step that makes the experience better once they already have it is Later. Ask the question out loud in those terms, because it is the one a founder can actually answer.
 
-Money is not a yardstick here. A budget band tells you nothing about which of two features matters more, and asking for one turns the interview into a qualification call. If the founder volunteers a figure at any point, record it in 01 and carry on.
+Never ask what the founder can spend. If they volunteer a figure, note it in 13 and carry on with the cut unchanged.
 
 ## Asking
 
