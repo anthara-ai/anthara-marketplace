@@ -34,7 +34,7 @@ Unhappy paths flagged inline as the story is told: the invite that is never acce
 
 ## Before offering next
 
-Every persona in 03 has a journey, and every handoff names both sides and its mechanism.
+Every persona in 03 has a journey that starts before they have an account and continues past their first session. Every handoff names both sides and its mechanism. Each journey has at least one unhappy path flagged, because a story with nothing going wrong in it has not been told properly yet.
 
 ## Feeds
 

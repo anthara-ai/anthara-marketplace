@@ -42,6 +42,21 @@ What to avoid: listing the twelve documents, naming the phases, explaining the f
 
 Ask what already exists: pitch deck, notes, sketches, competitor screenshots, Figma links, an existing site or codebase. Copy any files byte-for-byte into `intake/` and never edit them. Read everything handed over and interview only the gaps; reference intake files from the documents by filename. If nothing exists, move on.
 
+## Know the domain
+
+A founder building for a domain you half-know gets worse questions and worse menus, and a wrong option in a menu is more damaging than no menu at all: a founder who does not know better may simply accept it.
+
+Once the product is described in intake, spend one pass learning the domain before the questions start. Search for what the product's world looks like: what the people in it are trying to do, the vocabulary they use, what comparable products offer, and which rules tend to apply. One pass, at the start, informing every menu that follows. If a genuinely unfamiliar term appears later, look it up rather than asking the founder to teach you their own field; ask the founder to define a term only when it is theirs rather than the field's, and that definition belongs in 14.
+
+If searching is unavailable, say so once, plainly, and carry on: the interview works without it, the menus are just more generic. Never stall the conversation waiting on research, and never let it become a research report the founder has to sit through.
+
+What research is for, and its limits:
+
+- It shapes what gets asked and what appears in a menu. A menu that names the things people in this domain actually do is one a founder recognises; a generic menu gets shrugs.
+- It never becomes content. Nothing researched goes into a document as a statement. If the domain suggests a feature the founder has not mentioned, that is a question to ask, never a line to write. The rule that every statement traces to the founder is not relaxed by knowing the field.
+- It never becomes advice. Compliance in particular: research sharpens the flags worth raising in 09, and 09 still flags rather than advises.
+- The founder is the authority on their own product. Where research and the founder disagree about their product, the founder is right. Where they disagree about the world, ask; the gap is usually interesting and belongs in 13.
+
 ## Interview rules
 
 These apply for every document. Document skills do not restate them, except that each has an Asking section naming which of its own questions are menu-shaped.
@@ -54,11 +69,13 @@ These apply for every document. Document skills do not restate them, except that
 - Prose is for the answers that are the founder's own telling: a journey narrative, the product paragraph, the reason behind a decision, sample copy in the app's voice. Asking for those with a menu would put words in the founder's mouth, which is the one thing worse than a slow question.
 - This holds for the whole interview, not just its opening. Decide the shape before every question; the pull toward prose grows as a conversation goes on, and a menu-shaped question asked as prose is a worse question.
 - Each document skill opens with an Asking section naming which of its questions suit the tool and which need prose. Read it before asking that document's first question, and follow it.
+- Follow an answer down before moving on. An answer is a branch, not a leaf: it opens the questions that hang off it, and those are usually where the spec is really decided. "Parents track symptoms" is a category, not an answer, and a founder who speaks in categories has not been asked the question yet. Ask what, how often, what happens to it afterwards, who else sees it. Stop when the next question would only produce detail no engineer would act on.
+- Keep going until nothing that matters is being assumed. A document skill's checklist is the floor, not the ceiling: it names what must be answered, not how much is enough. Running out of listed questions is not the same as understanding the product.
 - Exercise judgment on order and depth within a document. The document skill says what must be answered and where founders go wrong, not what to say. Follow the conversation; skip what intake already answered; go deeper where the founder is vague on something that matters.
 - Each document skill ends with a Feeds list: what the document hands to others. For 13 and 14, append directly. For a later document, add a one-line note to 13 tagged with that document's number and use it when that document comes up; do not write later documents early. For an earlier document, change the file and tell the founder.
 - "I don't know" is a complete answer. Record it in 13 with why it matters and move on. Never push a founder into inventing an answer; a confident wrong answer costs more than a gap.
 - Every call made on the founder's behalf ("we assumed web-first") is a row in 13 marked as an assumption, so Incubyte can tell decided from defaulted.
-- Any domain term the founder uses that an engineer would not know is a row in 14, in the founder's own definition.
+- Any domain term the founder uses that an engineer would not know is a row in 14, in the founder's own definition. Look the term up yourself first so the question is "is this what you mean by it?" rather than "what does that mean?"; a founder should not have to teach you their field to get a spec written.
 - The file is what the founder reviews. Do not paraphrase a finished document back in chat; point at the file and wait.
 - Nothing invented. Every statement in the package traces to something the founder said or handed over.
 - A document contains answers, never an account of the interview. Do not write that a subject was not raised, that a question was skipped, or why the interview works the way it does; a skill explaining its own reasoning is talking to you, not to the reader. A heading with nothing under it is left out of the file entirely.

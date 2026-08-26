@@ -32,7 +32,7 @@ Even "what already exists that we should not redo" works as a multi-select: doma
 
 ## Before offering next
 
-Who is involved, the stage, and what already exists are captured.
+Who makes the final call on scope is named, the stage is one of the four rather than a hedge, and the existing assets list distinguishes what is finished from what is half-done.
 
 ## Feeds
 

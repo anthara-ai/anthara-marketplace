@@ -15,7 +15,7 @@ This document flags. It does not advise. Where a flag has legal weight, say plai
 
 ## Asking
 
-Use AskUserQuestion throughout. A founder rarely volunteers a flag but recognises one on sight, so offer the regulated categories as a multi-select: health data, payments, children or other protected users, identity documents, location. Ask jurisdictions the same way, seeded from the places the founder has already mentioned. Retention and deletion expectations are menus too.
+Use AskUserQuestion throughout. A founder rarely volunteers a flag but recognises one on sight, so offer the regulated categories as a multi-select: health data, payments, children or other protected users, identity documents, location. Where the domain pass surfaced a regime that plainly applies to this kind of product, name it as an option too, as something to confirm with counsel rather than as a finding. Ask jurisdictions the same way, seeded from the places the founder has already mentioned. Retention and deletion expectations are menus too.
 
 Prose is for anything the founder's own industry imposes that no menu would guess, and for what they already know about their obligations. Whatever needs a lawyer to confirm goes to 13.
 

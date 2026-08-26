@@ -15,7 +15,7 @@ Write `08 - Platform, Integrations and Content.md`: the three sets of decisions 
 
 All of this suits AskUserQuestion. Platform per persona (phone app, website, both), whether anything must work offline, whether anything must interrupt the user. Each rented service is a two-option question, buy or build, that a founder answers instantly, and the list of candidates is itself a good multi-select: payments, email, SMS, video, calendar, sign-in with Google or Apple, maps, file storage.
 
-Day-one content works the same way: offer the content this kind of product needs on launch day as a multi-select, then ask per item who owns it, with the personas and team members from 01 and 03 as options.
+Day-one content works the same way: offer the content this kind of product needs on launch day as a multi-select, named concretely from the domain rather than as categories, then ask per item who owns it, with the personas and team members from 01 and 03 as options.
 
 ## What the document must answer
 

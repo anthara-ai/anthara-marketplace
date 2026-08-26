@@ -15,7 +15,7 @@ Write `03 - Personas.md`: every distinct kind of user, with enough about each th
 
 Use AskUserQuestion for nearly everything here. Tech comfort and how often each persona shows up are obvious menus. So is the operator question, and a menu is what makes it answerable: offer that the founder does it themselves, a team member does, a persona already listed does, or nobody does and the document should say why.
 
-Even "who else uses this" works as a multi-select once one persona exists: offer the kinds of user this sort of product usually has and let the founder add their own. A founder who cannot answer "who are your users" in the abstract will recognise a missing persona on sight.
+Even "who else uses this" works as a multi-select once one persona exists: offer the kinds of user this sort of product usually has, drawn from what the domain pass turned up rather than guessed, and let the founder add their own. A founder who cannot answer "who are your users" in the abstract will recognise a missing persona on sight.
 
 Prose is for what each persona is trying to get done, in the founder's words.
 
