@@ -32,7 +32,11 @@ Check the screen count against the size line in 05; a mismatch is a finding that
 
 ## Verify before the founder walks it
 
-The founder's walk is for judgement about their product, not for finding broken links. Before handing a journey over, check it as commands, not by eye, and fix what fails.
+The founder's walk is for judgement about their product, not for finding broken links. Before handing a journey over, verify it yourself and fix what fails. Never stall on verification; if a method is unavailable, use the next one and move on.
+
+First, use a browser if one is available: the Claude in Chrome connector, or Cowork's built-in browser. Open the hub and click the journey through end to end as the founder will, flipping every state on every screen. Confirm that each screen renders as drawn, that every control that should move you does, that the failure links land on the failure states, that the states the index lists are the ones you can reach, and that the strip's previous and next take you where they say. If the browser cannot open local files, serve the spec folder locally with a one-line static server and open it through localhost instead of giving up. Anything that renders wrong or does not act as the index says is fixed before the founder sees it.
+
+If no browser is available, or opening the files in one fails, fall back to checking the code and move on:
 
 - Every link in the hub and in every 11.NN file points at a file that exists in the folder, and nothing points outside it.
 - Starting from the hub, following each journey's next links visits every screen the index lists for that persona, in order, and ends at its last screen with no dead end and no loop; every screen's previous link points back to the one before it.
@@ -40,11 +44,11 @@ The founder's walk is for judgement about their product, not for finding broken 
 - No file references an external stylesheet, script, font or image, and nothing in any file is coloured.
 - The index and the files match one to one: every row has its file, every file has its row, and the state sources in the index are the ones drawn.
 
-If the environment has a browser, open the hub and click one journey through yourself as the last check; if it does not, the checks above stand in for rendering. A check that fails is fixed before the founder sees the screen, and a fix that changes the plan is written back to the index first.
+Run these as commands, not by eye. A fix that changes the plan is written back to the index first. Tell the founder in one line which method verified the journey, so they know whether it was clicked through or checked in code.
 
 ## Done when
 
-Every step of every included journey in 04 has a screen, every transition in 04 is a working link and the checks above pass, every unhappy path in 06 and every none cell in 07 is a reachable state on its screen, a founder can click from the hub through each persona's journey without hitting a dead end, the screen count matches the size line in 05, the index traces every screen and state to its source, and the founder has walked every journey.
+Every step of every included journey in 04 has a screen, every transition in 04 is a working link and the journey has been verified in a browser or, failing that, in code, every unhappy path in 06 and every none cell in 07 is a reachable state on its screen, a founder can click from the hub through each persona's journey without hitting a dead end, the screen count matches the size line in 05, the index traces every screen and state to its source, and the founder has walked every journey.
 
 ## Feeds
 
