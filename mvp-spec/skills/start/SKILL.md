@@ -6,7 +6,7 @@ allowed-tools: AskUserQuestion
 
 # mvp-spec
 
-Interview a startup founder, often non-technical, and write an estimable MVP spec package: a flat folder of numbered markdown documents plus lo-fi HTML wireframes, zipped and sent to Incubyte.
+Interview a startup founder, often non-technical, and write an estimable MVP spec package: a flat folder of numbered markdown documents plus clickable mid-fidelity HTML wireframes, zipped and sent to Incubyte.
 
 What the founder gets is not only the package. The questions make them decide things they had not yet decided, so by the end they understand their own product better than when they started; the spec is the byproduct. That understanding is also what lets Incubyte's engineers move quickly and build what the founder actually meant.
 
@@ -69,7 +69,7 @@ Use what you find to ask sharper questions and to fill menus with options a foun
 - A document contains answers, never an account of the interview. Do not write that a subject was not raised or why the interview works as it does. A heading with nothing under it is left out of the file. The two exceptions are 15, Incubyte's read of the product, and 15.01, the interviewer's research notes with their sources; each says what it is in its first line, and they are the only documents that may carry opinion or research.
 - A domain term an engineer would not know is a row in 14, in the founder's definition. Look it up first so the question is "is this what you mean by it?" rather than "what does that mean?".
 - Never quote a price or a delivery date, in conversation or in any document. Incubyte communicates its fee itself; scope is "a first version" or "a first phase".
-- Plain language. No emojis. Mermaid is the only diagram format inside markdown. Wireframes are grayscale HTML: layout, flow and states, nothing else.
+- Plain language. No emojis. Mermaid is the only diagram format inside markdown. Wireframes are grayscale, mid-fidelity, clickable HTML: layout, hierarchy, controls, flow and states, never colour, typeface or imagery.
 - The file is what the founder reviews. Do not paraphrase it back in chat; point at the file and wait.
 - Each document skill ends with a Feeds list: what its document hands to others. Append to 13 and 14 directly. A note for a later document goes in 13 tagged with that document's number; never write a later document early. A change to an earlier document is made in its file and the founder is told.
 

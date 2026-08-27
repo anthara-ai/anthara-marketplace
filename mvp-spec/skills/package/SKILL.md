@@ -33,7 +33,7 @@ A failure is a finding, not a fix to make quietly. Tell the founder what disagre
 Orientation for an Incubyte engineer opening the folder cold:
 
 - The product one-liner from 02.
-- How to read the package: the numbered order is the reading order; 13 is the kickoff agenda; wireframes are deliberately lo-fi.
+- How to read the package: the numbered order is the reading order; 13 is the kickoff agenda; wireframes are mid-fidelity, so layout, controls, flow and states are decided and colour, typeface and imagery are not.
 - That 05 holds the inventory, what is in the first version, the good-to-haves left for later and the size line; and that 15 is Incubyte's read of the product, written for the founder, with the research behind it in 15.01. Do not quote a price or a date anywhere in the package.
 - The list of documents, and the note that the founder reviewed each one before the next was written.
 - The date of the consistency pass and that it was clean.

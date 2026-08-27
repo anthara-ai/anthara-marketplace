@@ -64,7 +64,7 @@ Documents are written in interview order, one at a time, and the founder reviews
 - Complete, then as short as completeness allows: nothing missing that an engineer would need, nothing present that they would skip.
 - Nothing invented: every statement traces to the founder; every unknown is a 13 row. "I don't know" is a valid answer.
 - 15 and 15.01 are the only documents that may carry research or opinion, and each says so in its first line; everything in 01–14 traces to the founder.
-- Diagrams are Mermaid. Wireframes are self-contained grayscale HTML with inline styles and script only, clickable screen to screen — layout, flow and states, never visual polish.
+- Diagrams are Mermaid. Wireframes are self-contained grayscale HTML with inline styles and script only, clickable screen to screen, mid-fidelity — layout, hierarchy, controls, flow and states; never colour, typeface or imagery.
 
 ## Packaging
 
