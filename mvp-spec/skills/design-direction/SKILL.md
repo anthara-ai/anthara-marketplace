@@ -13,20 +13,20 @@ Write `10 - Design Direction.md`: enough direction that Incubyte's designers sta
 
 ## What the file contains
 
-- Reference apps: two or three apps whose look the founder would steal, and what specifically they like about each. "Like Calm, not like Excel" communicates more than any vocabulary. For founders without references, offer a few styles that fit this product, each anchored by one or two widely known apps so the name means something; a style label on its own does not. Record both the style and the reference apps, since either alone is ambiguous to a designer.
+- Visual style: the decision is a style, and apps are only there to make a style name mean something. Offer three or four styles that fit this product, named in plain words a founder would use and chosen for this product rather than from a stock list, each with one or two widely known apps in the option's description so the founder can picture it; "calm and minimal, like Calm or Headspace" is the shape. Ask which they like, then what specifically they like about it, in their words. Never ask which app to copy. A founder who volunteers an app they admire is giving an example of a style; the file records the style first and the apps as illustrations, and both are recorded because either alone is ambiguous to a designer.
 - The five-second feeling: what a user should feel when the product first opens. Calm and safe, energetic, professional. Per persona where it differs: playful for the child, reassuring for the parent, efficient for the therapist.
 - What exists already: logo, colours, a name, a typeface, or whether naming and branding are part of the work. Cross-check with the assets recorded in 01.
 - Voice: how the app talks. Warm and simple, clinical, cheeky. Capture it as two sample lines written in that voice, a welcome message and an error message, and get both approved word for word.
 
 ## Where founders go wrong
 
-- They reach for design vocabulary they do not quite mean. Return to reference apps and feelings.
+- They reach for design vocabulary they do not quite mean. Return to the named styles with their example apps, and to feelings.
 - They have strong opinions about colour and none about voice. Voice quietly drives every screen's copy; do not skip it.
 - They give one feeling for a product with three personas. Ask per persona.
 
 ## Done when
 
-A designer could start from the founder's taste rather than their own: references or a style, a feeling per persona where they differ, what already exists, and two approved lines in the app's voice.
+A designer could start from the founder's taste rather than their own: a named style with the apps that illustrate it and what the founder likes about it, a feeling per persona where they differ, what already exists, and two approved lines in the app's voice.
 
 ## Feeds
 
