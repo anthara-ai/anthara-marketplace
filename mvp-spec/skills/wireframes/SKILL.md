@@ -26,13 +26,25 @@ Check the screen count against the size line in 05; a mismatch is a finding that
 
 - Build the index first and confirm it before drawing anything. Offer the screen list per journey as a multi-select of what 04 implies, and the states per screen the same way. Missing screens and missing states are cheaper to find in a table than in twelve HTML files.
 - Decide the designer defaults yourself. That a list starts empty, that a submit waits, that a failure needs a message, that a destructive action asks first: no designer asks a client whether these exist, so plan them, draw them and mark them as defaults. Ask the founder only where what a state says or offers is a decision they would have an opinion on: what the empty state offers a first-time user, what happens on the failure specific to this domain, what the user sees right after the action the product exists for, who can undo something sensitive. The test is whether a founder would care; if no founder would, the call is yours.
-- Draw a whole journey, then walk it. Ask the founder to open the hub and click through one persona's journey end to end, then ask what did not match the story they told in 04, as a menu of the likely mismatches with free text for the rest. A screen judged on its own looks fine; a journey clicked through shows the missing step.
+- Draw a whole journey, verify it (below), then walk it. Open the hub in the founder's browser for them and ask them to click through one persona's journey end to end, then ask what did not match the story they told in 04, as a menu of the likely mismatches with free text for the rest. A screen judged on its own looks fine; a journey clicked through shows the missing step.
 - When a screen, a state or a dead end reveals a missing feature or step, that is a finding, not a wireframe problem: update 04, 05 and 06 as needed, tell the founder, update the index, and carry on.
 - Redirect colour, font and imagery comments to 10. Layout, flow and states only here.
 
+## Verify before the founder walks it
+
+The founder's walk is for judgement about their product, not for finding broken links. Before handing a journey over, check it as commands, not by eye, and fix what fails.
+
+- Every link in the hub and in every 11.NN file points at a file that exists in the folder, and nothing points outside it.
+- Starting from the hub, following each journey's next links visits every screen the index lists for that persona, in order, and ends at its last screen with no dead end and no loop; every screen's previous link points back to the one before it.
+- Every file parses as HTML with its tags balanced, carries the strip naming persona and step, and contains exactly the states the index lists for it; the in-page switcher references frames that exist in that file, and the default state is the one shown first.
+- No file references an external stylesheet, script, font or image, and nothing in any file is coloured.
+- The index and the files match one to one: every row has its file, every file has its row, and the state sources in the index are the ones drawn.
+
+If the environment has a browser, open the hub and click one journey through yourself as the last check; if it does not, the checks above stand in for rendering. A check that fails is fixed before the founder sees the screen, and a fix that changes the plan is written back to the index first.
+
 ## Done when
 
-Every step of every included journey in 04 has a screen, every transition in 04 is a working link, every unhappy path in 06 and every none cell in 07 is a reachable state on its screen, a founder can click from the hub through each persona's journey without hitting a dead end, the screen count matches the size line in 05, the index traces every screen and state to its source, and the founder has walked every journey.
+Every step of every included journey in 04 has a screen, every transition in 04 is a working link and the checks above pass, every unhappy path in 06 and every none cell in 07 is a reachable state on its screen, a founder can click from the hub through each persona's journey without hitting a dead end, the screen count matches the size line in 05, the index traces every screen and state to its source, and the founder has walked every journey.
 
 ## Feeds
 
