@@ -20,7 +20,8 @@ One flat folder. Files are numbered in reading order, which is also interview or
 ├── 09 - Rules and Compliance.md
 ├── 10 - Design Direction.md
 ├── 11 - Wireframes.md
-├── 11.01 - Wireframe - <Screen Name>.html     one per screen with its states, journey order
+├── 11.00 - Wireframe - Start.html            hub: one entry per persona journey
+├── 11.01 - Wireframe - <Screen Name>.html     one per screen with its states, clickable, journey order
 ├── 12 - Success Measures.md
 ├── 13 - Open Questions and Assumptions.md     append-mode
 ├── 14 - Glossary.md                           append-mode
@@ -50,7 +51,7 @@ Documents are written in interview order, one at a time, and the founder reviews
 | 08 Platform, Integrations and Content | Platform per persona; rented services; day-one content with owners |
 | 09 Rules and Compliance | Sensitive data, consent, jurisdictions — flags, not legal advice |
 | 10 Design Direction | Reference apps, five-second feeling, style pick, voice |
-| 11 Wireframes | Screen index: screen → journey step → first-version feature → states → 11.NN file |
+| 11 Wireframes | Screen index planned from 04: screen → persona → journey step → features → states with source → transitions → 11.NN file; hub at 11.00 |
 | 12 Success Measures | 3–5 measures and what the product must record for each |
 | 13 Open Questions and Assumptions | Unknowns and assumptions with impact — the kickoff agenda |
 | 14 Glossary | Founder's domain terms, their definitions |
@@ -63,10 +64,10 @@ Documents are written in interview order, one at a time, and the founder reviews
 - Complete, then as short as completeness allows: nothing missing that an engineer would need, nothing present that they would skip.
 - Nothing invented: every statement traces to the founder; every unknown is a 13 row. "I don't know" is a valid answer.
 - 15 and 15.01 are the only documents that may carry research or opinion, and each says so in its first line; everything in 01–14 traces to the founder.
-- Diagrams are Mermaid. Wireframes are self-contained grayscale HTML — layout, flow and states only, never visual polish.
+- Diagrams are Mermaid. Wireframes are self-contained grayscale HTML with inline styles and script only, clickable screen to screen — layout, flow and states, never visual polish.
 
 ## Packaging
 
-Before zipping, a consistency pass: personas ↔ journeys, first-version items ↔ acceptance criteria, wireframes ↔ journey steps and first-version features, screen count ↔ size line in 05, screen states ↔ unhappy paths in 06 and none cells in 07, sensitive fields in 07 ↔ flags in 09, every document 01–12 and 15 present, and nothing in 15 contradicts 01–14. Anything that disagrees is fixed with the founder before zipping.
+Before zipping, a consistency pass: personas ↔ journeys, first-version items ↔ acceptance criteria, journey steps in 04 ↔ screens in 11, screens ↔ first-version features, every wireframe link resolves, screen count ↔ size line in 05, screen states ↔ unhappy paths in 06 and none cells in 07, sensitive fields in 07 ↔ flags in 09, every document 01–12 and 15 present, and nothing in 15 contradicts 01–14. Anything that disagrees is fixed with the founder before zipping.
 
 The folder is zipped as `<product-slug>-spec-<YYYY-MM-DD>.zip` and sent to Incubyte — including `intake/`, 13, 15 and 15.01, because open questions, Incubyte's read and the research behind it are part of the deliverable.
