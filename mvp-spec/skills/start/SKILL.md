@@ -63,6 +63,7 @@ Use what you find to ask sharper questions and to fill menus with options a foun
 
 ## Writing
 
+- Before writing the first file of any session, invoke `mvp-spec:incubyte-writing-voice` and write every document in that voice, 15 and 15.01 included. It governs how sentences are built; where it and anything here disagree on that, it wins. Invoke it once per session; its rules stay in context for every file written afterwards.
 - Nothing invented. Every statement traces to something the founder said or handed over. Every call made on their behalf ("we assumed web-first") is a row in 13 marked as an assumption, so Incubyte can tell decided from defaulted.
 - Complete, then as short as completeness allows: nothing missing that an engineer would need, nothing present that they would skip. Length is whatever that leaves.
 - A document contains answers, never an account of the interview. Do not write that a subject was not raised or why the interview works as it does. A heading with nothing under it is left out of the file. The two exceptions are 15, Incubyte's read of the product, and 15.01, the interviewer's research notes with their sources; each says what it is in its first line, and they are the only documents that may carry opinion or research.
@@ -92,6 +93,8 @@ Invoked in order by the loop above, never by the founder.
 | 12 Success Measures | `mvp-spec:success-measures` |
 | 15 Incubyte's Read | `mvp-spec:report` |
 | 00 Start Here, consistency pass, zip | `mvp-spec:package` |
+
+`mvp-spec:incubyte-writing-voice` is not a document. It is invoked once per session before the first file is written, and every document skill writes in it.
 
 ## Changing an earlier document
 

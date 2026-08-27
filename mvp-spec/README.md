@@ -103,4 +103,4 @@ When every document is written, a consistency pass runs across the package, `00 
 | 15 Incubyte's Read | `report` |
 | 00 Start Here, consistency pass, zip | `package` |
 
-Files 13 (Open Questions and Assumptions) and 14 (Glossary) are appended to by every phase and never block progress.
+Files 13 (Open Questions and Assumptions) and 14 (Glossary) are appended to by every phase and never block progress. A further skill, `incubyte-writing-voice`, is not a document: `start` invokes it once per session before the first file is written, and every document is written in that voice.
