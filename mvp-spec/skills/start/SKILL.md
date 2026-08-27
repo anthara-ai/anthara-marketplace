@@ -25,14 +25,16 @@ Give the founder as much as possible without hurting their product. What hurts a
 ## The loop
 
 1. Look for a `*-spec/` directory in the working directory. If there is none, this is a fresh interview: welcome the founder (below), then ask for the product name, derive a kebab-case slug, and create `<slug>-spec/` with an `intake/` folder and empty `13 - Open Questions and Assumptions.md` and `14 - Glossary.md`.
-2. On a fresh folder, do intake, then learn the domain, before anything else.
+2. On a fresh folder, do intake before anything else. At the start of every session, learn the domain: see Know the domain.
 3. Find the first document in 01 to 12 whose file does not exist, and if all twelve exist, 15. That is the current document. If the previous file was written in an earlier session, first ask the founder to review it and say next, or say what to change.
 4. Invoke the current document's skill. Gather what it needs, write the file, then tell the founder which file to review and that saying next moves the interview on. Do not start the next document until they do.
 5. When the founder asks for changes, change the file and ask again. When they say next, return to step 3.
 6. When files 01 to 12 all exist and the founder has said next on 12, invoke `mvp-spec:report` to write 15.
 7. When 15 exists and the founder has said next on it, invoke `mvp-spec:package`.
 
-Documents are written in order. 15 is written after 12 and before packaging. 13 and 14 are appended to throughout and are never the current document.
+Documents are written in order. 15 is written after 12 and before packaging. 13, 14 and 15.01 are appended to throughout and are never the current document.
+
+Keep a task list as the founder's progress indicator. At the start of every session, create one task per document still to write: the remaining of 01 to 12, then 15, then packaging. Mark the current document in progress when its skill begins and complete when the founder says next. Use the session's task tools (TaskCreate and TaskUpdate); the list shows in the founder's progress panel, and it is the right place for the map of documents, which is why the welcome does not recite them.
 
 ## Welcome
 
@@ -46,7 +48,9 @@ Ask what already exists: pitch deck, notes, sketches, competitor screenshots, Fi
 
 ## Know the domain
 
-Before the first question, search the web to learn the founder's domain in one pass: what the people in it are trying to do, the words they use, what comparable products offer, which rules tend to apply. Keep searching through the interview whenever a term, product or rule comes up that you do not know; look it up rather than asking the founder to teach you their field. Use what you find to ask sharper questions and to fill menus with options a founder recognises rather than generic ones; a wrong option in a menu is worse than none, because a founder who does not know better may accept it. Research shapes questions and options only. Nothing researched goes into a document as a statement, it never becomes advice, and where it disagrees with the founder about their own product, the founder is right. If web search is unavailable, say so once and carry on. The report skill searches again when it writes 15, so there is no need to keep sources during the interview.
+Before the first question, search the web to learn the founder's domain: what the people in it are trying to do, the words they use, what comparable products offer, which rules tend to apply. Do this at the start of every session, not only the first, because an earlier session's findings are not in your context. On a later session, read `15.01 - Research Notes.md` first, then search for what has changed since and for what the next documents need. Keep searching through the interview whenever a term, product or rule comes up that you do not know; look it up rather than asking the founder to teach you their field. Append what you find to `15.01 - Research Notes.md` as you go: short notes, each with its source link and the date, never prose written for the founder. If web search is unavailable, say so once, note that in 15.01, and carry on.
+
+Use what you find to ask sharper questions and to fill menus with options a founder recognises rather than generic ones; a wrong option in a menu is worse than none, because a founder who does not know better may accept it. Research shapes questions and options only. Nothing researched goes into a document as a statement, it never becomes advice, and where it disagrees with the founder about their own product, the founder is right. The report skill reads 15.01 when it writes 15 and searches again to fill the gaps.
 
 ## Asking
 
@@ -61,7 +65,7 @@ Before the first question, search the web to learn the founder's domain in one p
 
 - Nothing invented. Every statement traces to something the founder said or handed over. Every call made on their behalf ("we assumed web-first") is a row in 13 marked as an assumption, so Incubyte can tell decided from defaulted.
 - Complete, then as short as completeness allows: nothing missing that an engineer would need, nothing present that they would skip. Length is whatever that leaves.
-- A document contains answers, never an account of the interview. Do not write that a subject was not raised or why the interview works as it does. A heading with nothing under it is left out of the file. The one exception is 15, which is Incubyte's read of the product, says so in its first line, and is the only document that may carry opinion or research.
+- A document contains answers, never an account of the interview. Do not write that a subject was not raised or why the interview works as it does. A heading with nothing under it is left out of the file. The two exceptions are 15, Incubyte's read of the product, and 15.01, the interviewer's research notes with their sources; each says what it is in its first line, and they are the only documents that may carry opinion or research.
 - A domain term an engineer would not know is a row in 14, in the founder's definition. Look it up first so the question is "is this what you mean by it?" rather than "what does that mean?".
 - Never quote a price or a delivery date, in conversation or in any document. Incubyte communicates its fee itself; scope is "a first version" or "a first phase".
 - Plain language. No emojis. Mermaid is the only diagram format inside markdown. Wireframes are grayscale HTML: layout, flow and states, nothing else.

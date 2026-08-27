@@ -25,6 +25,7 @@ One flat folder. Files are numbered in reading order, which is also interview or
 ├── 13 - Open Questions and Assumptions.md     append-mode
 ├── 14 - Glossary.md                           append-mode
 ├── 15 - Incubyte's Read.md                    Incubyte's view, written after 12
+├── 15.01 - Research Notes.md                  interviewer's research notes with sources, append-mode
 └── intake/                                    founder-supplied materials, untouched
 ```
 
@@ -32,7 +33,7 @@ Numbers are zero-padded so sorting survives past 09. Wireframes are `11.NN` file
 
 ## Progress
 
-Documents are written in interview order, one at a time, and the founder reviews each file before the next is started. The first missing file in 01 to 12, then 15, is where a new session resumes. Files 13 and 14 are appended to throughout. 15 is written after 12 and before packaging. 00 is written last, at packaging.
+Documents are written in interview order, one at a time, and the founder reviews each file before the next is started. The first missing file in 01 to 12, then 15, is where a new session resumes. Files 13, 14 and 15.01 are appended to throughout. 15 is written after 12 and before packaging. 00 is written last, at packaging.
 
 ## The documents
 
@@ -53,18 +54,19 @@ Documents are written in interview order, one at a time, and the founder reviews
 | 12 Success Measures | 3–5 measures and what the product must record for each |
 | 13 Open Questions and Assumptions | Unknowns and assumptions with impact — the kickoff agenda |
 | 14 Glossary | Founder's domain terms, their definitions |
-| 15 Incubyte's Read | Product summary, elevator pitch, Incubyte's read on scope, comparable products with sources — the one document that is opinion, and says so |
+| 15 Incubyte's Read | Product summary, elevator pitch, Incubyte's read on scope, comparable products with sources — Incubyte's opinion, and says so |
+| 15.01 Research Notes | What the interviewer found about the domain and market, each note with its source and date — append-mode; research, not the founder's statements |
 
 ## Writing rules
 
 - Plain language; any technical or domain term gets a row in 14.
 - Complete, then as short as completeness allows: nothing missing that an engineer would need, nothing present that they would skip.
 - Nothing invented: every statement traces to the founder; every unknown is a 13 row. "I don't know" is a valid answer.
-- 15 is the only document that may carry research or opinion, and says so in its first line; everything in 01–14 traces to the founder.
+- 15 and 15.01 are the only documents that may carry research or opinion, and each says so in its first line; everything in 01–14 traces to the founder.
 - Diagrams are Mermaid. Wireframes are self-contained grayscale HTML — layout, flow and states only, never visual polish.
 
 ## Packaging
 
 Before zipping, a consistency pass: personas ↔ journeys, first-version items ↔ acceptance criteria, wireframes ↔ journey steps and first-version features, screen count ↔ size line in 05, screen states ↔ unhappy paths in 06 and none cells in 07, sensitive fields in 07 ↔ flags in 09, every document 01–12 and 15 present, and nothing in 15 contradicts 01–14. Anything that disagrees is fixed with the founder before zipping.
 
-The folder is zipped as `<product-slug>-spec-<YYYY-MM-DD>.zip` and sent to Incubyte — including `intake/`, 13 and 15, because open questions and Incubyte's read are part of the deliverable.
+The folder is zipped as `<product-slug>-spec-<YYYY-MM-DD>.zip` and sent to Incubyte — including `intake/`, 13, 15 and 15.01, because open questions, Incubyte's read and the research behind it are part of the deliverable.

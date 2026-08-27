@@ -21,14 +21,16 @@ In this order:
 - The product in a few paragraphs, from 02, 03 and 04: what it is, who it is for, what a first user walks away with.
 - An elevator pitch: two or three sentences the founder could say aloud to a stranger, in their own framing from 02.
 - The scope read. Open with the size line from 05. Then take each good-to-have the founder pulled into the first version, and each note tagged "for the report" in 13, and for each one say what the item is, why Incubyte would build it later rather than now, what signal from real users would say it is time, roughly what it costs in screens and decisions, and whether this is a call the founder should make now or one their users should make for them. Reference items by their 05 inventory number instead of restating them.
-- Idea validation as findings: which comparable products exist, what they do and do not do, where this product differs, and what the market makes you wonder.
+- Market findings, as findings and not a verdict, so the founder can say in one sentence, with sources behind it, what already exists for their user, where it falls short, and what theirs does differently.
 - A door at the end: if any of this changes the founder's mind, they say so and the spec is updated.
 
 ## How to write it
 
-Read 01 to 14 in full before writing anything. Then search the web, so the search is shaped by what the product actually turned out to be rather than by what it sounded like at intake. Do the search now even if the domain pass covered similar ground; an interview can span several sessions and the earlier context is stale.
+Read 01 to 14 in full before writing anything, then `15.01 - Research Notes.md`, where the interviewer recorded what they found about the domain and market, each note with its source and date. Then search the web to fill the gaps and check anything from the notes you will rely on, shaped by what the product turned out to be rather than what it sounded like at intake. An interview can span several sessions and the earlier context is stale; the notes are what survived. Search until you could write the founder's one sentence for them, then stop.
 
 Every claim about a competitor or the market carries a source link the founder can open. Keep the findings short, and treat the shortness as a feature rather than a gap to fill. Never write "validated" or "not validated", and never a thumbs up or down; report what is out there and let the founder decide what it means.
+
+If web search is unavailable, say so in the attribution line and leave the findings out. Never name a product or make a market claim you did not find yourself or read in a sourced note in 15.01; a note with no source is not a claim you can make.
 
 The scope read is reasoning, not verdicts. A good-to-have the founder pulled in stays pulled in; say what Incubyte sees and why, and leave the choice where it is. Where you disagree with the spec, that disagreement belongs here as Incubyte's view and the spec stays as the founder wrote it. Nothing in this file may contradict 01 to 14.
 
@@ -38,7 +40,7 @@ Plain, warm, direct. No consultant vocabulary, no hedging that sounds like Incub
 
 ## Done when
 
-A founder could read it in ten minutes and come away knowing what Incubyte would build first, what it would wait on and why, and what the market around them looks like. Every market claim has a source they can check. Nothing in it contradicts 01 to 14.
+A founder could read it in ten minutes and come away knowing what Incubyte would build first, what it would wait on and why, what the market around them looks like, and how to say in one sentence what already exists, where it falls short and what theirs does differently. Every market claim has a source they can check. Nothing in it contradicts 01 to 14.
 
 ## Feeds
 

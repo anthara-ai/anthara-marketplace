@@ -74,7 +74,7 @@ Say what you want to change, for example "revisit personas" or "the parent shoul
 
 ### Finishing
 
-After the twelfth document you get `15 - Incubyte's Read.md`, written for you: a summary of the product, an elevator pitch, Incubyte's candid read on scope with the reasoning, and what public research shows about comparable products. Say next, or tell us what it changed. Then a consistency check runs across the whole package. Anything that disagrees is raised with you and fixed before packaging. Then `00 - Start Here.md` is written for the engineers who will read the package, and everything is zipped as `<product-slug>-spec-<YYYY-MM-DD>.zip` beside the spec folder. Send that zip to Incubyte.
+After the twelfth document you get `15 - Incubyte's Read.md`, written for you: a summary of the product, an elevator pitch, Incubyte's candid read on scope with the reasoning, and what public research shows about comparable products. The notes behind that research, with sources, accumulate in `15.01 - Research Notes.md` throughout the interview. Say next, or tell us what it changed. Then a consistency check runs across the whole package. Anything that disagrees is raised with you and fixed before packaging. Then `00 - Start Here.md` is written for the engineers who will read the package, and everything is zipped as `<product-slug>-spec-<YYYY-MM-DD>.zip` beside the spec folder. Send that zip to Incubyte.
 
 ## What it produces
 

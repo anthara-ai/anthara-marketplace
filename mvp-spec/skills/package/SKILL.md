@@ -33,14 +33,14 @@ Orientation for an Incubyte engineer opening the folder cold:
 
 - The product one-liner from 02.
 - How to read the package: the numbered order is the reading order; 13 is the kickoff agenda; wireframes are deliberately lo-fi.
-- That 05 holds the inventory, what is in the first version, the good-to-haves left for later and the size line; and that 15 is Incubyte's read of the product, written for the founder. Do not quote a price or a date anywhere in the package.
+- That 05 holds the inventory, what is in the first version, the good-to-haves left for later and the size line; and that 15 is Incubyte's read of the product, written for the founder, with the research behind it in 15.01. Do not quote a price or a date anywhere in the package.
 - The list of documents, and the note that the founder reviewed each one before the next was written.
 - The date of the consistency pass and that it was clean.
 - The list of files in `intake/` and what each is.
 
 ## Zip
 
-From the parent of the spec folder, create `<product-slug>-spec-<YYYY-MM-DD>.zip` containing the whole folder: every document, every wireframe, `intake/`, 13, 14 and 15. Verify the archive lists the expected files.
+From the parent of the spec folder, create `<product-slug>-spec-<YYYY-MM-DD>.zip` containing the whole folder: every document, every wireframe, `intake/`, 13, 14, 15 and 15.01. Verify the archive lists the expected files.
 
 ## Done when
 
