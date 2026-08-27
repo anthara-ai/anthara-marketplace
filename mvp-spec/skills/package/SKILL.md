@@ -16,12 +16,12 @@ Turn the folder of reviewed documents into the deliverable Incubyte receives: in
 Read every document and check the pairs the schema names:
 
 - Every persona in 03 has a journey in 04, and no journey belongs to a persona 03 does not list.
-- Every Must in 05 has acceptance criteria in 06, and 06 contains nothing that is not a Must.
-- Every user-facing Must has a screen in 11, and every screen traces to a journey step and a feature.
+- Every item marked in the first version in 05 has acceptance criteria in 06, and 06 contains nothing outside the first version.
+- Every user-facing first-version item has a screen in 11, every screen traces to a journey step and a feature, and 11's screen count matches the size line in 05.
 - Every unhappy path decided in 06 and every none cell in 07 appears as a state on its screen in 11.
 - Every sensitive field flagged in 07 has a flag in 09.
 - Every noun a feature in 06 touches is tracked in 07.
-- Every document 01 to 12 exists.
+- Every document 01 to 12 and 15 exists, and nothing in 15 contradicts 01 to 14.
 
 Also look for what the pairs do not catch: a term used in two documents with two meanings, a handoff whose two sides disagree on mechanism, a content item in 08 nobody owns.
 
@@ -33,14 +33,14 @@ Orientation for an Incubyte engineer opening the folder cold:
 
 - The product one-liner from 02.
 - How to read the package: the numbered order is the reading order; 13 is the kickoff agenda; wireframes are deliberately lo-fi.
-- That 05 holds both the first version and the Later list, which is the roadmap beyond it. Do not quote a price or a date anywhere in the package.
+- That 05 holds the inventory, what is in the first version, the good-to-haves left for later and the size line; and that 15 is Incubyte's read of the product, written for the founder. Do not quote a price or a date anywhere in the package.
 - The list of documents, and the note that the founder reviewed each one before the next was written.
 - The date of the consistency pass and that it was clean.
 - The list of files in `intake/` and what each is.
 
 ## Zip
 
-From the parent of the spec folder, create `<product-slug>-spec-<YYYY-MM-DD>.zip` containing the whole folder: every document, every wireframe, `intake/`, 13 and 14. Verify the archive lists the expected files.
+From the parent of the spec folder, create `<product-slug>-spec-<YYYY-MM-DD>.zip` containing the whole folder: every document, every wireframe, `intake/`, 13, 14 and 15. Verify the archive lists the expected files.
 
 ## Done when
 

@@ -15,9 +15,9 @@ Write `11 - Wireframes.md` and one `11.NN - Wireframe - <Screen Name>.html` file
 
 - One HTML file per screen, numbered in journey order, self-contained: no external stylesheets, scripts, fonts or images. Grayscale only. Boxes with labels for every region and control, real copy where the voice from 10 has been approved, placeholder text elsewhere. Plain links between screens where the flow matters. Readable at a glance in a browser at any width.
 - The screen's states, in the same file, as labelled frames beside the default. A screen has more than one state and the ones that change what the user sees get drawn: before there is any data, while something is pending, when something fails, after something succeeds, when this persona lacks permission. Decide which apply to this screen as a designer would, rather than drawing all of them everywhere. An unhappy path decided in 06 and a none cell in 07 each produce a state that must appear on its screen.
-- The index in `11 - Wireframes.md`: a table of screen, journey step in 04, Must feature in 06, the states drawn, and file, marking which states came from a founder decision and which are designer defaults. Plus the one-paragraph statement that these are deliberately low fidelity and why.
+- The index in `11 - Wireframes.md`: a table of screen, journey step in 04, first-version feature in 06, the states drawn, and file, marking which states came from a founder decision and which are designer defaults. Plus the one-paragraph statement that these are deliberately low fidelity and why.
 
-Derive the screen list from 05 and 06: every user-facing Must needs a screen, and every screen must trace back to a journey step and a feature. Operator screens count; an approval queue is a screen.
+Derive the screen list from 05 and 06: every user-facing first-version item needs a screen, and every screen must trace back to a journey step and a feature. Operator screens count; an approval queue is a screen. Check the screen count against the size line in 05; a mismatch is a finding that goes back to 05.
 
 ## How to work with the founder
 
@@ -29,7 +29,7 @@ Derive the screen list from 05 and 06: every user-facing Must needs a screen, an
 
 ## Done when
 
-Every user-facing Must has a screen, every screen traces to a journey step and a feature, every state a founder decision produced appears on its screen, the index says the plainness is deliberate and which states are defaults, and the founder has walked every screen.
+Every user-facing first-version item has a screen, the screen count matches the size line in 05, every screen traces to a journey step and a feature, every state a founder decision produced appears on its screen, the index says the plainness is deliberate and which states are defaults, and the founder has walked every screen.
 
 ## Feeds
 

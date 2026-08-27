@@ -23,7 +23,7 @@ For each measure:
 ## Where founders go wrong
 
 - They pick vanity numbers: downloads, page views. Ask what number going up would change a decision they make.
-- They name a measure nothing records. If no feature captures it, either a Must is missing or the measure is not a v1 measure; take it to the founder.
+- They name a measure nothing records. If no feature captures it, either a first-version feature is missing or the measure is not a first-version measure; take it to the founder.
 - They list ten. Cut to the three to five they would actually check.
 
 ## Done when
@@ -33,7 +33,7 @@ The founder could name the three to five numbers they will check after launch an
 ## Feeds
 
 - 06: recording a measure may need a done-means statement on an existing feature; add it and tell the founder 06 changed.
-- 13: targets the founder cannot yet set; measures that need a feature not in Must.
+- 13: targets the founder cannot yet set; measures that need a feature not in the first version.
 
 ## Then
 

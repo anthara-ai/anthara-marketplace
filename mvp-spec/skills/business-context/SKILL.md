@@ -31,7 +31,7 @@ You could introduce the founder and their team to an Incubyte engineer, say how 
 ## Feeds
 
 - 13: any team or decision-making detail the founder is unsure of. If the founder volunteers a budget or a deadline unprompted, it goes here too, as a one-line note. Never raise either subject.
-- 05: existing assets narrow what needs building. Note anything already paid for that a Must might otherwise duplicate.
+- 05: existing assets narrow what needs building. Note anything already paid for that a first-version feature might otherwise duplicate.
 - 10: designs, a logo or brand work found here belong in the design direction too.
 
 ## Then

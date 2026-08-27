@@ -1,6 +1,6 @@
 ---
 name: features
-description: "This skill is one step of the mvp-spec founder interview and is invoked by the `start` skill, not directly. It writes \"06 - Features and Acceptance Criteria.md\": plain done-means statements and unhappy-path handling for every Must item."
+description: "This skill is one step of the mvp-spec founder interview and is invoked by the `start` skill, not directly. It writes \"06 - Features and Acceptance Criteria.md\": plain done-means statements and unhappy-path handling for every feature in the first version."
 ---
 
 # 06 Features and Acceptance Criteria
@@ -9,11 +9,11 @@ Phase 06 of the mvp-spec interview. How the interview works and the package cont
 
 ## Goal
 
-Write `06 - Features and Acceptance Criteria.md`: every Must item from 05 made estimable. This is the single biggest upgrade from "spec" to "estimable spec". Founders can produce acceptance criteria when asked about one feature at a time.
+Write `06 - Features and Acceptance Criteria.md`: every item in the first version, from 05, made estimable. This is the single biggest upgrade from "spec" to "estimable spec". Founders can produce acceptance criteria when asked about one feature at a time.
 
 ## What the file contains
 
-For each Must feature:
+For each first-version feature:
 
 - A plain description and which persona and journey step it serves.
 - Two to four done-means statements in founder language: "a parent can invite a child by email; the child can join without creating a password."
@@ -29,12 +29,12 @@ Across features:
 
 - They never volunteer unhappy paths. Ask for each feature: what if it fails, what if the other person never responds, what if the user changes their mind.
 - Done-means statements drift into implementation ("uses OAuth"). Keep them to what a user can do or see.
-- They specify Later items because they are excited about them. Nothing non-Must belongs in this document; move it to 13 or 05.
+- They specify good-to-haves that are not in the first version because they are excited about them. Nothing outside the first version belongs in this document; it lives in 05.
 - They treat deletion and offboarding as someone else's problem. Ask directly what a user who leaves takes with them and what disappears.
 
 ## Done when
 
-An engineer could build every Must and know when it is finished, every way a feature can go wrong has a decided outcome or a row in 13, and nothing that is not a Must is in the file.
+An engineer could build every first-version feature and know when it is finished, every way a feature can go wrong has a decided outcome or a row in 13, and nothing outside the first version is in the file.
 
 ## Feeds
 

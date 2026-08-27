@@ -32,7 +32,7 @@ You could tell each persona's story from before they have an account to their th
 
 ## Feeds
 
-- 05: the journey steps are what gets sorted into Must, Later and Never.
+- 05: every step here becomes an inventory item.
 - 06: every unhappy path flagged here needs handling there.
 - 07: the nouns the app keeps track of appear in these stories; note them.
 - 08: where each persona physically is when they use the product.

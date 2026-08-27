@@ -35,7 +35,7 @@ Every sensitive field in 07 has a flag here, the places users will be are named,
 ## Feeds
 
 - 13: every flag the founder needs to confirm with counsel; every jurisdiction they are unsure about.
-- 06: any flag that implies a feature (consent screen, data export, deletion) that is not yet a Must; raise it with the founder and route the decision to 05 and 06.
+- 06: any flag that implies a feature (consent screen, data export, deletion) that is not yet in the first version; raise it with the founder and route the decision to 05 and 06.
 
 ## Then
 

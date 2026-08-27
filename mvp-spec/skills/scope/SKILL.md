@@ -1,6 +1,6 @@
 ---
 name: scope
-description: "This skill is one step of the mvp-spec founder interview and is invoked by the `start` skill, not directly. It writes \"05 - Scope.md\": the Must, Later and Never sort, the non-goals list and the Must-only replay."
+description: "This skill is one step of the mvp-spec founder interview and is invoked by the `start` skill, not directly. It writes \"05 - Scope.md\": the inventory of every capability, what is must-have and what is good-to-have, what is in the first version, its size, the non-goals and the replay."
 ---
 
 # 05 Scope
@@ -9,48 +9,44 @@ Phase 05 of the mvp-spec interview. How the interview works and the package cont
 
 ## Goal
 
-Write `05 - Scope.md`: the journeys in 04 cut down to a first version. This is subtraction, not brainstorming. For a first-time founder the non-goals list is the single highest-value section of the whole spec; it is the defence against "while we're at it".
+Write `05 - Scope.md`: the whole product as an inventory, labelled, then decided into a first version the right size for what this product needs.
 
-Incubyte builds a first version at a fixed price in about a month, so the scope is a fixed size and the cut has to land inside it: this is the one document where the answer is genuinely constrained rather than open. The size is your yardstick, not a subject to raise. Never write a price or a date into the document or say one aloud; the words are "a first version" and "a first phase".
+Right-size rather than cut. Screens and flows are cheap to build now, so size is not what hurts a product. What hurts it is behaviour nobody has decided, a first session so full the user never reaches the point, operations the founder cannot run on day one, and bets placed before anyone has used the thing. Inside those limits, give the founder as much as they want. This document records; the report in 15 advises. Do not push scope here, in the file or in the room; put any worry into 13 as a one-line note tagged "for the report".
 
-Two yardsticks decide the cut, and they answer different questions.
+Derive the inventory, do not brainstorm it. Walk every step of every journey in 04, writing each capability it implies as a numbered item that names the persona and step it serves; add anything the domain research says this kind of product is expected to have, as a proposal the founder can take or leave. The founder sees the whole product in one list before anything is classified.
 
-**Does it fit?** A first version is about a month of build, and that is a ceiling rather than a target. Do not ask the founder how long they think something takes; use the month as your own sense of scale and write reasons in its terms: "this does not fit a first version alongside the invite flow".
+Then classify it yourself, sparing the founder the parts you can decide. The test: a first user cannot reach the day-one value in 02 without a must-have, while a good-to-have makes things better for a user who already has it. Apply it to every item with your own judgement, then bring the founder only the subset you genuinely believe could be good-to-have, as one multi-select: these are the ones I would call good-to-have, tell me where you disagree. Items you are confident about are not asked about; the founder corrects them in the file. The label is fact, not preference, so it is not relabelled because the founder wants something; if they disagree that a user reaches value without it, the label follows the answer.
 
-**Which matters more?** When two steps both fit, the tiebreaker is what the end user needs to get value on their first visit, from day-one success in 02. A step a persona cannot reach that value without is a Must; a step that makes the experience better once they already have it is Later. Ask the question out loud in those terms, because it is the one a founder can actually answer.
+Inclusion is separate and free. Must-haves are in; good-to-haves are out by default and the founder pulls in as many as they like, as one multi-select over that list. State the running size as information, never a limit. An item whose behaviour is not yet decided is good-to-have and out, with a row in 13; an undecided thing cannot be built.
 
-Never ask what the founder can spend. If they volunteer a figure, note it in 13 and carry on with the cut unchanged.
-
-## When more is wanted than fits
-
-Expect this; a founder who has just told you four journeys usually wants all of them. The ceiling holds, and the Later list is what makes that a good conversation rather than a disappointing one.
-
-Cut to what fits, then show the founder the Later list as the second phase it is: not features they lost, but the ones already written down and waiting, in an order that follows what users need next, ready to be specified when their turn comes. A founder who leaves with a buildable first version and a visible roadmap has more than one who leaves with a wish list nobody costed.
-
-Never quietly overfill the Must list to keep a founder happy. An overfull first version is the failure this document exists to prevent, and an engineer reading 05 has no way to tell which Musts were real. Where a founder pushes hard on something that does not fit, record the push in 13 so Incubyte knows before kickoff.
+Never write a price or a date into the document or say one aloud; the words are "a first version" and "a first phase". Never ask what the founder can spend; a volunteered figure goes to 13.
 
 ## What the file contains
 
-- Every step of every journey sorted into Must (v1), Later or Never, asked one step at a time, with a one-line reason each. The reason names which yardstick decided it: that it does not fit a first version, or that a persona reaches day-one value without it.
-- An explicit non-goals list: things a reasonable engineer might assume are included and are not.
-- The replay: a persona's first week told again using only Must items, written into the document. The replay is where missing steps show up before a developer finds them.
+- The numbered inventory: every capability, naming its persona and journey step, labelled must-have or good-to-have, marked in or out with a one-line reason.
+- One size line: "First version: about N screens, M interactions, K flagged as expensive." A screen is a journey step showing the user something new. An interaction changes what the system remembers or what another persona sees; navigating and reading do not count. Flag an item expensive when it involves a third party, regulated data, more than one party at once, real-time behaviour, or logic nobody has built before.
+- The included items in build order, sorted by day-one value. An order, not another cut.
+- An explicit non-goals list: things a reasonable engineer might assume are included and are not. About what the product is not, whatever its size.
+- The replay: a persona's first week told again using only included items, written into the document. This is where missing steps show up before a developer finds them.
 
 ## Where founders go wrong
 
-- Everything is a Must. Ask what happens to day-one success if a step is missing; if the user still walks away with it, the step is not a Must. The fixed size is the backstop: when the list stops fitting, something moves to Later, and the founder chooses which.
-- They cut the operator's work. Approving, moderating and answering support still have to happen on day one; if they are Later, say who does them by hand and record it here.
-- They agree to the cut in the abstract and put steps back during the replay. That is the replay doing its job; update the sort and run it again.
-- Scope creeps back in through "obviously we also need". Write the obvious things into Must or the non-goals list; nothing stays implied.
+- They want everything. That is normal, not a failure; the honest label plus their free choice of what to include handles it.
+- They call something a must-have whose behaviour they have not decided. Ask what it does in enough detail to build; if the answer is not there yet, it is good-to-have and out for now, with a row in 13.
+- They cut the operator's work. Approving, moderating and answering support still happen on day one; if they are out, say who does them by hand and record it here.
+- They agree to the sort, then put steps back during the replay. That is the replay doing its job; update the file and run it again.
+- Scope arrives implied, through "obviously we also need". Write those into the inventory or into non-goals; nothing stays implied.
 
 ## Done when
 
-Every journey step has a home, the Must list fits a first version, the non-goals are written down, and the founder has retold a first week using only what is in Must and found nothing missing.
+Every inventory item carries a label and an inclusion decision with a reason, the size line is written, the included items are ordered and the non-goals are down. The founder has retold a persona's first week using only included items and found nothing missing.
 
 ## Feeds
 
-- 06: the Must list is exactly what gets acceptance criteria there.
-- 11: every user-facing Must will need a screen.
-- 13: any Must the founder is unsure about, and any operator work that is being done by hand for now.
+- 06: every included item gets acceptance criteria there.
+- 11: every user-facing included item needs a screen, and the screen count is checked against the size line.
+- 13: undecided items, and the one-line notes tagged "for the report".
+- 15: the report reads the size line and the good-to-have list.
 
 ## Then
 

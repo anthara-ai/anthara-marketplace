@@ -24,7 +24,7 @@ This is where the tree goes deepest. Everything after it inherits whatever is va
 
 - They answer in categories, and it sounds like an answer. Ask for the last time they watched someone have the problem; the product is in what they say next.
 - They write a pitch, not a description. Superlatives, market size and vision statements belong in the deck in `intake/`, not here. If the paragraph could describe three other products, it is not done.
-- They name several audiences at once. Pin down the person the first version is for; the others may become personas in 03 or go to Later in 05.
+- They name several audiences at once. Pin down the person the first version is for; the others may become personas in 03 or be good-to-haves in 05.
 - They describe features instead of the change. Ask what is different for the user afterwards, not what the screens do.
 
 ## Done when
