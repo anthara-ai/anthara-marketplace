@@ -11,7 +11,7 @@ Phase 05 of the mvp-spec interview. How the interview works and the package cont
 
 Write `05 - Scope.md`: the whole product as an inventory, labelled, then decided into a first version the right size for what this product needs.
 
-Right-size rather than cut. Screens and flows are cheap to build now, so size is not what hurts a product. What hurts it is behaviour nobody has decided, a first session so full the user never reaches the point, operations the founder cannot run on day one, and bets placed before anyone has used the thing. Inside those limits, give the founder as much as they want. This document records; the report in 15 advises. Do not push scope here, in the file or in the room; put any worry into 13 as a one-line note tagged "for the report".
+Right-size rather than cut. Screens and flows are cheap to build now, so size is not what hurts a product. What hurts it is behaviour nobody has decided, a first session so full the user never reaches the point, operations the founder cannot run on day one, and bets placed before anyone has used the thing. Inside those limits, give the founder as much as they want. This document records. Do not push scope here, in the file or in the room; put any worry into 13 as a one-line note tagged "for kickoff", where Incubyte's engineers will raise it.
 
 Derive the inventory, do not brainstorm it. Walk every step of every journey in 04, writing each capability it implies as a numbered item that names the persona and step it serves; add anything the domain research says this kind of product is expected to have, as a proposal the founder can take or leave. The founder sees the whole product in one list before anything is classified.
 
@@ -45,8 +45,7 @@ Every inventory item carries a label and an inclusion decision with a reason, th
 
 - 06: every included item gets acceptance criteria there.
 - 11: every user-facing included item needs a screen, and the screen count is checked against the size line.
-- 13: undecided items, and the one-line notes tagged "for the report".
-- 15: the report reads the size line and the good-to-have list.
+- 13: undecided items, and the one-line notes tagged "for kickoff".
 
 ## Then
 

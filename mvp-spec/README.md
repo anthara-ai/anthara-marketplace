@@ -74,11 +74,11 @@ Say what you want to change, for example "revisit personas" or "the parent shoul
 
 ### Finishing
 
-After the twelfth document you get `15 - Incubyte's Read.md`, written for you: a summary of the product, an elevator pitch, Incubyte's candid read on scope with the reasoning, and what public research shows about comparable products. The notes behind that research, with sources, accumulate in `15.01 - Research Notes.md` throughout the interview. Say next, or tell us what it changed. Then a consistency check runs across the whole package. Anything that disagrees is raised with you and fixed before packaging. Then `00 - Start Here.md` is written for the engineers who will read the package, and everything is zipped as `<product-slug>-spec-<YYYY-MM-DD>.zip` beside the spec folder. Send that zip to Incubyte.
+After the twelfth document, a consistency check runs across the whole package. Anything that disagrees is raised with you and fixed before packaging. Then `00 - Start Here.md` is written for the engineers who will read the package, and everything is zipped as `<product-slug>-spec-<YYYY-MM-DD>.zip` beside the spec folder. Send that zip to Incubyte.
 
 ## What it produces
 
-One flat folder, `<product-slug>-spec/`, with numbered documents `00` to `15`, one HTML wireframe per screen, and an `intake/` folder holding whatever the founder handed over, untouched. Documents are written in order and the founder reviews each file before the next is started. The full layout and rules are in `skills/start/references/schema.md`.
+One flat folder, `<product-slug>-spec/`, with numbered documents `00` to `15`, one HTML wireframe per screen, and an `intake/` folder holding whatever the founder handed over, untouched. Documents are written in order and the founder reviews each file before the next is started. The notes behind the interviewer's research, with sources, accumulate in `15 - Research Notes.md` throughout. The full layout and rules are in `skills/start/references/schema.md`.
 
 When every document is written, a consistency pass runs across the package, `00 - Start Here.md` is written for the receiving engineers, and the folder is zipped as `<product-slug>-spec-<YYYY-MM-DD>.zip`.
 
@@ -100,7 +100,6 @@ When every document is written, a consistency pass runs across the package, `00 
 | 10 Design Direction | `design-direction` |
 | 11 Wireframes | `wireframes` |
 | 12 Success Measures | `success-measures` |
-| 15 Incubyte's Read | `report` |
 | 00 Start Here, consistency pass, zip | `package` |
 
-Files 13 (Open Questions and Assumptions) and 14 (Glossary) are appended to by every phase and never block progress. A further skill, `incubyte-writing-voice`, is not a document: `start` invokes it once per session before the first file is written, and every document is written in that voice.
+Files 13 (Open Questions and Assumptions), 14 (Glossary) and 15 (Research Notes) are appended to throughout and never block progress. A further skill, `incubyte-writing-voice`, is not a document: `start` invokes it once per session before the first file is written, and every document is written in that voice.
