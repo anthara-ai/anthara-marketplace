@@ -9,7 +9,7 @@ Phase 03 of the mvp-spec interview. How the interview works and the package cont
 
 ## Goal
 
-Write `03 - Personas.md`: every distinct kind of user, with enough about each that journeys (04) and the permissions matrix (07) can be built from it. An email app has one persona. A children's mental-health app has at least three: the child, the parent, the therapist, each with different goals, screens and permissions.
+Write `03 - Personas.md`: every distinct kind of user, with enough about each that journeys (04) and the permissions matrix (07) can be built from it. For example an email app has one persona. A children's mental-health app has at least three: the child, the parent, the therapist, each with different goals, screens and permissions.
 
 ## What the file contains
 
