@@ -9,6 +9,11 @@
       "name": "mvp-spec",
       "source": "./mvp-spec",
       "description": "Interviews a founder and writes an estimable MVP spec package for Incubyte"
+    },
+    {
+      "name": "refactoring",
+      "source": "./refactoring",
+      "description": "Writes a numbered, step-by-step, behaviour-preserving refactoring plan for a module from its git history and code"
     }
   ]
 }

@@ -7,10 +7,11 @@ A plugin marketplace for Claude Cowork and Claude Code. Each plugin lives in its
 | Plugin | What it does |
 |---|---|
 | [`mvp-spec`](mvp-spec/) | Interviews a startup founder and writes an estimable MVP spec package for Incubyte |
+| [`refactoring`](refactoring/) | Writes a numbered, step-by-step, behaviour-preserving refactoring plan for a module from its git history and code |
 
 ## Install a plugin
 
-This repository is a marketplace, so it works in both Claude Cowork and Claude Code. Add the marketplace once, then install the plugins you want from it. Each plugin's README explains how to use it; for mvp-spec see [`mvp-spec/README.md`](mvp-spec/README.md).
+This repository is a marketplace, so it works in both Claude Cowork and Claude Code. Add the marketplace once, then install the plugins you want from it. Each plugin's README explains how to use it: [`mvp-spec/README.md`](mvp-spec/README.md) and [`refactoring/README.md`](refactoring/README.md).
 
 ### Claude Cowork
 
@@ -26,9 +27,10 @@ Click **Update** on the marketplace to pull the latest version of its plugins. S
 ```text
 /plugin marketplace add anthara-ai/anthara-marketplace
 /plugin install mvp-spec@anthara-marketplace
+/plugin install refactoring@anthara-marketplace
 ```
 
-Start a new Claude Code session afterwards and the plugin's skills are available; begin mvp-spec with `/mvp-spec:start`. See the [Claude Code plugin docs](https://code.claude.com/docs/en/discover-plugins) for more.
+Start a new Claude Code session afterwards and the plugin's skills are available; begin mvp-spec with `/mvp-spec:start`, or plan a refactoring with `/refactoring:plan <module>`. See the [Claude Code plugin docs](https://code.claude.com/docs/en/discover-plugins) for more.
 
 If this repository is private, whoever installs from it needs GitHub access to it.
 
