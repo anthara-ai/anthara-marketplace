@@ -1,6 +1,6 @@
 {
   "name": "mvp-spec",
-  "version": "0.16.0",
+  "version": "0.16.1",
   "description": "Interviews a startup founder and writes an estimable MVP spec package: personas, journeys, scope, acceptance criteria, data and permissions, compliance flags, design direction, clickable mid-fidelity wireframes and success measures, zipped for Incubyte.",
   "author": {
     "name": "Incubyte",

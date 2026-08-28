@@ -18,7 +18,7 @@ Read every document and check the pairs the schema names:
 - Every persona in 03 has a journey in 04, and no journey belongs to a persona 03 does not list.
 - Every item marked in the first version in 05 has acceptance criteria in 06, and 06 contains nothing outside the first version.
 - Every step of every included journey in 04 has a screen in 11, every screen traces to a journey step and a feature, and 11's screen count matches the size line in 05.
-- Every link in the 11.NN files, the hub included, resolves to a file that exists, each persona's journey can be clicked through from the hub without a dead end, every journey starts at an arrival screen, and every screen has a way back.
+- Every link in the 11.NN files, the hub included, resolves to a file that exists, each persona's journey can be clicked through from the hub using only the controls inside the frames without a dead end, every journey starts at an arrival screen, every screen has a way back, and no element styled as a control is inert.
 - Every unhappy path decided in 06 and every none cell in 07 appears as a state on its screen in 11.
 - Every sensitive field flagged in 07 has a flag in 09.
 - Every noun a feature in 06 touches is tracked in 07.
