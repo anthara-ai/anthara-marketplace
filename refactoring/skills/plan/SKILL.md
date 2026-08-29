@@ -1,7 +1,7 @@
 ---
 name: plan
-description: "This skill should be used when a developer asks to \"plan a refactoring\", \"refactor this module\", \"make <module> easier to change\", \"write a refactoring plan\", \"how would we refactor <folder>\", or invokes /refactoring:plan with a module or folder name, an optional target location and an optional problem statement such as \"because adding a new provider is hard\". It investigates the module through its git history and its code and writes a numbered, step-by-step, behaviour-preserving refactoring plan that one developer can execute a step at a time and present to their team."
-argument-hint: "<module or folder> [into <target folder or file>] [because <problem statement>]"
+description: "This skill should be used when a developer asks to \"plan a refactoring\", \"refactor this module\", \"make <module> easier to change\", \"write a refactoring plan\", \"how would we refactor <folder>\", or invokes /refactoring:plan with a module or folder name, an optional target location and an optional problem statement such as \"because adding a new provider is hard\". With no module given it plans the current working directory. It investigates the module through its git history and its code and writes a numbered, step-by-step, behaviour-preserving refactoring plan that one developer can execute a step at a time and present to their team."
+argument-hint: "[module or folder] [into <target folder or file>] [because <problem statement>]"
 ---
 
 # Refactoring plan
@@ -12,11 +12,15 @@ The plan is a document, not a diff. Nothing is refactored while planning; if ask
 
 The method is borrowed and named, so the team can look it up. Hotspots, change coupling and code age come from Tornhill's *Your Code as a Crime Scene* and *Software Design X-Rays*, which say where refactoring pays and where it does not. The smells, the catalogue of refactorings and their mechanics come from Fowler's *Refactoring*. Seams and characterisation tests come from Feathers' *Working Effectively with Legacy Code*, for when there is no test to lean on.
 
+## The voice
+
+Before writing the plan file, invoke `refactoring:incubyte-writing-voice` and write the plan in that voice. It governs how sentences are built. Where it and anything here disagree on that, it wins. Invoke it once per session, and its rules stay in context for everything written afterwards.
+
 ## Reading the arguments
 
 `$ARGUMENTS` is free text. Find three things in it.
 
-- **The module.** A path, or a name to resolve. Search the repository for it; when more than one thing could be meant, ask which, and never guess. When the arguments name nothing, ask for the module and nothing else; the code and its history answer the rest.
+- **The module.** A path, or a name to resolve. Search the repository for it; when more than one thing could be meant, ask which, and never guess. When the arguments name no module, the module is the current working directory. Say so to the developer in one line, naming the directory and saying that a path narrows the plan, then carry on without asking. When the working directory is the repository root, the module is the whole repository, and the hotspot table narrows the plan to the files worth touching. The slug for the plan file is the directory's basename, which is the repository name at the root.
 - **A target**, optional: "into `src/providers/`", a folder or file the code should end up in. Look at what is already there and at how the neighbouring modules are shaped; the target has to fit the repository's conventions, not the plan's.
 - **A problem statement**, optional: the pain that prompted this, however it is phrased. "Because it's very hard to change whenever I want to add a new SNOMED code provider" is one. Keep it in the developer's own words at the top of the plan.
 
@@ -49,14 +53,15 @@ One markdown file, written to be read in view mode and put on a screen in front 
 
 - **A summary block at the top.** The module, the problem statement in the developer's words, a one-line diagnosis, a one-line description of the shape afterwards, how many tests and refactorings follow, and the commit hash and history window the analysis was run on, because numbers without a hash cannot be reproduced or known to have gone stale. Two more lines: the stop rule, that any red means revert the step rather than fix forward; and what is out of scope, which is features, bug fixes, performance and reformatting.
 - **How to use this plan.** A short paragraph for the team: one refactoring is one commit or one pull request; take them in the order given unless a step is marked independent; run the step's check before and after; revert on red. A pull request can say "R3" and everyone knows what it means.
-- **A table of every step.** Number, title, catalogue name, what it depends on, risk, and whether a test covers it or it runs blind. This is the slide the team looks at longest.
-- **The evidence.** The contract. The hotspot table with the numbers. The change-coupling findings, both the outside files that travel with the module and the inside files that never travel together. Code age and knowledge. The problem statement's trace through the code as it is today. A before-and-after dependency diagram in Mermaid.
+- **A table of every step.** Number, title, catalogue name, what it depends on, risk, whether a test covers it or it runs blind, and a phase. The phase is exactly one of `seam`, `characterisation test`, `refactoring` or `public surface`, so a reader can see the ordering at a glance. This is the slide the team looks at longest.
+- **The evidence.** The contract. The hotspot table with the numbers, in the columns `file | commits in window | lines | deep lines | in plan? (R-numbers or "left alone")`. The change-coupling findings, both the outside files that travel with the module and the inside files that never travel together. Code age and knowledge. The problem statement's trace through the code as it is today. A before-and-after dependency diagram in Mermaid.
 - **The safety net.** What exists and its state. Then the characterisation tests to add, numbered T1 onwards, each naming the behaviour it pins and the boundary it drives it from. Then which refactorings run without a net, marked plainly.
 - **The refactorings, numbered R1 onwards.** Each under its own heading, named for what moves: "R3. Extract `parseCodes` from `AssessmentService`". Each carries: **What**, in two or three sentences. **Why**: the smell, the evidence row that motivates it, and how it shortens the problem statement's path. **Catalogue**: the refactoring's published name, so the mechanics can be looked up. **Where**: files and line ranges. **Steps**: when the refactoring is more than one commit, numbered sub-steps R3.1, R3.2 and so on following the published mechanics, each with its own check. **Check**: the tests and the diffs that prove nothing changed. **Depends on**: earlier steps by number, or "independent", which is what lets two developers take two steps at once. **Risk**: low or medium, with the reason, such as touching the public surface or a side effect. **Commit**: a suggested message, so the history reads like the plan.
 - **The leave-alone list**, each item with its reason.
 - **Bugs found, not fixed**: where, and what looks wrong, for the team to ticket separately.
 - **Questions for the team**: whatever the plan could not settle from the code, such as whether an export is used outside the repository, whether a name can change, who owns a file whose last author has left.
-- **Done when.** The export list and the golden outputs diff clean, the tests are green, and the numbers have moved: the longest function from 240 lines to under 40, the coupling with a named file gone, the problem statement's touch count from seven to one. A date to re-run the forensics and see whether the hotspot stayed cool.
+- **The measures**, a table with the columns `measure | now | after the plan | how it is measured`, one row for every number the plan promises to move. The problem statement's touch count, the longest function, the files coupled with a named file and the test count are the usual rows. Every number in the table was either observed during the investigation or is a stated target. A row whose "now" could not be measured says "not measured" rather than a guess.
+- **Done when.** The export list and the golden outputs diff clean, the tests are green, and every row of the measures table has reached its "after the plan" number. A date to re-run the forensics and see whether the hotspot stayed cool.
 
 ## Where plans go wrong
 

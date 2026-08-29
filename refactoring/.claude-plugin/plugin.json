@@ -1,10 +1,10 @@
 {
   "name": "refactoring",
-  "version": "0.1.0",
-  "description": "Investigates a module through its git history and its code and writes a numbered, step-by-step, behaviour-preserving refactoring plan that one developer can execute a step at a time and present to their team.",
+  "version": "0.2.0",
+  "description": "Investigates a module through its git history and its code and writes a numbered, step-by-step, behaviour-preserving refactoring plan that one developer can execute a step at a time, and can present that plan as a self-contained HTML page for the team.",
   "author": {
     "name": "Incubyte",
     "email": "sapan@incubyte.co"
   },
-  "keywords": ["refactoring", "legacy", "hotspots", "technical-debt", "plan"]
+  "keywords": ["refactoring", "legacy", "hotspots", "technical-debt", "plan", "presentation", "html"]
 }

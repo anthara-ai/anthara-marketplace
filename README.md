@@ -7,7 +7,7 @@ A plugin marketplace for Claude Cowork and Claude Code. Each plugin lives in its
 | Plugin | What it does |
 |---|---|
 | [`mvp-spec`](mvp-spec/) | Interviews a startup founder and writes an estimable MVP spec package for Incubyte |
-| [`refactoring`](refactoring/) | Writes a numbered, step-by-step, behaviour-preserving refactoring plan for a module from its git history and code |
+| [`refactoring`](refactoring/) | Writes a numbered, step-by-step, behaviour-preserving refactoring plan for a module from its git history and code, and can present it as a self-contained HTML page |
 
 ## Install a plugin
 
