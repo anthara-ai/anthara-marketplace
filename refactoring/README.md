@@ -39,6 +39,8 @@ Each refactoring is one commit. Take them in order unless a step is marked indep
 /refactoring:plan-to-html src/assessment because adding a new SNOMED code provider takes four files
 ```
 
+It asks once for the company's website, and if you give one, pulls its background, text and accent colours and its font so the page reads as that company's report rather than a generic one. Say no or give nothing and it renders with its own default theme.
+
 It writes the plan, then renders it as one self-contained HTML page at `docs/refactoring/<module-slug>-plan.html`. The page opens the case for the module: the headline measure as a before and after pair, a hotspot quadrant showing which files are both complex and changed often, the change coupling that crosses the one-third line, a phased timeline showing why the steps come in the order they do, and paired bars for every measure the plan promises to move. Everything is inline, so the file opens from disk, attaches to a pull request and prints to a readable deck.
 
 ## How it is built
