@@ -15,12 +15,25 @@ This repository is a marketplace, so it works in both Claude Cowork and Claude C
 
 ### Claude Cowork
 
-1. Open **Customize** in the sidebar, then the **Plugins** tab.
-2. Select **Add marketplace** and enter `anthara-ai/anthara-marketplace`, or the full URL `https://github.com/anthara-ai/anthara-marketplace`.
-3. The plugins in this repository now appear alongside the other marketplaces. Select one and click **Install**.
-4. Start mvp-spec by invoking its **start** skill (`/mvp-spec:start`) in a new task.
+1. In the composer, click **+**, then **Plugins**, then **Browse plugins**. This opens the plugin Directory.
 
-Click **Update** on the marketplace to pull the latest version of its plugins. See the [Cowork plugin docs](https://claude.com/docs/cowork/guide/plugins) for details, including uploading a plugin from a file and organization-managed plugins.
+   <img src="docs/images/cowork-plugins-menu.png" alt="Composer plus menu with Plugins and Browse plugins" width="500">
+
+2. Click **+** next to the marketplace tabs (**Your organization** / **Anthropic** / **Partners** / **Personal**) to **Add marketplace**.
+
+   <img src="docs/images/cowork-add-marketplace-button.png" alt="Add marketplace button next to the marketplace tabs" width="600">
+
+3. Enter `anthara-ai/anthara-marketplace` (a GitHub `owner/repo`, or the full URL) as the URL, leave **Sync automatically** on so plugins stay up to date when the repository changes, and click **Sync**.
+
+   <img src="docs/images/cowork-add-marketplace-url.png" alt="Add marketplace dialog with URL and sync automatically toggle" width="500">
+
+4. `anthara-marketplace` now appears as its own tab in the Directory, listing `mvp-spec` and `refactoring`. Click the **+** on a plugin's card to install it.
+
+   <img src="docs/images/cowork-marketplace-installed.png" alt="Directory showing the anthara-marketplace tab with mvp-spec and refactoring plugins" width="700">
+
+5. Start mvp-spec from the composer's **+ → Plugins** menu, or by invoking its **start** skill (`/mvp-spec:start`) in a new task.
+
+See the [Cowork plugin docs](https://claude.com/docs/cowork/guide/plugins) for details, including uploading a plugin from a file and organization-managed plugins.
 
 ### Claude Code
 
