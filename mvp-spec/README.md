@@ -48,7 +48,7 @@ The interview is the same in Cowork and Code; only how you start it differs.
    /mvp-spec:start
    ```
 
-   Saying what you want in your own words works too, for example "spec my product". Either way `start` is the skill that runs; it is the only one you invoke, both now and every time you come back.
+   Saying what you want in your own words works too, for example "spec my product". Either way, `start` picks up where you left off — it's the only skill you ever call, even on a return visit.
 
    In **Cowork**, open a new task and run it there. The spec folder is created in the task's files.
 
