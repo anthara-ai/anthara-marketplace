@@ -23,6 +23,7 @@ Write `10 - Design Direction.md`: enough direction that Incubyte's designers sta
 - They reach for design vocabulary they do not quite mean. Return to the named styles with their example apps, and to feelings.
 - They have strong opinions about colour and none about voice. Voice quietly drives every screen's copy; do not skip it.
 - They give one feeling for a product with three personas. Ask per persona.
+- They handed over a Figma file, a live site or a logo at intake and are then asked to describe their taste from scratch. Open what is in `intake/` first, read the style out of it, and ask them to confirm or correct it.
 
 ## Done when
 
