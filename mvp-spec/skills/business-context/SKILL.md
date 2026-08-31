@@ -23,6 +23,7 @@ The document has three sections and nothing else: who is involved, stage, and wh
 
 - They describe the product when asked about the business. Redirect gently; the product gets its own document next.
 - They forget assets already commissioned elsewhere. "What have you already paid someone for?" surfaces them.
+- They have already written most of this down. A pitch deck names the team, the stage and the raise on its first pages, so read `intake/` before asking and confirm what it says rather than asking again.
 
 ## Done when
 

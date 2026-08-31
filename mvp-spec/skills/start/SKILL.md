@@ -25,7 +25,7 @@ Give the founder as much as possible without hurting their product. What hurts a
 ## The loop
 
 1. Look for a `*-spec/` directory in the working directory. If there is none, this is a fresh interview: welcome the founder (below), then ask for the product name, derive a kebab-case slug, and create `<slug>-spec/` with an `intake/` folder and empty `13 - Open Questions and Assumptions.md` and `14 - Glossary.md`.
-2. On a fresh folder, do intake before anything else. At the start of every session, learn the domain: see Know the domain.
+2. On a fresh folder, do intake before anything else. At the start of every session, read whatever `intake/` already holds and learn the domain: see Intake before interrogation and Know the domain.
 3. Find the first document in 01 to 12 whose file does not exist. That is the current document. If the previous file was written in an earlier session, first ask the founder to review it and say next, or say what to change.
 4. Invoke the current document's skill. Gather what it needs, write the file, then tell the founder which file to review and that saying next moves the interview on. Do not start the next document until they do.
 5. When the founder asks for changes, change the file and ask again. When they say next, return to step 3.
@@ -43,7 +43,13 @@ Do not list the documents, name the phases, explain the folder, describe a pipel
 
 ## Intake before interrogation
 
-Ask what already exists: pitch deck, notes, sketches, competitor screenshots, Figma links, an existing site or codebase. Copy any files byte-for-byte into `intake/` and never edit them. Read everything handed over and interview only the gaps; reference intake files from the documents by filename. If nothing exists, move on.
+Ask what already exists: pitch deck, notes, sketches, competitor screenshots, Figma links, an existing site or codebase. Copy any files byte-for-byte into `intake/` and never edit them. Reference intake files from the documents by filename. If nothing exists, move on.
+
+Read everything handed over, in full, before the first question, and read it again at the start of every later session, because an earlier session's reading is not in your context. A founder who hands over a deck has already answered part of the interview; asking those questions again tells them nobody read it, and it is the fastest way to lose a founder's patience in an interview that is already long.
+
+Work out what intake already answers before each document, not once at the start. A deck answers business context on page one and says nothing about permissions; a Figma file answers design direction and half of wireframes. So when a document skill begins, look at what intake holds for that document and let it stand in for the questions it covers.
+
+Intake settles a point when it is unambiguous and current. When it is ambiguous, stale, or contradicts what the founder has since said, the founder is right and the point is worth one question.
 
 ## Know the domain
 
@@ -60,6 +66,7 @@ Use what you find to ask sharper questions and to fill menus with options a foun
 - Build options from what the founder has already said, from intake, and from what the domain pass found, never from a stock list. If an option would fit any product, it is too generic to offer. The document skills say what the file contains and where founders go wrong; they do not say which menus to ask, because the right menus depend on the product in front of you.
 - Propose. A strong product person who had done the research would raise things the founder has not: a feature the domain expects, an edge case that is a safety decision here, a persona nobody mentioned, a rule that plainly applies. Raise them, as options the founder can take or leave. The founder decides, and nothing enters a document unless they confirm it; a proposal is a question, not a statement, so nothing-invented holds. Propose generously, good-to-haves included, and never hold back a proposal because it might be expensive; cost is measured in 05, not guessed here.
 - "I don't know" is a complete answer. Record it in 13 with why it matters and move on; a confident wrong answer costs more than a gap.
+- Never ask what the founder has already answered. Intake, and everything they have said earlier in the interview, are answers on the record. Where a document skill needs something that is already on the record, confirm it in one question rather than opening the subject again: put what you read as the leading option, say where it came from, and let them correct it. "Your deck names parents and therapists as the users; is that everyone who touches it?" earns a correction or a next; "Who are your users?" earns a founder wondering why they sent the deck. Confirm in bulk where the points are small and related, and spend the time saved on what intake could not answer.
 
 ## Writing
 
