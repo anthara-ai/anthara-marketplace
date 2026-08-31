@@ -9,7 +9,7 @@ Phase 11 of the mvp-spec interview. How the interview works and the package cont
 
 ## Goal
 
-Turn the journeys in 04 into screens the founder can click through as each persona, from arrival to their third week, with everything that can go wrong along the way. Write `11 - Wireframes.md` and one `11.NN` HTML file per screen.
+Turn the journeys in 04 into screens the founder can click through as each persona, from arrival to their third week, with everything that can go wrong along the way. Write `11 - Wireframes.md` and one `11.NN` HTML file per screen. Plan the set, settle its shape, then draw.
 
 Two people read these, and one test serves both. An Incubyte designer should be able to build the layout from a frame without asking a question. The founder should be able to look at a frame and say "yes, that is my app" or "no, that is wrong". A frame that fails either has not been drawn yet, whatever it looks like.
 
@@ -20,6 +20,22 @@ These are mid-fidelity. The wireframe decides device shape, layout and spacing, 
 The index is the plan, written and confirmed before any HTML. Walk each included journey in 04, persona by persona, step by step. Every moment the user sees something new is a screen. Every way that screen can look different is a state: before there is data, while something waits, when it fails, when it succeeds, when this persona lacks permission. Each state comes from an unhappy path in 06, a none cell in 07, or your own judgement as the designer, and the index says which. Every control on the screen is listed with its outcome: it goes to a named screen, it changes this screen to a named state, or it is out of the first version. A control with no outcome is a gap in the plan, a missing screen or state or a control that should not be there, and it is resolved before drawing. Operator screens count.
 
 Drawing then fills the plan. A state cannot be lost at screen nine because it is a row waiting to be drawn. Check the screen count against the size line in 05 before drawing; a mismatch is a finding for 05.
+
+## Shape the product before drawing it
+
+Before drawing anything, think through the design and UX alternatives for this product. A few examples:
+
+1. Side nav against top nav.
+2. A popup against a full screen with breadcrumbs.
+3. One long form against a short one split into steps.
+
+Those are only examples. Think like an expert designer: where the journeys, the personas or the platform already settle it, or where one option is plainly right, make the call and move on. Ask the founder only where you genuinely need their input, because the choice would change how their product feels or works and you cannot make it for them.
+
+Do this before the first frame rather than after. Once the founder has seen thirty frames that all agree with each other, that agreement looks like a decision somebody made, and changing it means drawing them again.
+
+When you do ask, show your recommendation and say what each option would give the founder's own users, rather than naming it the way a designer would. Not side navigation against top navigation, but a therapist seeing every section at once because they move between them all day, against the child getting more room on screen. For the two or three screens where the real work happens, draw the options as frames instead of describing them.
+
+Record what was decided in the index, whether you decided it or the founder did, with the reason. That record keeps thirty files consistent and tells the designer what was chosen rather than defaulted into. If the founder cannot decide yet, note it in the Open Questions document and say in the index which option you drew in the meantime.
 
 ## Drawing
 
@@ -47,7 +63,7 @@ Use real content wherever the spec knows it: the personas' names, the product's 
 
 Confirm the plan as menus: the screens per journey and the states per screen, offered from what 04, 06 and 07 imply. Decide the designer defaults yourself; ask only where a state's content is a decision the founder would care about: what the empty state offers a first-time user, what happens on the failure specific to this domain, what the user sees right after the action the product exists for, who can undo something sensitive.
 
-For the two or three screens that carry the product's core interaction, sketch two layouts before drawing the rest and let the founder pick, as a menu. Everything else follows the one they chose.
+The structural decisions are already settled, under Shape the product before drawing it, and every screen follows the shape the founder chose there.
 
 Draw a whole journey, verify it, then open the hub in the founder's browser and ask them to walk it as that persona, end to end. Then ask what did not match the story in 04, as a menu of likely mismatches plus free text. Layout comments are in scope and welcome: where the primary action sits, what is above the fold, which control does the choosing. Colour, typeface and imagery go to 10. Anything a screen exposes as missing is a finding for 04, 05 or 06, written back to the index first.
 
@@ -57,11 +73,11 @@ Walk each journey yourself before the founder does. Use a browser if one is avai
 
 ## Done when
 
-The founder can be each persona from the hub, through their arrival screen, to their third week, including what goes wrong, without being told what to imagine. An Incubyte designer could build every frame without a question. Every control does what the index says it does, and each journey walks using only the controls inside the frames. Every 06 unhappy path and 07 none cell is a reachable state, the count matches 05, the index traces every screen, state and transition to its source, and the founder has walked every journey.
+The founder can be each persona from the hub, through their arrival screen, to their third week, including what goes wrong, without being told what to imagine. An Incubyte designer could build every frame without a question. Every control does what the index says it does, and each journey walks using only the controls inside the frames. Every 06 unhappy path and 07 none cell is a reachable state, the count matches 05, the index traces every screen, state and transition to its source, and the founder has walked every journey. The decisions that shaped the set are recorded in the index with their reasons, and the founder was asked about the ones they would care about.
 
 ## Feeds
 
-- 13: a state's content the founder has not decided; screens they are unsure about.
+- 13: a state's content the founder has not decided; screens they are unsure about; a shape decision they could not make, along with the option drawn in the meantime.
 - 04, 05 and 06: what a screen or a dead end exposed as missing.
 
 ## Then
