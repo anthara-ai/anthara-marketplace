@@ -69,6 +69,8 @@ Avoid the first version in each pair. Write the second.
 | Oxford comma | Yes. |
 | Ellipsis | Avoid. |
 | ALL CAPS | Never. Use **bold** for emphasis. |
+| Bullets | Use them for the points that carry the message, so a reader who skims still gets them. Keep prose in paragraphs. |
+| Bold | Bold a next step, a decision the reader has to make, and anything they must act on. Do not bold for emphasis alone. |
 
 ---
 
