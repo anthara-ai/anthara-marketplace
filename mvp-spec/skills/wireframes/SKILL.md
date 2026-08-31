@@ -23,13 +23,17 @@ Drawing then fills the plan. A state cannot be lost at screen nine because it is
 
 ## Shape the product before drawing it
 
-Some decisions are settled once and inherited by every screen: how a persona moves between the product's main areas, whether the core object opens as a full screen or a panel or an overlay, whether a long form is one page or a sequence of steps, how much a user sees before scrolling. Navigation is the familiar instance, not the whole question, and which ones are live depends on the product; four screens and one persona raise few, an operator console raises many. Find them by reading the confirmed index for what a designer must settle for the whole set and could reasonably do more than one way. Where 03, 04 or 08 already decides it, it is not a decision.
+A few decisions get made once and then show up on every screen. How someone moves between the main parts of the product. Whether opening a record fills the screen, slides in beside the list, or floats on top of it. Whether a long form is one page or a series of steps. How much fits on screen before the user has to scroll.
 
-Settle them before the first frame. Once thirty frames agree with each other the founder reads that agreement as settled, and the alternative costs a redraw to raise.
+Which of these are actually open depends on the product. A four-screen app with one persona has almost none. A console the operator sits in all day has plenty. Navigation is the one everybody thinks of first, so treat it as an example and keep looking rather than stopping there.
 
-Offer each as a menu of two or three, described by what it means for the founder's own users rather than by its name, with the one you would pick and why. A founder cannot choose between side and top navigation; they can choose between keeping every section visible to a therapist who moves between them all day and giving the child's screen more room. For the two or three screens carrying the core interaction, draw the alternatives as frames rather than describing them.
+To find the rest, go through the confirmed index and look for anything that has to be the same on every screen. For each one, ask whether a good designer could sensibly do it more than one way. If they could, the founder should be the one choosing. If the journeys, the personas or the platform have already decided it, there is nothing to ask.
 
-Record the picks in the index with their alternatives and the reasoning, which is what keeps thirty files consistent and tells the designer what was chosen rather than defaulted into. One the founder cannot make yet goes to 13, and the index says which alternative was drawn meanwhile.
+Do this before drawing anything. Once the founder has seen thirty frames that all agree with each other, that agreement looks like a decision somebody made, and changing it means drawing them again.
+
+Offer each choice as two or three options, and describe them by what the founder's own users would notice rather than by what designers call them. Nobody can pick between side navigation and top navigation. They can pick between a therapist seeing every section at once because they move between them all day, and the child getting more room on screen because the sections are tucked away. Say which one you would choose and why. For the two or three screens where the real work happens, draw the options as frames instead of describing them.
+
+Write the choices into the index along with the options you offered and why the founder picked what they did. That record is what keeps thirty files consistent, and it tells the designer what was actually decided rather than what someone defaulted to. If the founder cannot decide yet, note it in the Open Questions document and say in the index which option you drew in the meantime.
 
 ## Drawing
 
@@ -67,11 +71,11 @@ Walk each journey yourself before the founder does. Use a browser if one is avai
 
 ## Done when
 
-The founder can be each persona from the hub, through their arrival screen, to their third week, including what goes wrong, without being told what to imagine. An Incubyte designer could build every frame without a question. Every control does what the index says it does, and each journey walks using only the controls inside the frames. Every 06 unhappy path and 07 none cell is a reachable state, the count matches 05, the index traces every screen, state and transition to its source, and the founder has walked every journey. The structural decisions behind the set are the founder's, recorded in the index with the alternatives they were offered, rather than defaults the drawing happened to take.
+The founder can be each persona from the hub, through their arrival screen, to their third week, including what goes wrong, without being told what to imagine. An Incubyte designer could build every frame without a question. Every control does what the index says it does, and each journey walks using only the controls inside the frames. Every 06 unhappy path and 07 none cell is a reachable state, the count matches 05, the index traces every screen, state and transition to its source, and the founder has walked every journey. The founder chose the decisions that shaped the set, and the index records what they were offered and what they picked.
 
 ## Feeds
 
-- 13: a state's content the founder has not decided; screens they are unsure about; a structural decision they could not make, with the alternative drawn meanwhile.
+- 13: a state's content the founder has not decided; screens they are unsure about; a shape decision they could not make, along with the option drawn in the meantime.
 - 04, 05 and 06: what a screen or a dead end exposed as missing.
 
 ## Then
