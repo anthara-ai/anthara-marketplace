@@ -50,7 +50,7 @@ Documents are written in interview order, one at a time, and the founder reviews
 | 08 Platform, Integrations and Content | Platform per persona; rented services; day-one content with owners |
 | 09 Rules and Compliance | Sensitive data, consent, jurisdictions — flags, not legal advice |
 | 10 Design Direction | Reference apps, five-second feeling, style pick, voice |
-| 11 Wireframes | Screen index planned from 04: screen → persona → journey step → features → states with source → transitions → 11.NN file; hub at 11.00 |
+| 11 Wireframes | Structural decisions the founder chose with their alternatives; screen index planned from 04: screen → persona → journey step → features → states with source → transitions → 11.NN file; hub at 11.00 |
 | 12 Success Measures | 3–5 measures and what the product must record for each |
 | 13 Open Questions and Assumptions | Unknowns and assumptions with impact — the kickoff agenda |
 | 14 Glossary | Founder's domain terms, their definitions |
