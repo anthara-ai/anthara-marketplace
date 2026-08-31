@@ -9,7 +9,7 @@ Phase 11 of the mvp-spec interview. How the interview works and the package cont
 
 ## Goal
 
-Turn the journeys in 04 into screens the founder can click through as each persona, from arrival to their third week, with everything that can go wrong along the way. Write `11 - Wireframes.md` and one `11.NN` HTML file per screen. Plan the set, settle its structure with the founder, then draw.
+Turn the journeys in 04 into screens the founder can click through as each persona, from arrival to their third week, with everything that can go wrong along the way. Write `11 - Wireframes.md` and one `11.NN` HTML file per screen. Plan the set, settle its shape, then draw.
 
 Two people read these, and one test serves both. An Incubyte designer should be able to build the layout from a frame without asking a question. The founder should be able to look at a frame and say "yes, that is my app" or "no, that is wrong". A frame that fails either has not been drawn yet, whatever it looks like.
 
@@ -23,17 +23,19 @@ Drawing then fills the plan. A state cannot be lost at screen nine because it is
 
 ## Shape the product before drawing it
 
-A few decisions get made once and then show up on every screen. How someone moves between the main parts of the product. Whether opening a record fills the screen, slides in beside the list, or floats on top of it. Whether a long form is one page or a series of steps. How much fits on screen before the user has to scroll.
+Before drawing anything, think through the design and UX alternatives for this product. A few examples:
 
-Which of these are actually open depends on the product. A four-screen app with one persona has almost none. A console the operator sits in all day has plenty. Navigation is the one everybody thinks of first, so treat it as an example and keep looking rather than stopping there.
+1. Side nav against top nav.
+2. A popup against a full screen with breadcrumbs.
+3. One long form against a short one split into steps.
 
-To find the rest, go through the confirmed index and look for anything that has to be the same on every screen. For each one, ask whether a good designer could sensibly do it more than one way. If they could, the founder should be the one choosing. If the journeys, the personas or the platform have already decided it, there is nothing to ask.
+Those are only examples. Think like an expert designer: where the journeys, the personas or the platform already settle it, or where one option is plainly right, make the call and move on. Ask the founder only where you genuinely need their input, because the choice would change how their product feels or works and you cannot make it for them.
 
-Do this before drawing anything. Once the founder has seen thirty frames that all agree with each other, that agreement looks like a decision somebody made, and changing it means drawing them again.
+Do this before the first frame rather than after. Once the founder has seen thirty frames that all agree with each other, that agreement looks like a decision somebody made, and changing it means drawing them again.
 
-Offer each choice as two or three options, and describe them by what the founder's own users would notice rather than by what designers call them. Nobody can pick between side navigation and top navigation. They can pick between a therapist seeing every section at once because they move between them all day, and the child getting more room on screen because the sections are tucked away. Say which one you would choose and why. For the two or three screens where the real work happens, draw the options as frames instead of describing them.
+When you do ask, show your recommendation and say what each option would give the founder's own users, rather than naming it the way a designer would. Not side navigation against top navigation, but a therapist seeing every section at once because they move between them all day, against the child getting more room on screen. For the two or three screens where the real work happens, draw the options as frames instead of describing them.
 
-Write the choices into the index along with the options you offered and why the founder picked what they did. That record is what keeps thirty files consistent, and it tells the designer what was actually decided rather than what someone defaulted to. If the founder cannot decide yet, note it in the Open Questions document and say in the index which option you drew in the meantime.
+Record what was decided in the index, whether you decided it or the founder did, with the reason. That record keeps thirty files consistent and tells the designer what was chosen rather than defaulted into. If the founder cannot decide yet, note it in the Open Questions document and say in the index which option you drew in the meantime.
 
 ## Drawing
 
@@ -71,7 +73,7 @@ Walk each journey yourself before the founder does. Use a browser if one is avai
 
 ## Done when
 
-The founder can be each persona from the hub, through their arrival screen, to their third week, including what goes wrong, without being told what to imagine. An Incubyte designer could build every frame without a question. Every control does what the index says it does, and each journey walks using only the controls inside the frames. Every 06 unhappy path and 07 none cell is a reachable state, the count matches 05, the index traces every screen, state and transition to its source, and the founder has walked every journey. The founder chose the decisions that shaped the set, and the index records what they were offered and what they picked.
+The founder can be each persona from the hub, through their arrival screen, to their third week, including what goes wrong, without being told what to imagine. An Incubyte designer could build every frame without a question. Every control does what the index says it does, and each journey walks using only the controls inside the frames. Every 06 unhappy path and 07 none cell is a reachable state, the count matches 05, the index traces every screen, state and transition to its source, and the founder has walked every journey. The decisions that shaped the set are recorded in the index with their reasons, and the founder was asked about the ones they would care about.
 
 ## Feeds
 
