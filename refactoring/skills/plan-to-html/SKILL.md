@@ -1,58 +1,92 @@
 ---
 name: plan-to-html
-description: "This skill should be used when a developer asks to \"present the refactoring plan\", \"make the plan a web page\", \"turn the refactoring plan into HTML\", \"build slides for the refactoring\", \"show the team why we should refactor this\", or invokes /refactoring:plan-to-html with a module or folder name, an optional target location and an optional problem statement. With no module given it plans the current working directory. It runs the `plan` skill and then renders the plan as one self-contained HTML page whose visuals show why this module should be refactored before anything else and what the plan wins."
-argument-hint: "[module or folder] [into <target folder or file>] [because <problem statement>]"
+description: "This skill should be used when a developer asks to \"present the refactoring plan\", \"pitch the refactoring\", \"make the plan a web page\", \"turn the refactoring plan into HTML\", \"build slides for the refactoring\", \"get the team to agree to this refactoring\", \"show the team why we should refactor this\", or invokes /refactoring:plan-to-html with a module or folder name, an optional target location and an optional problem statement. With no module given it plans the current working directory. It runs the `plan` skill, asks who the pitch is for, and writes one self-contained HTML page that argues the case to that audience."
+argument-hint: "[module or folder] [into <target folder or file>] [because <problem statement>] [for <audience>]"
 ---
 
-# Refactoring plan as a web page
+# Refactoring plan as a pitch
 
-Write `docs/refactoring/<module-slug>-plan.html`: the refactoring plan as one self-contained page, with charts that answer the two questions a team asks in the meeting. Why this module before anything else, and what do we get for the work. The markdown plan stays the document a developer works from. This page is the document a team decides from.
+Write `docs/refactoring/<module-slug>-plan.html`: a page that argues for the refactoring, aimed at the people whose agreement the developer needs.
+
+The markdown plan is the document a developer works from. This page is the document a team says yes from. They carry the same numbers and they are not the same document. The markdown is organised for someone doing the work in order. The page is organised to win an argument in a room where nobody has to agree.
 
 The page changes no code and adds no analysis. Every number on it comes from the markdown plan.
+
+## What this page is for
+
+Someone read a 4,000-line class, spent an afternoon on the forensics, and now has to convince a lead who is protective of the roadmap and two seniors who have watched a refactoring go wrong before. Nobody in that room is obliged to read anything. The page has to earn the next five minutes in the first thirty seconds.
+
+That has consequences for how it is built:
+
+**Lead with the argument, not the method.** A reader who scrolls no further should already know why this module, why now, and what it costs. How the numbers were gathered matters to the one person who asks, and that person can scroll.
+
+**One number does the work.** Pick the single figure that makes the case for this particular module and give it the top of the page. It is usually about pain the room has already felt, such as how much the file grew this year, how many commits landed in it, or how many files a routine change touches. Dependency counts and line counts are true and rarely move anyone.
+
+**Answer the three objections before they are raised.** Why now rather than later, what breaks, and what it costs. A plan that cannot answer all three is not ready to be pitched, and the page should say which one it cannot answer rather than route around it.
+
+**Evidence sits behind the claim it supports.** Tables, methodology and the full step detail belong further down or behind a disclosure, reachable by the person who asks for them and out of the way of the person who does not.
+
+The failure to avoid is a faithful rendering of the markdown with charts added. Section-for-section transcription produces a report, and a report is read by people who already agreed.
 
 ## Order of work
 
 1. **The voice and the theme.** Invoke `refactoring:incubyte-writing-voice` and write every sentence on the page in that voice, since the page is read outside the team that wrote it. It governs how sentences are built. Where it and anything here disagree on that, it wins. Invoke it once per session.
 
-   Then ask the developer for the company's website, in one line, unless a URL is already sitting in `$ARGUMENTS` or was given earlier this session. Skip the question on a re-render of an already-rendered plan; reuse the theme it used. If the developer has none or says no, move on with the template's default theme, no need to ask twice. When a URL is given, fetch it and pull four things: the page background, the body text colour, one accent colour the site itself uses for emphasis (a link, a button, a highlight, never a warning or error colour), and the body font stack. Map only these onto the template's `--page`, `--ink`, `--accent`, `--accent-soft` (the accent lightened toward the background) and the body `font` variables; leave `--grey`, `--grey-dark`, `--panel` and `--line` as neutral tones the template already derives from `--ink`, and leave the print stylesheet untouched. The page keeps its own restrained design, a report with the company's colours, not a copy of the site.
+   Then ask the developer for the company's website, in one line, unless a URL is already sitting in `$ARGUMENTS` or was given earlier this session. Skip the question on a re-render of an already-rendered plan and reuse the theme it used. If the developer has none or says no, move on with a restrained default of one accent against a near-white page, no need to ask twice. When a URL is given, fetch it and pull four things: the page background, the body text colour, one accent colour the site itself uses for emphasis (a link, a button, a highlight, never a warning or error colour), and the body font stack. Those four are the page's palette. Derive the greys, panel and rule tones from the text colour so they stay neutral, and keep the print stylesheet plain. The page keeps its own restrained design, a document with the company's colours rather than a copy of the site.
 
 2. **Get the plan.** Invoke the `refactoring:plan` skill with `$ARGUMENTS` unchanged and let it finish. One exception: when `docs/refactoring/<module-slug>-plan.md` already exists and the commit hash in its summary block equals the current `git rev-parse --short HEAD`, ask in one line whether to render that plan or re-run the analysis, and render it when the developer says nothing specific. A plan written at a different hash is stale, so re-run the analysis rather than rendering it silently.
 
-3. **Read the plan and pull its numbers.** The hotspot table, the coupling shares, the measures table, the step table with its phases, the safety net, the leave-alone list, the bugs, the questions and the dependency diagrams. Compute nothing new and invent nothing. Where a chart needs a number the plan does not carry, that item on the chart reads "not measured" and the gap goes into the "What this page could not show" list at the end of the page.
+3. **Ask who the pitch is for.** Ask once, with `AskUserQuestion`, unless the arguments already name an audience such as "for the CTO" or "for my team". Offer the room the developer is most likely walking into:
 
-4. **Write the page.** Fill `${CLAUDE_PLUGIN_ROOT}/skills/plan-to-html/references/template.html` and write the result to `docs/refactoring/<module-slug>-plan.html`, with the theme's colours and font stack set on `:root` from step 1. Inline CSS and inline script only, inline SVG for every visual, no external resource of any kind, so the file opens from disk, attaches to a pull request and pastes into a wiki. A themed font loaded from a font service is still an external resource; fall back to the template's font stack and keep only the colours. The template carries the stylesheet, the print stylesheet, the section scaffold and one commented example of each SVG pattern.
+   - **My team**, the developers who will do the work. They want the shape of the change and where the danger is. Assume the codebase is familiar and skip the orientation.
+   - **Tech lead or EM**, who approves the time. They want the cost, the calendar, what it competes with, and evidence that it will not spill.
+   - **Leadership or PM**, non-technical. They want the business cost of leaving it alone, in delivery terms rather than in lines of code. Write it so a reader who has never opened the module follows every sentence.
+   - **A mixed room**, such as sprint planning. Lead with the cost of doing nothing, then the safety story, and keep the technical evidence one click away.
 
-5. **Verify.** Open the page in a browser if one is available, Claude in Chrome or the equivalent: check that every chart draws, that no text overlaps a mark, that the collapsibles open, that text stays readable against the themed background, and that nothing runs off the page at laptop width. If no browser is available, check the code instead: tags balance, every anchor in the table of contents resolves to an id on the page, every SVG has a `<title>`, every chart's numbers also appear in text nearby, and nothing loads from outside the file. Never stall on verification. Tell the developer in one line which method ran.
+   Then write the page for that audience specifically. It changes what leads, which chart is worth drawing, how much is explained and how much is assumed, and how technical the language gets. It never changes the numbers.
 
-6. **Then.** Tell the developer both paths, the markdown and the HTML, and that nothing in the code has changed. Suggest opening the HTML in the team meeting and the markdown when doing the work.
+4. **Read the plan and pull its numbers.** Every number on the page comes from the markdown. Compute nothing new and invent nothing. When the argument needs a figure the plan does not carry, say so in place rather than estimating, and keep it brief.
 
-## What the page shows
+5. **Decide the argument, then build the page around it.** Before writing any markup, settle three things: the one number that leads, the order the case is made in, and what is evidence rather than argument. Then design the page to carry it. There is no template and no required section list. A short page that lands is better than a complete one that does not.
 
-Restrained on purpose. One accent colour for what the plan targets and for the "after" number, grey for what is left alone and for the "before" number, and nothing else, whether that accent is the template's own or pulled from the company's site in step 1. This is a document for a meeting, not a dashboard. Every chart carries an SVG `<title>`, and the numbers behind every chart appear in text beside it, because a chart is a summary of a table and never a substitute for one. Script does the collapsibles and nothing else, so the page reads whole with JavaScript switched off.
+6. **Write the page** to `docs/refactoring/<module-slug>-plan.html`, in the theme from step 1. Inline CSS, inline SVG and inline script only, no external resource of any kind, so the file opens from disk, attaches to a pull request and pastes into a wiki. A themed font loaded from a font service is still an external resource, so name the font in a stack that falls back to the system's own and keep only the colours. Include a print stylesheet, since someone will project it or print it.
 
-- **The headline.** The module, the problem statement in the developer's words, the one-line diagnosis, and the single headline measure as a large before and after pair, such as adding a provider touching seven files today and one after the plan. The commit hash and the history window sit under it in small text, because numbers without a hash cannot be reproduced.
+7. **Verify.** Open the page in a browser if one is available, Claude in Chrome or the equivalent. Check that every chart draws, that no text overlaps a mark, that any collapsible opens, that text stays readable against the themed background, and that nothing runs off the page at laptop width. If no browser is available, check the code instead: tags balance, every internal anchor resolves to an id on the page, every SVG has a `<title>`, and nothing loads from outside the file. Never stall on verification. Tell the developer in one line which method ran.
 
-- **Why this module, and why now.** A hotspot quadrant, drawn as a scatter with change frequency on the x axis and complexity on the y axis, saying in the axis label whether the complexity is lines or deep lines. One dot per file from the hotspot table, files in the plan in the accent colour and labelled with their R-numbers, files left alone in grey. Under it, a paragraph saying that technical debt only costs interest where the code changes, which is why the plan spends its effort in the top-right quadrant and leaves the rest alone. Beside it, a horizontal bar chart of change coupling, one bar per outside file as a share of the module's commits, with the one-third line marked and a sentence saying that a file above that line is changing for the module's reasons rather than its own. The hotspot table itself follows the charts.
+8. **Then.** Tell the developer both paths, the markdown and the HTML, who the page was written for, and that nothing in the code has changed. Suggest opening the HTML in the meeting and the markdown when doing the work.
 
-- **Why in this order.** A phased timeline with four swim lanes left to right in execution order: seam, characterisation test, refactoring, public surface. One box per step, numbered R1 and T1 onwards, arrows for what a step depends on, and independent steps drawn so that two developers can see at a glance what they can take at the same time. A step that runs blind carries a visible marker. Under it, the reason for the order: seams come first because the tests need somewhere to attach, tests come before the refactorings they protect, and the public surface comes last because it is the only part callers see.
+## Judgement, not a template
 
-- **What the plan wins.** The measures table drawn as paired before and after bars, one pair per measure, with both numbers printed beside the bars, followed by the table itself. Below that, the before and after dependency diagrams side by side, translated from the plan's Mermaid into inline SVG boxes and arrows and kept simple. One sentence under each diagram saying what changed, naming the arrow that disappeared or the files that merged.
+How the page looks and what it contains is a judgement call for each plan and each audience. A module with one dominant hotspot argues differently from a module with debt spread across a dozen files. A plan with 411 existing tests argues differently from one where every step runs blind. Read what this plan actually says and make the case that fits it.
 
-- **The steps.** A risk by coverage matrix first, four counts across low and medium risk by covered and blind, with a sentence naming the cell the team should review hardest. Then the full step table. Then one collapsible `<details>` block per refactoring carrying What, Why, Catalogue, Where, Steps, Check, Depends on, Risk and Commit, copied faithfully from the markdown.
+What holds regardless:
 
-- **The rest**, straight from the markdown and formatted: the safety net with the characterisation tests, the leave-alone list with its reasons, the bugs found but not fixed, the questions for the team, and Done when.
+**Charts are for the two or three claims that carry the argument.** Draw the ones that persuade this audience, at a size a room can read from a laptop screen. A chart nobody stops on is worse than a sentence, since it costs space and attention and returns neither.
 
-- **What this page could not show**, listing anything the plan did not carry a number for. Leave the section out when there is nothing in it.
+**Every mark is to scale.** A bar chart with a fixed-width "before" bar across every row is a picture of a ratio drawn to look like a magnitude, and a reader who notices stops trusting the rest of the page. When a scatter's dots are placed for label legibility rather than by value, say so in the caption or drop the axis lines that imply otherwise.
 
-## Where this goes wrong
+**Every chart's numbers appear in text beside it.** Someone will ask for the figure. A chart is a summary of a table and never a substitute for one.
 
-- **A number appears on the page that is not in the plan.** Every figure is traceable to the markdown, and the page says "not measured" rather than filling a gap.
-- **The page loads something.** A font, a chart library, an icon. It then breaks the moment it is attached to a pull request or opened offline.
-- **Colour is used for decoration.** A second and third colour makes the reader hunt for a meaning that is not there. One accent, one grey.
-- **The themed accent fails against its own background, or turns out to be a warning colour.** Check the contrast and the colour's use on the site before setting it; fall back to the template's default accent rather than shipping a page that is hard to read or that quietly flags the plan as an error.
-- **A chart replaces its table.** Someone in the meeting will ask for the number. Put it beside the chart.
-- **The markdown and the page disagree.** They are written from the same run at the same hash. Re-run both rather than editing one.
+**Restraint reads as credible.** One accent colour for what the plan targets and for the "after" number, grey for what is left alone and for the "before" number, whether that accent is the default or pulled from the company's site in step 1. A second and third colour makes a reader hunt for a meaning that is not there. Check the themed accent before setting it, since an accent that fails contrast against its own background, or that the site uses for warnings and errors, ships a page that is hard to read or that quietly flags the plan as a problem. Fall back to the default accent rather than either.
+
+**The page loads nothing.** A font, a chart library, an icon. Any of them breaks the moment the page is attached to a pull request or opened offline.
+
+**The page works with JavaScript off.** Script does disclosures and nothing else.
+
+**Every chart carries an SVG `<title>`.** The page is pasted into wikis and read on other people's machines.
+
+**Gaps are placed where they are useful, not collected at the end.** A gap that blocks the work, such as a test baseline that was never run green, belongs next to the step it blocks, as a prerequisite. A gap that is merely uncomputed belongs in small text near the chart that would have shown it. A closing section listing everything that could not be measured reads as a confession and hands the room its objection.
+
+## Honest persuasion
+
+Persuasion here is selection and order. The page argues by leading with the strongest true thing, never by softening a weak one.
+
+- **No number appears that is not in the plan.** Every figure is traceable to the markdown. Where a gap matters, the page says so.
+- **No chart overstates its data.** See the scale rule above.
+- **A risk the plan rated medium stays medium on the page.** Naming the riskiest step and what catches it is more convincing than a page where everything is low risk.
+- **What the plan will not fix stays visible.** A plan that removes 1,200 lines from a 4,500-line file has not fixed the file, and a reader who works out that omission alone stops believing the rest.
+- **The page and the markdown never disagree.** They are written from the same run at the same hash. Re-run both rather than editing one.
 
 ## Done when
 
-The HTML file exists beside the markdown plan and opens from disk with no network. Every chart draws, carries a `<title>`, and has its numbers in text beside it. Every step in the markdown appears in the step table and in a collapsible block. The measures table, the hotspot table, the leave-alone list, the bugs and the questions all made it across. The page prints to a readable deck. A team member who has never opened the module could read the first screen and say why this module comes first.
+The file exists beside the markdown plan and opens from disk with no network. It is written for a named audience, and it reads as a pitch to that audience rather than as the markdown with tags. Every chart draws, is to scale, carries a `<title>`, and has its numbers in text beside it. Someone in the intended audience could read the first screen and say why this module, why now, and what it costs. Every step in the plan is reachable on the page, whether or not it is on the first screen. The page prints readably.

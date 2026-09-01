@@ -1,7 +1,7 @@
 {
   "name": "refactoring",
-  "version": "0.2.0",
-  "description": "Investigates a module through its git history and its code and writes a numbered, step-by-step, behaviour-preserving refactoring plan that one developer can execute a step at a time, and can present that plan as a self-contained HTML page for the team.",
+  "version": "0.3.0",
+  "description": "Investigates a module through its git history and its code and writes a numbered, step-by-step, behaviour-preserving refactoring plan that one developer can execute a step at a time, and can pitch that plan to a team as a self-contained HTML page.",
   "author": {
     "name": "Incubyte",
     "email": "sapan@incubyte.co"
