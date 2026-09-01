@@ -37,16 +37,17 @@ Each refactoring is one commit. Take them in order unless a step is marked indep
 
 ```text
 /refactoring:plan-to-html src/assessment because adding a new SNOMED code provider takes four files
+/refactoring:plan-to-html src/assessment for the CTO
 ```
 
-It asks once for the company's website, and if you give one, pulls its background, text and accent colours and its font so the page reads as that company's report rather than a generic one. Say no or give nothing and it renders with its own default theme.
+It asks two things before it writes. It asks who the pitch is for, unless you already said, as in the second example above. It also asks once for the company's website, and if you give one, pulls its background, text and accent colours and its font so the page reads as that company's document rather than a generic one. Say no or give nothing and it renders in its own restrained default.
 
-It writes the plan, then renders it as one self-contained HTML page at `docs/refactoring/<module-slug>-plan.html`. The page opens the case for the module: the headline measure as a before and after pair, a hotspot quadrant showing which files are both complex and changed often, the change coupling that crosses the one-third line, a phased timeline showing why the steps come in the order they do, and paired bars for every measure the plan promises to move. Everything is inline, so the file opens from disk, attaches to a pull request and prints to a readable deck.
+It writes the plan, then writes one self-contained HTML page at `docs/refactoring/<module-slug>-plan.html` that argues the case to the audience you named. A page for the developers who will do the work leads with the shape of the change and where the danger is. A page for whoever approves the time leads with the cost of leaving it alone. The numbers are the same either way and every one of them comes from the markdown plan. Everything is inline, so the file opens from disk, attaches to a pull request and prints to a readable deck.
 
 ## How it is built
 
 Three skills. `plan` carries the method: where refactoring pays and where it does not, from Tornhill's hotspot and change-coupling analysis; the smells, catalogue refactorings and their mechanics, from Fowler; seams and characterisation tests for code with no tests, from Feathers. The git commands, the smell-to-refactoring map and the approach to testing legacy code live in `skills/plan/references/` and are read as needed.
 
-`plan-to-html` runs `plan` and then renders the finished plan as a web page. It reads only what the markdown plan already says, so no number appears on the page that a reader cannot find in the plan. Its `references/template.html` holds the stylesheet, the print stylesheet and one example of each chart, which keeps the output consistent from run to run.
+`plan-to-html` runs `plan` and then argues the finished plan to a named audience. It reads only what the markdown plan already says, so no number appears on the page that a reader cannot find in the plan. There is no page template. The two documents are organised for different jobs, since the markdown is read in order by someone doing the work and the page is read once by a room deciding whether the work happens, so the skill carries the rules that make a pitch honest and leaves the shape of each page to the plan and the audience in front of it.
 
 `incubyte-writing-voice` is not a document. It is a byte-for-byte copy of the same skill in `mvp-spec`, and both `plan` and `plan-to-html` invoke it once per session and write in it.

@@ -13,7 +13,7 @@
     {
       "name": "refactoring",
       "source": "./refactoring",
-      "description": "Writes a numbered, step-by-step, behaviour-preserving refactoring plan for a module from its git history and code, and can present it as a self-contained HTML page"
+      "description": "Writes a numbered, step-by-step, behaviour-preserving refactoring plan for a module from its git history and code, and can pitch it to a team as a self-contained HTML page"
     }
   ]
 }
