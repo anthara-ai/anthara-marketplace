@@ -8,10 +8,11 @@ A plugin marketplace for Claude Cowork and Claude Code. Each plugin lives in its
 |---|---|
 | [`mvp-spec`](mvp-spec/) | Interviews a startup founder and writes an estimable MVP spec package for Incubyte |
 | [`refactoring`](refactoring/) | Writes a numbered, step-by-step, behaviour-preserving refactoring plan for a module from its git history and code, and can present it as a self-contained HTML page |
+| [`sdlc-analysis`](sdlc-analysis/) | Extracts raw SDLC records from connected MCP servers, then builds a delivery diagnostic deck in which every number traces back to those records |
 
 ## Install a plugin
 
-This repository is a marketplace, so it works in both Claude Cowork and Claude Code. Add the marketplace once, then install the plugins you want from it. Each plugin's README explains how to use it: [`mvp-spec/README.md`](mvp-spec/README.md) and [`refactoring/README.md`](refactoring/README.md).
+This repository is a marketplace, so it works in both Claude Cowork and Claude Code. Add the marketplace once, then install the plugins you want from it. Each plugin's README explains how to use it: [`mvp-spec/README.md`](mvp-spec/README.md), [`refactoring/README.md`](refactoring/README.md) and [`sdlc-analysis/README.md`](sdlc-analysis/README.md).
 
 ### Claude Cowork
 
@@ -41,6 +42,7 @@ See the [Cowork plugin docs](https://claude.com/docs/cowork/guide/plugins) for d
 /plugin marketplace add anthara-ai/anthara-marketplace
 /plugin install mvp-spec@anthara-marketplace
 /plugin install refactoring@anthara-marketplace
+/plugin install sdlc-analysis@anthara-marketplace
 ```
 
 Start a new Claude Code session afterwards and the plugin's skills are available; begin mvp-spec with `/mvp-spec:start`, or plan a refactoring with `/refactoring:plan <module>`. See the [Claude Code plugin docs](https://code.claude.com/docs/en/discover-plugins) for more.

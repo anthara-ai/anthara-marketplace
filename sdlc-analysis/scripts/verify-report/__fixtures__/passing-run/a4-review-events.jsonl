@@ -1,0 +1,3 @@
+{"pull_request_id":"PR-101","repository":"example-org/sample-repo","event_type":"review","reviewer":"fixture-reviewer@example.com","state":"approved","submitted_at":"2026-03-03T09:00:00+00:00"}
+{"pull_request_id":"PR-102","repository":"example-org/sample-repo","event_type":"review","reviewer":"fixture-reviewer@example.com","state":"approved","submitted_at":"2026-03-08T09:00:00+00:00"}
+{"pull_request_id":"PR-104","repository":"example-org/sample-repo","event_type":"review","reviewer":"fixture-reviewer@example.com","state":"changes_requested","submitted_at":"2026-03-17T09:00:00+00:00"}

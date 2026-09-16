@@ -1,0 +1,11 @@
+node_modules/
+
+# Extraction output. Run directories hold unredacted organisational data —
+# author names and emails, commit messages, ticket summaries, incident titles.
+# Never commit one.
+sdlc-analysis-runs/
+
+.DS_Store
+*.local.md
+.claude/settings.local.json
+.idea/

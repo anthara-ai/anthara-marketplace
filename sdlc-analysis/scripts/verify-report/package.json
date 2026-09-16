@@ -1,0 +1,12 @@
+{
+  "name": "sdlc-analysis-verify-report",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Mechanically verifies a filled diagnostic deck against its evidence ledger, its reproducible metrics and the extraction run it was built from (docs/report-contract.md section 6). node_modules is not committed; the diagnose command's Phase 4 and CI run `npm ci` from this package's committed package-lock.json at verify time.",
+  "scripts": {
+    "test": "node --test"
+  },
+  "dependencies": {
+    "ajv": "8.20.0"
+  }
+}

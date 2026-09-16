@@ -1,0 +1,23 @@
+{
+  "dataset": "a3",
+  "records_file": "a3-pull-requests.jsonl",
+  "provider": {
+    "name": "github",
+    "detected_via": "mcp"
+  },
+  "window": {
+    "requested": "6m",
+    "from": "2026-01-14T00:00:00+00:00",
+    "to": "2026-07-14T00:00:00+00:00"
+  },
+  "scope": {
+    "identifiers": [
+      "example-org/sample-repo"
+    ],
+    "note": "synthetic fixture scope"
+  },
+  "completeness": "complete",
+  "record_count": 1,
+  "truncation": [],
+  "extracted_at": "2026-07-14T09:12:03+05:30"
+}

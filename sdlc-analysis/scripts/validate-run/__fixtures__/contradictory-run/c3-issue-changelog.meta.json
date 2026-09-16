@@ -1,0 +1,35 @@
+{
+  "dataset": "c3",
+  "records_file": "c3-issue-changelog.jsonl",
+  "provider": {
+    "name": "jira",
+    "detected_via": "mcp"
+  },
+  "window": {
+    "requested": "6m",
+    "from": "2026-01-14T00:00:00+00:00",
+    "to": "2026-07-14T00:00:00+00:00"
+  },
+  "scope": {
+    "identifiers": [
+      "EX"
+    ],
+    "note": "synthetic project"
+  },
+  "completeness": "complete",
+  "record_count": 2,
+  "truncation": [
+    {
+      "reason": "provider_cap",
+      "detail": "Changelog capped at 100 entries; 7 unreachable",
+      "at": "2026-07-14T09:12:03+05:30",
+      "last_record_id": "EX-42",
+      "last_record_timestamp": "2026-07-14T09:12:03+05:30",
+      "cursor": {
+        "resumable": false,
+        "unreachable_reason": "no paginated-changelog tool exists"
+      }
+    }
+  ],
+  "extracted_at": "2026-07-14T09:12:03+05:30"
+}
