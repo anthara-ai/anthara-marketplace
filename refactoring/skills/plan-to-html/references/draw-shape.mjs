@@ -18,7 +18,13 @@
 //              (one dotted box standing for several untouched collaborators;
 //              give it a "count" and the label carries it)
 //   edge.kind: omitted (exists today) | "after" (the plan adds it) |
-//              "future" (dashed: made possible by the plan, added by no step)
+//              "future" (dashed: made possible by the plan, added by no step) |
+//              "back" (a dependency that points against the layering, a cycle
+//              that exists today; drawn dashed in the caution colour under the
+//              grid, and refused in a panel that has anything of kind "after",
+//              because a cycle after the plan is a defect, not a shape) |
+//              "indirect" (dotted: a dependency that is not an import, such as
+//              an event both sides name, a queue, a shared table or a config key)
 //
 // Every coordinate is computed from the column and row. Edges run left to
 // right, leave a box at its right edge and arrive at the next box's left edge,
@@ -26,7 +32,10 @@
 // edges in or out gets one port per edge, spaced down its edge, so no two
 // arrowheads land on the same point. Edges that cross a column travel along a
 // row gutter, where there is never a box. An edge that would have to point
-// backwards is refused, because callers belong to the left of what they call.
+// backwards is refused, because callers belong to the left of what they call,
+// unless it is declared kind "back": then it leaves the caller's bottom edge,
+// runs along a lane under the grid and arrives at the callee's bottom edge,
+// which needs the cells below both boxes to be free.
 //
 // A panel is a story, not an import graph. It refuses more than 8 boxes, more
 // than 8 edges, or a box with more than 3 edges out or 3 edges in. Collapse the
@@ -43,6 +52,7 @@ const LANE_INSET = 6
 const LABEL_X = 12, LABEL_Y = 26
 const MONO_CHAR = 13 * 0.62
 const MAX_NODES = 8, MAX_EDGES = 8, MAX_FAN = 3
+const BACK_LANE_GAP = 14, BACK_INSET = 30
 
 const spec = JSON.parse(await readFile(process.argv[2] ?? '', 'utf8').catch(() => {
   console.error('usage: node draw-shape.mjs <spec.json>')
@@ -67,12 +77,18 @@ for (const n of spec.nodes) {
   const twin = spec.nodes.find(m => m !== n && m.col === n.col && m.row === n.row)
   if (twin) fail(`"${n.id}" and "${twin.id}" share cell (${n.col},${n.row})`)
 }
+const isBack = e => e.kind === 'back'
+const panelHasAfter = spec.nodes.some(n => n.kind === 'after') || spec.edges.some(e => e.kind === 'after')
 for (const e of spec.edges) {
   const a = nodes.get(e.from), b = nodes.get(e.to)
   if (!a || !b) fail(`edge ${e.from} -> ${e.to} names a node the spec does not have`)
-  if (b.col < a.col) fail(`edge ${e.from} -> ${e.to} points backwards; move "${e.to}" to the right of "${e.from}"`)
   if (a === b) fail(`edge ${e.from} -> ${e.to} loops`)
+  if (isBack(e) && panelHasAfter) fail(`edge ${e.from} -> ${e.to} is a back edge in an after panel; a cycle after the plan is a defect for a step to remove, not a shape to draw`)
+  if (isBack(e) && b.col >= a.col) fail(`edge ${e.from} -> ${e.to} is declared back but does not point backwards; drop the kind`)
+  if (!isBack(e) && b.col < a.col) fail(`edge ${e.from} -> ${e.to} points backwards; move "${e.to}" to the right of "${e.from}", or declare kind "back" if it is a cycle that exists today`)
 }
+const forwardEdges = spec.edges.filter(e => !isBack(e))
+const backEdges = spec.edges.filter(isBack)
 
 const portOffsets = count => Array.from({ length: count }, (_, k) => (k - (count - 1) / 2) * PORT_SPACING)
 
@@ -80,7 +96,7 @@ function assignPorts(direction) {
   const key = direction === 'out' ? 'from' : 'to'
   const other = direction === 'out' ? 'to' : 'from'
   for (const node of nodes.values()) {
-    const edges = spec.edges
+    const edges = forwardEdges
       .filter(e => e[key] === node.id && nodes.get(e[other]).col !== node.col)
       .sort((p, q) => nodes.get(p[other]).row - nodes.get(q[other]).row || nodes.get(p[other]).col - nodes.get(q[other]).col)
     portOffsets(edges.length).forEach((offset, k) => { edges[k][`${direction}Y`] = node.y + ROW_H / 2 + offset })
@@ -98,7 +114,7 @@ function assignLanes() {
     if (!gutters.has(gutter)) gutters.set(gutter, [])
     gutters.get(gutter).push({ edge, role })
   }
-  for (const e of spec.edges) {
+  for (const e of forwardEdges) {
     const a = nodes.get(e.from), b = nodes.get(e.to)
     if (a.col === b.col) continue
     claim(a.col, e, 'exit')
@@ -124,7 +140,7 @@ const rowGutterY = (row, k, n) => {
 
 function assignRowLanes() {
   const lanes = new Map()
-  for (const e of spec.edges) {
+  for (const e of forwardEdges) {
     const a = nodes.get(e.from), b = nodes.get(e.to)
     if (b.col <= a.col + 1) continue
     const straightRow = b.row
@@ -163,11 +179,27 @@ function route(e) {
 const cols = Math.max(...spec.nodes.map(n => n.col)) + 1
 const rows = Math.max(...spec.nodes.map(n => n.row)) + 1
 const width = cols * COL_PITCH - COL_GAP
-const height = rows * ROW_PITCH - ROW_GAP + 4
+const gridBottom = rows * ROW_PITCH - ROW_GAP
+const height = gridBottom + 4 + backEdges.length * BACK_LANE_GAP
+
+const cellsBelowAreFree = node => Array.from({ length: rows - node.row - 1 }, (_, i) => node.row + 1 + i).every(r => cellFree(node.col, r))
+
+function routeBack(e, k) {
+  const a = nodes.get(e.from), b = nodes.get(e.to)
+  for (const n of [a, b]) {
+    if (!cellsBelowAreFree(n)) fail(`back edge ${e.from} -> ${e.to} would run through a box under "${n.id}"; put "${n.id}" in the bottom row of its column`)
+  }
+  const laneY = gridBottom + (k + 1) * BACK_LANE_GAP
+  const exitX = a.x + COL_W - BACK_INSET - k * 12
+  const enterX = b.x + BACK_INSET + k * 12
+  return `M${exitX} ${a.y + ROW_H}V${laneY}H${enterX}V${b.y + ROW_H}`
+}
 
 const esc = s => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/"/g, '&quot;')
 const boxClass = n => ['box', n.kind === 'after' && 'box--after', n.kind === 'gone' && 'box--gone', n.kind === 'group' && 'box--group'].filter(Boolean).join(' ')
-const edgeKind = e => e.kind === 'after' || e.kind === 'future' ? e.kind : 'today'
+const EDGE_KINDS = new Set(['after', 'future', 'back', 'indirect'])
+const edgeKind = e => EDGE_KINDS.has(e.kind) ? e.kind : 'today'
+const arrowClass = kind => kind === 'today' || kind === 'indirect' ? 'arrow' : `arrow arrow--${kind === 'future' ? 'after' : kind}`
 const kinds = new Set(spec.edges.map(edgeKind))
 const markerId = kind => `${spec.id}-arrow-${kind}`
 
@@ -175,13 +207,15 @@ const out = []
 out.push(`<svg viewBox="0 0 ${width} ${height}" role="img" aria-labelledby="${spec.id}-title">`)
 out.push(`  <title id="${spec.id}-title">${esc(spec.title)}</title>`)
 out.push(`  <defs>${[...kinds].map(kind =>
-  `<marker id="${markerId(kind)}" markerUnits="userSpaceOnUse" markerWidth="${ARROW}" markerHeight="${ARROW}" refX="${ARROW}" refY="${ARROW / 2}" orient="auto"><path d="M0 0L${ARROW} ${ARROW / 2}L0 ${ARROW}z" class="arrow${kind === 'today' ? '' : ' arrow--after'}"/></marker>`).join('')}</defs>`)
+  `<marker id="${markerId(kind)}" markerUnits="userSpaceOnUse" markerWidth="${ARROW}" markerHeight="${ARROW}" refX="${ARROW}" refY="${ARROW / 2}" orient="auto"><path d="M0 0L${ARROW} ${ARROW / 2}L0 ${ARROW}z" class="${arrowClass(kind)}"/></marker>`).join('')}</defs>`)
 for (const n of nodes.values()) {
   out.push(`  <rect class="${boxClass(n)}" data-node="${n.id}" x="${n.x}" y="${n.y}" width="${COL_W}" height="${ROW_H}"/><text x="${n.x + LABEL_X}" y="${n.y + LABEL_Y}">${esc(n.label)}</text>`)
 }
-for (const e of spec.edges) {
+const pathOf = (e, k) => isBack(e) ? routeBack(e, k) : route(e)
+spec.edges.forEach((e, k) => {
   const kind = edgeKind(e)
-  out.push(`  <path class="edge${kind === 'today' ? '' : ` edge--${kind}`}" data-from="${e.from}" data-to="${e.to}" d="${route(e)}" marker-end="url(#${markerId(kind)})"/>`)
-}
+  const backIndex = backEdges.indexOf(e)
+  out.push(`  <path class="edge${kind === 'today' ? '' : ` edge--${kind}`}" data-from="${e.from}" data-to="${e.to}" d="${pathOf(e, backIndex)}" marker-end="url(#${markerId(kind)})"/>`)
+})
 out.push('</svg>')
 console.log(out.join('\n'))

@@ -268,9 +268,19 @@
     land on the same point, sends column-skipping edges along a row gutter
     where there is never a box, and draws one arrowhead shape at one size for
     every edge. An edge of kind "future" is dashed, for a dependency the
-    plan makes possible but no step adds. It refuses a backwards edge, a label too long for its box and
-    two nodes on one cell, so the failure is a message rather than a diagram
-    that looks odd.
+    plan makes possible but no step adds. An edge of kind "back" is dashed
+    in the caution colour and runs under the grid, for a cycle that exists
+    today; it is allowed in the today panel only, since a cycle after the
+    plan is a defect for a step to remove. An edge of kind "indirect" is
+    dotted, for a dependency that is not an import: an event both sides
+    name, a queue, a shared table, a config key. It refuses an undeclared
+    backwards edge, a label too long for its box and two nodes on one cell,
+    so the failure is a message rather than a diagram that looks odd.
+  - NO DEPENDENCY CHANGE, NO DIAGRAM. When no step adds or removes an edge
+    between modules (Long Function, dead code, a conditional replaced inside
+    one class), there is no shape to draw. Skip the shape slide and the
+    panels; the team deck leads with the X-ray of the hot file instead. Two
+    identical panels are not a diagram.
   - A PANEL IS A STORY, NOT AN IMPORT GRAPH. The generator and check-page.mjs
     both refuse more than 8 boxes or 8 edges in one panel, and the generator
     refuses a box with more than 3 edges in or 3 edges out. Draw the edges
@@ -592,8 +602,11 @@
   .shape svg .edge { stroke: var(--before); stroke-width: 1.5; fill: none; stroke-linejoin: round; }
   .shape svg .edge--after { stroke: var(--accent); }
   .shape svg .edge--future { stroke: var(--accent); stroke-dasharray: 5 4; }
+  .shape svg .edge--back { stroke: var(--caution); stroke-dasharray: 6 4; }
+  .shape svg .edge--indirect { stroke-dasharray: 2 3; }
   .shape svg .arrow { fill: var(--before); }
   .shape svg .arrow--after { fill: var(--accent); }
+  .shape svg .arrow--back { fill: var(--caution); }
 
   .tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; }
   .tile { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 20px 24px; display: flex; flex-direction: column; gap: 6px; }

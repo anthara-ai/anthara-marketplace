@@ -22,14 +22,14 @@ The prompt names the page, the plan, the path of a local clone and the plan's co
 
 # What the diagram contains
 
-Every `svg` inside an element with class `shape` is one panel. Each `rect` carries `data-node`, the id of a box, and the `text` after it is the label the reader sees. Each `path` with class `edge` carries `data-from` and `data-to`. A box with class `box--after` is one the plan creates. A box with class `box--gone` is dashed: either the plan removes it, or it is the next thing the plan makes possible. A box with class `box--group` stands for several collaborators the plan does not touch, and its label carries a count. The panel's `title` says which panel it is, today or after the plan.
+Every `svg` inside an element with class `shape` is one panel. Each `rect` carries `data-node`, the id of a box, and the `text` after it is the label the reader sees. Each `path` with class `edge` carries `data-from` and `data-to`. A box with class `box--after` is one the plan creates. A box with class `box--gone` is dashed: either the plan removes it, or it is the next thing the plan makes possible. A box with class `box--group` stands for several collaborators the plan does not touch, and its label carries a count. An edge with class `edge--back` points against the layering: a cycle that exists today, allowed in the today panel only. An edge with class `edge--indirect` is a dependency that is not an import, and you confirm it by the name both sides share. The panel's `title` says which panel it is, today or after the plan.
 
 # Checks, in this order
 
 For the **today** panel, the code at the commit is the truth. Use `git -C <clone> show <hash>:<path>` to read a file as it was, never the working tree, and `git -C <clone> grep -n <pattern> <hash> -- <folder>` to search it.
 
-1. **Every drawn edge exists.** For an edge from A to B, find where A depends on B: an import, a constructor parameter, a property injected by the framework, a direct call, or an outgoing request to the host that B stands for. Record the file and line.
-2. **No edge is missing.** For every ordered pair of drawn boxes with no edge between them, check the same way. A dependency that exists in the code and is not drawn fails the diagram, since a reader takes the absence of an arrow as a claim.
+1. **Every drawn edge exists.** For an edge from A to B, find where A depends on B: an import, a constructor parameter, a property injected by the framework, a direct call, an outgoing request to the host that B stands for, or, for an indirect edge, an event or message name A emits and B handles, a queue or topic both name, a table or schema both read or write, or a configuration key one writes and the other reads. Record the file and line on both sides for an indirect edge.
+2. **No edge is missing.** For every ordered pair of drawn boxes with no edge between them, check the same way, in both directions. A dependency that exists in the code and is not drawn fails the diagram, since a reader takes the absence of an arrow as a claim. A dependency that points against the layering belongs in the today panel as a back edge, and in the after panel it fails the diagram, because the plan must name the step that removes it.
 3. **Every label names something that exists.** A label is a class, a file, a folder or an external host. A shortened label is allowed only when the page says so beside the diagram.
 4. **A group box's count is right.** Count the collaborators it stands for in the code and compare.
 

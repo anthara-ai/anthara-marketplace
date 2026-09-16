@@ -12,7 +12,7 @@ The developers who will do the work. The codebase is familiar, so there is no or
 
 Questions, in order:
 
-1. **What does it look like afterwards?** The plan's before-and-after dependency shape, drawn on the grid. This is the one audience for whom the diagram leads.
+1. **What does it look like afterwards?** The plan's before-and-after dependency shape, drawn on the grid. This is the one audience for whom the diagram leads. When the plan changes no dependency between modules, this slot is the X-ray of the hot file instead, functions by churn and depth, today and after.
 2. **Where will I break something?** The steps rated medium, the steps that run blind, and what pins each one. The riskiest step gets one screen with its what, why, check and undo.
 3. **What do I do first, and what can we take in parallel?** The step table, all of it, with phase, dependency, risk and net. Independent steps called out, since two developers can take two at once.
 4. **What are we deliberately not touching, and why?** The leave-alone list, because a developer who sees ugly code nearby will otherwise fix it "while they are here".
