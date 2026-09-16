@@ -1,0 +1,1357 @@
+<!DOCTYPE html>
+<!--
+  ============================================================================
+  Portfolio Delivery Diagnostic - HTML deck template
+  ============================================================================
+
+  An 11-slide, 1920×1080 client-facing deck rendered from one or more
+  sdlc-analysis extraction runs (sdlc-analysis-runs/<UTC-timestamp>/).
+
+  HOW TO FILL
+  - Every `{{…}}` token is a slot. Replace all of them; grep for `{{` when
+    done - a finished deck contains none.
+  - Blocks marked `REPEAT` are stamped once per engagement / row / card.
+    Blocks marked `OPTIONAL` are deleted when the data does not support them.
+  - "Engagement" means whatever unit the portfolio compares: separate runs,
+    or repos/teams within one run. A single-engagement deck keeps the same
+    slide order; the scorecard collapses to one row and Findings 1–3 become
+    that engagement's top constraints instead of one per engagement.
+
+  WHERE THE NUMBERS COME FROM
+  - Volume counts: `_run-manifest.json` per-dataset `record_count`, and each
+    `*.meta.json` sidecar. Only datasets marked `complete` may be described
+    as complete; `truncated` / `unavailable` datasets are named on the
+    appendix's method sheet, never silently pooled.
+  - Data gaps: `gaps.md` verbatim is the source for "Where the data is thin".
+  - Metrics: computed downstream from the JSONL records. This template does
+    not compute anything.
+
+  RULES THE DECK MUST HOLD TO (they are claims the methodology sheet makes)
+  - Percentiles (p50 / p85) over means. Never present a mean lead time.
+  - Elapsed time from changelogs is CALENDAR time - say "days", never
+    "engineer-days" or "effort".
+  - Telemetry only: no survey, interview, or morale claims - that boundary
+    is stated in the appendix's method sheet.
+  - Every number traces to records on disk. No invented counts, PR ids,
+    ticket ids, or percentages. The Receipt slide cites real artifact ids.
+  - Chart labels are PERCENTS. Every bar / column that draws a share or a
+    rate is labeled with the same percent that drives its width or height
+    - never a raw count ("355 PRs" on a bar is a fill error). Raw counts
+    belong in stat cards, prose, and the appendix tables. The one
+    exception is the Finding-1 stacked bar, whose segments are labeled in
+    calendar days by design.
+  - Name every gap yourself (the appendix's method sheet) before the
+    room does.
+  - LOW COGNITIVE LOAD: the slides run title -> summary -> scorecard ->
+    findings -> receipt -> recommendations -> roadmap -> closing -> the
+    appendix divider, with NOTHING in between. There is no method slide, no synthesis slide, no
+    operating-philosophy slide, no measurement-guardrails slide - the
+    methodology and the limits live in the appendix, and the other ideas
+    carried real weight at too high a reading cost. When one of those
+    ideas is genuinely load-bearing (a root cause, a body-of-practice
+    claim, a measurement guardrail), deliver it as a one-line
+    <p class="footnote"> on the finding or recommendation it belongs to:
+    one sentence, no new numbers, no new exhibits. An idea that cannot
+    earn a footnote does not ship.
+  - The findings are a RANKING, not an inventory: the deck presents the
+    top constraints by measured impact, and the executive summary
+    discloses that in plain words. Never imply the list is exhaustive.
+  - VOICE: the surface decides the shape. Running prose (ledes,
+    footnotes, appendix caveats) is connected sentences. Display copy
+    (cards, tiles, cells) is one claim per line as a bullet, three or
+    four per card, with no connectors between bullets. Never fill a card
+    slot with a multi-sentence paragraph.
+  - TOTALS: a table that enumerates a full population closes with a
+    totals row. A top-N sample table instead closes with a portfolio row
+    labeled as such (e.g. "All N active repos"), so the sample reads
+    against its base. Never total a sample as if it were the population,
+    and never leave a share column without the base it is a share of.
+  - No em dashes (U+2014) and no semicolon-joined claims anywhere in the
+    deck: not in slide prose, table cells, captions, speaker notes, or
+    the appendix. Use a colon, a comma, parentheses, or a new sentence
+    instead. Grep for the em dash before shipping, exactly as you grep
+    for `{{`.
+  - Stale scopes never pool with live ones. Apply the staleness filter
+    below before computing anything, and disclose every exclusion.
+
+  STALE SCOPES - EXCLUDE BEFORE YOU AGGREGATE
+  - A scope unit (a board / Jira project, a repository, a pipeline) that
+    has been inactive for a long stretch of the window describes a past
+    reality, not the current one. Pooling it with live scopes makes every
+    aggregate unactionable - the report must adapt to what the client
+    runs today. Before computing anything, classify each scope unit from
+    its OWN records and exclude the stale ones from every count,
+    percentile, chart, and receipt in the deck.
+  - The deterministic test, applied per scope unit and only from the
+    records: STALE when it shows ZERO activity in the trailing 6 months
+    of the window - no commit, no pull-request event, no pipeline run,
+    and no work-item changelog entry attributable to it. If the window
+    itself is 6 months or shorter, test over the full window. A scope
+    with a little activity that is clearly winding down stays IN - only
+    fully inactive scopes are excluded; describe a wind-down in prose
+    instead of dropping its data.
+  - Exclusion is never silent. Every excluded scope is disclosed twice:
+    in the OPTIONAL "Excluded from this report" rows on the appendix's
+    method sheet (name + last recorded activity + what was dropped
+    with it), and in the evidence appendix's provenance footer. When
+    nothing was excluded, delete the rows and the footer clause - never
+    fabricate one.
+  - This test is deliberately time-and-activity based (last event versus
+    the window, changelog included). Richer staleness signals - changelog
+    decay curves, contributor drift - may sharpen it later; do not invent
+    them ad hoc in a fill.
+
+  EVIDENCE APPENDIX (in-page)
+  - The deck ends with a scrolling evidence appendix (the `.appendix`
+    section after the closing slide): the full item-level receipts behind
+    every finding - the worst individual cases as tables of real
+    pull-request, pipeline-run, and work-item ids, each linked to the
+    provider so a skeptic can open it. The slides carry the argument; the
+    appendix carries the audit. The receipt slide's footnote links down
+    to it.
+  - The appendix is its own section, opened by a real slide: the
+    "Appendix" divider slide (11) closes the deck with an oversized
+    plain-language title like "Your data, broken down", one subheader,
+    the window/run meta and a one-line fairness note - nothing else.
+    The appendix sheets then start directly with ONE method sheet (a
+    stats band of source-system tiles over three quiet fine-print
+    columns: rules, blind spots, exclusions), then the per-finding
+    evidence sheets, then the provenance footer with the backlink.
+  - Unlike the slides, the appendix is not a fixed canvas: it reflows to
+    any viewport. Keep it that way - no fixed widths, tables live inside
+    their `.ax-scroll` wrappers.
+  - Appendix honesty rules, on top of the deck's: every table card names
+    its source dataset file(s) in the card header and closes with a caveat
+    row - the provider limit, truncation, or fairness note that keeps the
+    table honest. Names appear because the records carry them; the framing
+    note states the inspection-not-evaluation rule, and when a table
+    aggregates by person the caveat says why the pattern is structural.
+    Sections are thematic, one per finding (plus hygiene extras); a
+    typical appendix has 3–5 sections of 1–3 table cards each.
+  - Link forms (use the provider the run actually resolved):
+      GitHub PR:        https://github.com/[org]/[repo]/pull/[n]
+      GitHub Actions:   https://github.com/[org]/[repo]/actions/runs/[run_id]
+      Azure DevOps PR:  https://dev.azure.com/[org]/[project]/_git/[repo]/pullrequest/[n]
+      Azure build:      https://dev.azure.com/[org]/[project]/_build/results?buildId=[run_id]
+      Azure work item:  https://dev.azure.com/[org]/[project]/_workitems/edit/[id]
+      Jira issue:       https://[site].atlassian.net/browse/[KEY]
+
+  VIEWING / EXPORT
+  - Open in a browser: slides stack vertically, scaled to the window; the
+    appendix flows below them and reflows natively at any width. Arrow
+    keys / PageUp / PageDown step between slides and the appendix.
+  - Responsive by contract (see the deck-scaffolding comment in the CSS):
+    slides grow below their 1080px floor rather than clip when fonts render
+    wider than designed; below 760px the canvas is dropped and slides
+    reflow as single-column mobile content. Every font-size, inline ones
+    included, must stay in the calc(<n>px * var(--ts, 1)) form or the
+    mobile type scale will miss it.
+  - Print to PDF for distribution: each slide is one 1920×1080 page; the
+    appendix follows on its own pages.
+  ============================================================================
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{Engagement name}} · Delivery Diagnostic</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E %3Crect width='512' height='512' fill='%23e2f1eb'/%3E %3Cg fill='%236a3318'%3E %3Crect x='63' y='79' width='35' height='354'/%3E %3Crect x='63' y='79' width='97' height='24'/%3E %3Crect x='63' y='409' width='97' height='24'/%3E %3Crect x='414' y='79' width='35' height='354'/%3E %3Crect x='352' y='79' width='97' height='24'/%3E %3Crect x='352' y='409' width='97' height='24'/%3E %3C/g%3E %3Cpath fill='%23142a21' transform='translate(63.978 57) scale(11.22752)' d='M16.1824 28.2348C14.8309 28.2348 13.6022 27.989 12.4964 27.4976C11.4152 26.9815 10.5551 26.2443 9.91621 25.286C9.2773 24.3276 8.95785 23.1604 8.95785 21.7843C8.95785 20.1624 9.35102 18.8846 10.1374 17.9508C10.9483 17.017 12.0172 16.3413 13.3442 15.9235C14.6711 15.4812 16.121 15.1986 17.6937 15.0757C19.2909 14.9529 20.8636 14.9037 22.4117 14.9283V17.6191C19.0698 17.4962 16.5633 17.7911 14.8923 18.5037C13.2459 19.1918 12.4227 20.2361 12.4227 21.6368C12.4227 22.8655 12.8036 23.7993 13.5653 24.4382C14.3517 25.0771 15.4821 25.3965 16.9565 25.3965C18.1114 25.3965 19.0943 25.1385 19.9053 24.6225C20.7162 24.0819 21.3305 23.3692 21.7483 22.4846C22.1906 21.6 22.4117 20.6047 22.4117 19.4989V17.103H25.766V27.645H22.4117V25.2122C21.7974 26.1706 20.9742 26.9201 19.9421 27.4607C18.9346 27.9767 17.6814 28.2348 16.1824 28.2348ZM8.55239 14.6334C8.55239 13.2327 8.88413 11.9058 9.54761 10.6525C10.2357 9.3993 11.2309 8.37951 12.5333 7.59316C13.8602 6.80682 15.4821 6.41364 17.3988 6.41364C20.0281 6.41364 22.0309 7.17542 23.407 8.69896C24.8076 10.2225 25.5817 12.299 25.7291 14.9283H22.4117C22.338 13.2082 21.8957 11.8689 21.0848 10.9106C20.2739 9.9522 19.0452 9.47302 17.3988 9.47302C16.1455 9.47302 15.1258 9.71876 14.3394 10.2102C13.5776 10.6771 13.0124 11.3037 12.6438 12.0901C12.2752 12.8519 12.0909 13.6996 12.0909 14.6334H8.55239Z'/%3E %3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Manrope:wght@400;600;700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+  /* ==========================================================================
+     Design tokens - ported verbatim from the Anthara diagnostic deck.
+     Do not hand-tune values per slide; change a token or add a variant.
+     ========================================================================== */
+  :root {
+    --ink: #1e3a2f;            /* deep green: dark slides, headline text    */
+    --paper: #f5f2ec;          /* cream: light slide background             */
+    --card: #ffffff;
+    --line: #e8e8e8;
+    --muted: #6b7b74;          /* kickers, secondary labels                 */
+    --body-soft: #3d5a4e;      /* secondary prose on light slides           */
+    --green: #4a8c6f;          /* mid green: good, active                   */
+    --green-deep: #3a7a5d;     /* deep green: accents, links, best values   */
+    --green-tint: #edf5f1;
+    --green-tint-line: #cfe3d8;
+    --amber: #d4920a;          /* caution values                            */
+    --amber-tint: #fff8e7;
+    --amber-tint-line: #f0d78c;
+    --amber-ink: #8a6205;
+    --red: #c0392b;            /* failing values, costs                     */
+    --red-tint: #fdedeb;
+    --red-tint-line: #f0a8a0;
+    --red-ink: #8f2c20;
+    --sans: 'Inter', ui-sans-serif, system-ui, sans-serif;
+    --display: 'Manrope', 'Inter', ui-sans-serif, sans-serif;
+    --mono: 'JetBrains Mono', ui-monospace, monospace;
+  }
+
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--ink); -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+  a { color: var(--green-deep); text-decoration: none; }
+  a:hover { color: var(--green); }
+  p, h1, h2, ul { margin: 0; }
+  strong { font-weight: 700; }
+
+  /* --- deck scaffolding: fixed-width 1920 canvases scaled to the window.
+     RESPONSIVE CONTRACT (do not remove any of these pieces):
+     1. Slide height is a floor, not a cage: min-height 1080px, so a slide
+        whose text renders wider than designed (webfonts blocked, fallback
+        metrics, translations) GROWS instead of clipping. The fit script
+        sizes each frame from the slide's real height.
+     2. Every slide is wrapped in a .slide-crop by the fit script; the crop
+        carries the scaled size so the page never scrolls over the unscaled
+        1920px layout box.
+     3. Below 760px the transform is dropped and the mobile reflow block
+        (end of this stylesheet) lays slides out as single-column flowing
+        content. All px font sizes therefore go through
+        calc(<n>px * var(--ts, 1)) so one variable rescales the type
+        hierarchy on mobile. ANY font-size you add when filling this
+        template, inline or in CSS, must use the same calc form. --- */
+  .deck { display: flex; flex-direction: column; gap: 8px; padding: 8px; }
+  @media (max-width: 720px) { .deck { gap: 4px; padding: 4px; } }
+  .slide-frame { width: 100%; overflow: hidden; border-radius: 4px; }
+  .slide-crop { overflow: hidden; }
+  .slide {
+    width: 1920px; height: auto; min-height: 1080px; transform-origin: top left;
+    background: var(--paper); color: var(--ink);
+    font-family: var(--sans); letter-spacing: -0.011em;
+    padding: 52px 76px; display: flex; flex-direction: column; gap: 24px;
+  }
+  .slide--dark {
+    background: var(--ink); color: #ffffff;
+    padding: 96px; justify-content: space-between; gap: 0;
+  }
+
+  /* --- type --- */
+  .kicker {
+    font-family: var(--sans); font-size:calc(22px * var(--ts, 1)); font-weight: 700;
+    letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted);
+  }
+  .kicker--wide { letter-spacing: 0.12em; }
+  .kicker--on-dark { color: rgba(255,255,255,0.55); }
+  .kicker--good { color: var(--green-deep); }
+  .kicker--bad { color: var(--red); }
+  .kicker--warn { color: var(--amber-ink); }
+  h1 {
+    font-family: var(--display); font-size:calc(92px * var(--ts, 1)); font-weight: 400;
+    line-height: 1.05; letter-spacing: -0.025em;
+  }
+  h2 {
+    font-family: var(--display); font-size:calc(52px * var(--ts, 1)); font-weight: 400;
+    letter-spacing: -0.02em; line-height: 1.1;
+  }
+  .slide-head { display: flex; flex-direction: column; gap: 12px; }
+  .lede { font-size:calc(28px * var(--ts, 1)); line-height: 1.45; color: var(--body-soft); max-width: 1400px; }
+  .lede--on-dark { color: rgba(255,255,255,0.75); }
+  .footnote { font-size:calc(27px * var(--ts, 1)); line-height: 1.45; color: var(--body-soft); }
+
+  /* --- cards and strips --- */
+  .card {
+    background: var(--card); border: 1px solid var(--line); border-radius: 12px;
+    padding: 26px 32px; display: flex; flex-direction: column; gap: 18px;
+  }
+  .card--tint  { background: var(--green-tint); border-color: var(--green-tint-line); }
+  .card--warn  { background: var(--amber-tint); border-color: var(--amber-tint-line); }
+  .card--risk  { background: var(--red-tint);   border-color: var(--red-tint-line); }
+  .card--dark  { background: var(--ink); border: none; }
+  .card--ghost { background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.14); }
+  .strip { border-radius: 12px; padding: 22px 32px; }
+  .strip p { font-size:calc(29px * var(--ts, 1)); line-height: 1.45; }
+  .divider { height: 1px; background: var(--line); }
+
+  /* pull-quote statement with the left accent bar (executive summary) */
+  .statement {
+    background: var(--card); border: 1px solid var(--line); border-radius: 12px;
+    padding: 28px 34px; display: flex; gap: 32px; align-items: flex-start;
+  }
+  .statement::before {
+    content: ""; width: 4px; align-self: stretch;
+    background: var(--green-deep); border-radius: 2px;
+  }
+  .statement p { font-size:calc(34px * var(--ts, 1)); line-height: 1.45; font-weight: 600; text-wrap: pretty; }
+
+  /* --- grids --- */
+  .grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; flex: 1; min-height: 0; }
+  .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; flex: 1; min-height: 0; }
+  .col-stack { display: flex; flex-direction: column; gap: 20px; }
+
+  /* --- big numbers --- */
+  .stat { font-family: var(--display); font-weight: 700; letter-spacing: -0.025em; line-height: 1; }
+  .stat--hero { font-size:calc(64px * var(--ts, 1)); }
+  .stat--panel { font-size:calc(54px * var(--ts, 1)); }
+  .num--good { color: var(--green-deep); }
+  .num--warn { color: var(--amber); }
+  .num--bad  { color: var(--red); }
+
+  /* --- data-grid tables (scorecard, receipt) --- */
+  .table { background: var(--card); border: 1px solid var(--line); border-radius: 12px; overflow: hidden; flex: 1; min-height: 0; display: grid; }
+  .table--scorecard { grid-template-columns: 300px repeat(4, 1fr); }
+  .table--receipt { grid-template-columns: 210px 1.5fr 1fr 1fr; align-content: start; }
+  .th {
+    padding: 22px 28px; background: var(--paper); border-bottom: 1px solid var(--line);
+    font-size:calc(20px * var(--ts, 1)); font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--muted); display: flex; align-items: center;
+  }
+  .table--receipt .th { padding: 20px 28px; }
+  .td { padding: 30px 28px; border-bottom: 1px solid var(--line); display: flex; flex-direction: column; gap: 10px; justify-content: center; }
+  .th + .th, .td + .td { border-left: 1px solid var(--line); }
+  .table--scorecard > :nth-child(5n+1) { border-left: none; }
+  .table--receipt > :nth-child(4n+1) { border-left: none; }
+  .table .row-last > * { border-bottom: none; }  /* not used; kept rows explicit instead */
+  .td--hl { background: var(--green-tint); }
+  .td-name { font-family: var(--display); font-size:calc(36px * var(--ts, 1)); font-weight: 600; }
+  .td-sub { font-size:calc(23px * var(--ts, 1)); color: var(--muted); }
+  .td--hl .td-sub { color: var(--body-soft); }
+  .td-metric { font-family: var(--display); font-size:calc(40px * var(--ts, 1)); font-weight: 700; letter-spacing: -0.02em; }
+  .td-unit { font-size:calc(24px * var(--ts, 1)); font-weight: 500; color: var(--muted); }
+  .td-read { font-size:calc(23px * var(--ts, 1)); line-height: 1.35; color: var(--body-soft); }
+  .td-cell { padding: 24px 28px; border-bottom: 1px solid var(--line); font-size:calc(25px * var(--ts, 1)); line-height: 1.4; }
+  .td-cell + .td-cell { border-left: none; }
+  .td-id { font-family: var(--mono); font-size:calc(24px * var(--ts, 1)); font-weight: 500; }
+  .td-links { font-size:calc(24px * var(--ts, 1)); color: var(--green-deep); }
+
+  /* --- charts (pure divs; widths/heights carry the data) --- */
+  .stack-bar { display: flex; height: 96px; border-radius: 8px; overflow: hidden; }
+  .stack-bar > div { display: flex; align-items: center; justify-content: center; color: #fff; font-size:calc(28px * var(--ts, 1)); font-weight: 600; }
+  .stack-bar > .seg--hot { font-size:calc(34px * var(--ts, 1)); font-weight: 700; }
+  .stack-labels { display: flex; font-size:calc(24px * var(--ts, 1)); color: var(--body-soft); }
+  .stack-labels > div { padding-right: 12px; }
+  .stack-labels > .seg--hot { font-weight: 700; color: var(--red); }
+
+  .col-chart { flex: 1; min-height: 0; display: flex; align-items: flex-end; gap: 36px; padding: 0 8px; border-bottom: 1px solid var(--line); }
+  .col { flex: 1; min-height: 0; display: flex; flex-direction: column; align-items: center; gap: 14px; height: 100%; justify-content: flex-end; }
+  .col-value { font-family: var(--display); font-size:calc(36px * var(--ts, 1)); font-weight: 700; letter-spacing: -0.02em; }
+  .col-fill { width: 100%; border-radius: 6px 6px 0 0; }
+  .col-labels { display: flex; gap: 36px; padding: 0 8px; }
+  .col-labels > div { flex: 1; text-align: center; font-size:calc(24px * var(--ts, 1)); color: var(--body-soft); line-height: 1.35; }
+
+  .hbar-row { display: flex; align-items: center; gap: 14px; }
+  .hbar-name { width: 78px; font-size:calc(23px * var(--ts, 1)); color: var(--muted); }
+  .hbar-track { flex: 1; height: 14px; background: var(--paper); border-radius: 7px; overflow: hidden; }
+  .hbar-fill { height: 100%; }
+  .hbar-value { width: 92px; font-family: var(--display); font-size:calc(24px * var(--ts, 1)); font-weight: 700; letter-spacing: -0.02em; text-align: right; font-variant-numeric: tabular-nums; }
+
+  .mini-cols { display: flex; align-items: flex-end; gap: 10px; height: 120px; }
+  .mini-cols > div { flex: 1; border-radius: 4px 4px 0 0; }
+
+  /* --- recommendation cards --- */
+  .rec-chip {
+    width: 44px; height: 44px; border-radius: 8px; flex: none;
+    background: var(--green-tint); color: var(--green-deep);
+    font-family: var(--display); font-size:calc(26px * var(--ts, 1)); font-weight: 700;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .rec-chip--on-dark { background: rgba(255,255,255,0.14); color: #ffffff; }
+  .rec-title { font-family: var(--display); font-size:calc(33px * var(--ts, 1)); font-weight: 600; line-height: 1.25; }
+  .rec-list { padding-left: 24px; display: flex; flex-direction: column; gap: 12px; font-size:calc(25px * var(--ts, 1)); line-height: 1.4; color: var(--body-soft); }
+  .rec-delta { margin-top: auto; background: var(--green-tint); border-radius: 8px; padding: 20px 24px; font-size:calc(26px * var(--ts, 1)); line-height: 1.4; }
+
+  /* --- roadmap swimlanes --- */
+  .roadmap {
+    background: var(--card); border: 1px solid var(--line); border-radius: 12px;
+    padding: 26px 32px; flex: 1;
+    display: grid; grid-template-columns: 210px repeat(4, 1fr);
+    grid-template-rows: auto repeat(4, 1fr); gap: 16px;
+  }
+  .roadmap-col {
+    font-family: var(--sans); font-size:calc(21px * var(--ts, 1)); font-weight: 700; letter-spacing: 0.08em;
+    text-transform: uppercase; color: var(--muted);
+    padding-bottom: 8px; border-bottom: 1px solid var(--line);
+  }
+  .roadmap-lane { font-family: var(--display); font-size:calc(29px * var(--ts, 1)); font-weight: 600; display: flex; align-items: center; line-height: 1.2; }
+  .roadmap-cell { border-radius: 8px; padding: 18px 22px; font-size:calc(24px * var(--ts, 1)); line-height: 1.35; display: flex; align-items: center; }
+  .roadmap-cell--start { background: var(--green-deep); color: #ffffff; }
+  .roadmap-cell--cont  { background: var(--green); color: #ffffff; }
+  .roadmap-cell--light { background: var(--green-tint); color: var(--ink); }
+  .roadmap-cell--measure { background: var(--ink); color: #ffffff; }
+
+  /* --- do / don't lists --- */
+
+  /* --- title & closing furniture --- */
+  .brand { display: flex; align-items: center; }
+  /* Anthara wordmark: brackets carry the brand terracotta, letters
+     follow currentColor */
+  .brand-wordmark { height: 44px; width: auto; color: #ffffff; }
+  .title-footer {
+    display: flex; justify-content: space-between; align-items: flex-end;
+    border-top: 1px solid rgba(255,255,255,0.16); padding-top: 32px;
+  }
+  .title-footer .primary { font-size:calc(28px * var(--ts, 1)); font-weight: 600; }
+  .title-footer .secondary { font-size:calc(24px * var(--ts, 1)); color: rgba(255,255,255,0.6); }
+
+  .next-card {
+    border-radius: 12px; padding: 28px 30px;
+    display: flex; flex-direction: column; gap: 12px;
+  }
+  .next-date { font-family: var(--display); font-size:calc(30px * var(--ts, 1)); font-weight: 700; color: #ffffff; }
+  .next-what { font-size:calc(25px * var(--ts, 1)); line-height: 1.4; color: rgba(255,255,255,0.82); }
+  .next-owner { font-size:calc(23px * var(--ts, 1)); color: rgba(255,255,255,0.55); margin-top: auto; }
+  .next-card--final { background: var(--green-deep); }
+  .next-card--final .next-what { color: rgba(255,255,255,0.92); }
+  .next-card--final .next-owner { color: rgba(255,255,255,0.7); }
+
+  /* ==========================================================================
+     Evidence appendix - the receipts, after the last slide. Not a fixed
+     canvas: each finding is its own paper "sheet" that reflows to any
+     viewport, stacked with the same 8px ink gaps as the slides so the deck
+     and the appendix read as ONE artifact. Type and spacing echo the slides
+     at their rendered scale - a slide's 22px kicker at the 1920 design width
+     is 1.146vw, so every appendix size is a vw-clamp around the same ratio.
+     Tables scroll inside their cards via .ax-scroll - never remove it.
+     ========================================================================== */
+  /* The appendix follows its divider slide (the "Appendix" slide closes
+     the deck), so it needs no separation of its own - it continues the
+     deck's normal sheet rhythm. */
+  .appendix { display: flex; flex-direction: column; gap: 8px; color: var(--ink); font-family: var(--sans); letter-spacing: -0.011em; }
+  .ax-sheet {
+    background: var(--paper); border-radius: 4px;
+    padding: max(26px, 2.9vw) max(18px, 3.96vw);
+    display: flex; flex-direction: column; gap: max(16px, 1.25vw);
+  }
+  .appendix a:hover { text-decoration: underline; }
+  .appendix a:focus-visible { outline: 3px solid var(--green-deep); outline-offset: 2px; border-radius: 3px; }
+  .appendix .kicker { font-size: max(13px, 1.15vw); }
+  .ax-head { display: flex; flex-direction: column; gap: max(8px, 0.63vw); }
+  .ax-claim { margin: 0; font-family: var(--display); font-weight: 400; font-size: max(26px, 2.7vw); line-height: 1.1; letter-spacing: -0.02em; }
+  .ax-lede { font-size: max(16px, 1.46vw); line-height: 1.45; color: var(--body-soft); }
+  /* Method sheet - a stats band (one tile per source system, big number
+     first) over quiet small-type reference columns (rules, blind spots,
+     exclusions). The tiles carry the scan; the columns are fine print. */
+  .ax-stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr)); gap: max(14px, 1.25vw); }
+  .ax-stats > div { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: max(16px, 1.46vw) max(18px, 1.67vw); display: flex; flex-direction: column; gap: max(6px, 0.55vw); }
+  .ax-stat-num { font-family: var(--display); font-weight: 700; font-size: max(30px, 3vw); letter-spacing: -0.02em; line-height: 1; }
+  .ax-stat-label { font-size: max(14px, 1.3vw); font-weight: 600; }
+  .ax-stat-sub { font-size: max(12.5px, 1.1vw); line-height: 1.5; color: var(--muted); }
+  /* Method facts: three columns of short fragments under the tiles - one
+     line each, no prose, no explanations. The full versions (counts,
+     dates, counting decisions) live in the appendix footer. */
+  .ax-facts { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr)); gap: max(20px, 1.87vw); align-items: start; }
+  .ax-facts > div { display: flex; flex-direction: column; gap: max(12px, 1.1vw); }
+  .ax-facts ul { margin: 0; padding-left: 1.15em; display: flex; flex-direction: column; gap: max(8px, 0.7vw); font-size: max(13px, 1.15vw); line-height: 1.45; color: var(--body-soft); }
+  .ax-facts li::marker { color: var(--muted); }
+  .ax-fine { font-size: max(12.5px, 1.1vw); line-height: 1.5; color: var(--muted); }
+  .ax-fine strong { color: var(--ink); }
+  .appendix .backlink { font-size: max(14px, 1.25vw); color: var(--green-deep); }
+  .appendix .backlink:hover { color: var(--ink); }
+
+  .ax-card { background: var(--card); border: 1px solid var(--line); border-radius: 12px; overflow: hidden; }
+  .ax-card-head { padding: max(14px, 1.15vw) max(16px, 1.46vw); border-bottom: 1px solid var(--line); display: flex; justify-content: space-between; align-items: baseline; gap: 12px 24px; flex-wrap: wrap; }
+  .ax-card-title { font-size: max(13px, 1.15vw); font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
+  .ax-card-src { font-family: var(--mono); font-size: max(12px, 1vw); color: var(--muted); }
+  .ax-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  .appendix table { width: 100%; min-width: 720px; border-collapse: collapse; font-size: max(15px, 1.3vw); line-height: 1.4; }
+  .appendix th { text-align: left; padding: max(11px, 1vw) max(16px, 1.46vw); font-size: max(12px, 1.05vw); font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); background: var(--paper); border-bottom: 1px solid var(--line); white-space: nowrap; }
+  .appendix td { padding: max(13px, 1.25vw) max(16px, 1.46vw); border-bottom: 1px solid var(--line); vertical-align: top; }
+  .appendix tr:last-child td { border-bottom: none; }
+  .appendix td.num, .appendix th.num { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .appendix td.id { font-family: var(--mono); font-size: max(14px, 1.25vw); white-space: nowrap; }
+  .appendix td .sub { display: block; font-size: 0.88em; color: var(--muted); margin-top: 4px; }
+  .appendix td.num .sub { white-space: normal; max-width: 30ch; margin-left: auto; }
+  .ax-mag { font-family: var(--display); font-weight: 700; font-size: 1.1em; letter-spacing: -0.01em; }
+  .ax-mag--bad { color: var(--red); }
+  .ax-mag--warn { color: var(--amber-ink); }
+  .ax-flag { display: inline-block; background: var(--red-tint); color: var(--red-ink); border: 1px solid var(--red-tint-line); border-radius: 10px; font-size: 0.78em; font-weight: 600; padding: 2px 0.6em; margin-left: 0.5em; white-space: nowrap; }
+  .pillrow { display: flex; flex-wrap: wrap; gap: 8px; }
+  .runpill { font-family: var(--mono); font-size: max(12.5px, 1.05vw); background: var(--red-tint); border: 1px solid var(--red-tint-line); color: var(--red-ink); border-radius: 8px; padding: 3px 10px; }
+  .runpill a { color: inherit; }
+  .ax-caveat { padding: max(12px, 1.1vw) max(16px, 1.46vw); background: var(--paper); border-top: 1px solid var(--line); font-size: max(14px, 1.2vw); line-height: 1.45; color: var(--body-soft); }
+  /* Multi-fact caveat, applied AUTOMATICALLY from structure: a caveat
+     written as one paragraph renders as prose, but the moment it is written
+     as separate <div>s (one bold-led fact per div) the rules below detect
+     the shape and lay it out as stacked note rows:
+     stacked rows with hairline dividers, in the caveat palette. No class
+     needed; deciding WHERE prose splits into facts stays with the author,
+     the treatment does not. Rule of thumb: more than two sentences means
+     one div per fact. */
+  .ax-caveat:has(> div) { display: flex; flex-direction: column; gap: max(10px, 0.9vw); }
+  .ax-caveat > div { padding-bottom: max(10px, 0.9vw); border-bottom: 1px solid var(--line); }
+  .ax-caveat > div:last-child { padding-bottom: 0; border-bottom: none; }
+  .ax-caveat > div strong { color: var(--ink); }
+  .ax-footer { font-size: max(13.5px, 1.25vw); color: var(--muted); line-height: 1.55; }
+
+
+  /* ==========================================================================
+     Mobile reflow: below 760px the fixed canvas is abandoned. The fit script
+     stops transform-scaling, slides flow as normal sections, every inline
+     multi-column grid collapses to one column, wide data grids scroll
+     sideways inside themselves, and all type shrinks through --ts so the
+     slide hierarchy survives intact.
+     ========================================================================== */
+  @media screen and (max-width: 760px) {
+    :root { --ts: 0.58; }
+    .deck { gap: 6px; padding: 6px; }
+    h1 { font-size: 34px !important; }
+    h2 { font-size: 24px !important; }
+    .stat--hero { font-size: 34px; }
+    .stat--panel { font-size: 30px; }
+    .td-name { font-size: 20px; }
+    .td-metric { font-size: 22px; }
+    .slide-frame { overflow: visible; }
+    .slide-crop { width: auto !important; height: auto !important; }
+    .slide {
+      width: 100%; height: auto; min-height: 0; transform: none !important;
+      padding: 26px 18px; gap: 18px;
+    }
+    .slide--dark { padding: 34px 20px; gap: 30px; justify-content: flex-start; }
+    .slide [style*="grid-template-columns"] { grid-template-columns: 1fr !important; }
+    .grid-2, .grid-3 { grid-template-columns: 1fr; }
+    .card, .statement { padding: 16px 18px; }
+    .strip { padding: 14px 18px; }
+    .statement { gap: 14px; }
+    .strip[style*="display:flex"] { flex-direction: column; align-items: flex-start !important; gap: 12px !important; }
+    .strip [style*="text-align:right"] { text-align: left !important; }
+    .title-footer { flex-direction: column; align-items: flex-start; gap: 18px; padding-top: 20px; }
+    .title-footer [style*="text-align:right"] { text-align: left !important; }
+    .next-card { padding: 16px 18px; }
+    .rec-delta { padding: 12px 14px; }
+    .table { overflow-x: auto; }
+    .table--scorecard { grid-template-columns: 170px repeat(4, minmax(150px, 1fr)); }
+    .table--receipt { grid-template-columns: 110px minmax(220px, 1.5fr) minmax(150px, 1fr) minmax(160px, 1fr); }
+    .td { padding: 14px 14px; }
+    .td-cell { padding: 12px 14px; }
+    .th { padding: 10px 14px; }
+    .roadmap {
+      overflow-x: auto; padding: 16px 18px; gap: 10px;
+      grid-template-columns: 120px repeat(4, minmax(170px, 1fr));
+      grid-template-rows: none;
+    }
+    .roadmap-cell { padding: 10px 12px; }
+    .col-chart { flex: none; height: 190px; gap: 12px; }
+    .col-labels { gap: 12px; }
+    .stack-bar { height: 56px; }
+    .stack-bar > div { overflow: hidden; padding: 0 3px; font-size: 11px; }
+    .stack-bar > .seg--hot { font-size: 14px; }
+    .stack-labels { font-size: 11px; }
+    .mini-cols { height: 80px; }
+    .rec-chip { width: 32px; height: 32px; }
+    .hbar-name { width: 78px; }
+    .hbar-value { width: 60px; }
+    .brand-wordmark { height: 32px; }
+  }
+
+  /* --- print: one slide per landscape page, unscaled; appendix flows after --- */
+  @page { size: 1920px 1080px; margin: 0; }
+  @media print {
+    .deck { gap: 0; padding: 0; }
+    .slide-frame { height: auto !important; overflow: visible; border-radius: 0; break-after: page; }
+    .slide-crop { width: auto !important; height: auto !important; overflow: visible; }
+    .slide { transform: none !important; }
+    .appendix { gap: 0; break-before: page; margin-top: 0; }
+    .ax-sheet { border-radius: 0; }
+    .ax-card { break-inside: avoid; }
+    .ax-scroll { overflow-x: visible; }
+    .appendix table { min-width: 0; }
+  }
+</style>
+</head>
+<body>
+<main class="deck">
+
+<!-- ═════════════════════════════════════════════════════════════════════════
+     SLIDE 01 · Title
+     One-line framing of what was measured and what the deck answers.
+     Scope constraint stated upfront: which systems the data draws from
+     (the resolved providers in _run-manifest.json `domains`) and, implicitly, which it doesn't (no survey / interview data).
+     ═════════════════════════════════════════════════════════════════════════ -->
+<div class="slide-frame">
+<section class="slide slide--dark" data-label="Title" data-screen-label="01">
+  <div class="brand">
+      <svg class="brand-wordmark" viewBox="0 0 142 34" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="anthara">
+        <path d="M0 1.843H3.1331V33.3952H0V1.843ZM3.1331 1.843H8.6621V4.0546H3.1331V1.843ZM3.1331 31.1836H8.6621V33.3952H3.1331V31.1836Z" fill="#8c3509"/>
+        <path d="M142 1.843V33.3952H138.83V1.843H142ZM138.83 1.843V4.0546H133.338V1.843H138.83ZM138.83 31.1836V33.3952H133.338V31.1836H138.83Z" fill="#8c3509"/>
+        <path d="M16.1824 28.2348C14.8309 28.2348 13.6022 27.989 12.4964 27.4976C11.4152 26.9815 10.5551 26.2443 9.91621 25.286C9.2773 24.3276 8.95785 23.1604 8.95785 21.7843C8.95785 20.1624 9.35102 18.8846 10.1374 17.9508C10.9483 17.017 12.0172 16.3413 13.3442 15.9235C14.6711 15.4812 16.121 15.1986 17.6937 15.0757C19.2909 14.9529 20.8636 14.9037 22.4117 14.9283V17.6191C19.0698 17.4962 16.5633 17.7911 14.8923 18.5037C13.2459 19.1918 12.4227 20.2361 12.4227 21.6368C12.4227 22.8655 12.8036 23.7993 13.5653 24.4382C14.3517 25.0771 15.4821 25.3965 16.9565 25.3965C18.1114 25.3965 19.0943 25.1385 19.9053 24.6225C20.7162 24.0819 21.3305 23.3692 21.7483 22.4846C22.1906 21.6 22.4117 20.6047 22.4117 19.4989V17.103H25.766V27.645H22.4117V25.2122C21.7974 26.1706 20.9742 26.9201 19.9421 27.4607C18.9346 27.9767 17.6814 28.2348 16.1824 28.2348ZM8.55239 14.6334C8.55239 13.2327 8.88413 11.9058 9.54761 10.6525C10.2357 9.3993 11.2309 8.37951 12.5333 7.59316C13.8602 6.80682 15.4821 6.41364 17.3988 6.41364C20.0281 6.41364 22.0309 7.17542 23.407 8.69896C24.8076 10.2225 25.5817 12.299 25.7291 14.9283H22.4117C22.338 13.2082 21.8957 11.8689 21.0848 10.9106C20.2739 9.9522 19.0452 9.47302 17.3988 9.47302C16.1455 9.47302 15.1258 9.71876 14.3394 10.2102C13.5776 10.6771 13.0124 11.3037 12.6438 12.0901C12.2752 12.8519 12.0909 13.6996 12.0909 14.6334H8.55239Z" fill="currentColor"/>
+        <path d="M29.3316 7.0034H32.649V10.5051C32.9685 9.81705 33.4108 9.16586 33.976 8.55152C34.5412 7.91262 35.2907 7.39658 36.2245 7.0034C37.1582 6.61023 38.2763 6.41364 39.5787 6.41364C40.9057 6.41364 42.0975 6.68395 43.1541 7.22456C44.2354 7.76518 45.0709 8.6621 45.6606 9.91534C46.275 11.144 46.5821 12.815 46.5821 14.9283V27.645H43.2647V15.4075C43.2647 14.1297 43.1296 13.0362 42.8593 12.1269C42.589 11.2177 42.1221 10.5297 41.4586 10.0628C40.8197 9.57132 39.935 9.32558 38.8047 9.32558C37.6989 9.32558 36.6791 9.65732 35.7453 10.3208C34.8115 10.9597 34.062 11.8689 33.4968 13.0484C32.9316 14.2034 32.649 15.6041 32.649 17.2505V27.645H29.3316V7.0034Z" fill="currentColor"/>
+        <path d="M52.1048 27.645V1.843H55.4222V24.8068H60.2877V27.645H52.1048ZM48.6399 9.84162V7.0034H59.6979V9.84162H48.6399Z" fill="currentColor"/>
+        <path d="M63.2777 0H66.5951V27.645H63.2777V0ZM66.5951 17.2505L66.0053 13.3065C66.0053 12.6676 66.1282 11.9549 66.3739 11.1686C66.6197 10.3822 67.0251 9.63275 67.5903 8.92012C68.1801 8.18292 68.9541 7.58087 69.9125 7.11398C70.8954 6.64709 72.0995 6.41364 73.5248 6.41364C74.8517 6.41364 76.0435 6.68395 77.1002 7.22456C78.1814 7.76518 79.0169 8.6621 79.6067 9.91534C80.221 11.144 80.5282 12.815 80.5282 14.9283V27.645H77.2108V15.4075C77.2108 14.1297 77.0756 13.0362 76.8053 12.1269C76.535 11.2177 76.0681 10.5297 75.4046 10.0628C74.7657 9.57132 73.8811 9.32558 72.7507 9.32558C71.6449 9.32558 70.6251 9.65732 69.6913 10.3208C68.7575 10.9597 68.008 11.8689 67.4429 13.0484C66.8777 14.2034 66.5951 15.6041 66.5951 17.2505Z" fill="currentColor"/>
+        <path d="M91.3783 28.2348C90.0267 28.2348 88.7981 27.989 87.6923 27.4976C86.611 26.9815 85.751 26.2443 85.1121 25.286C84.4731 24.3276 84.1537 23.1604 84.1537 21.7843C84.1537 20.1624 84.5469 18.8846 85.3332 17.9508C86.1441 17.017 87.2131 16.3413 88.54 15.9235C89.867 15.4812 91.3168 15.1986 92.8895 15.0757C94.4868 14.9529 96.0595 14.9037 97.6076 14.9283V17.6191C94.2656 17.4962 91.7591 17.7911 90.0882 18.5037C88.4417 19.1918 87.6185 20.2361 87.6185 21.6368C87.6185 22.8655 87.9994 23.7993 88.7612 24.4382C89.5475 25.0771 90.6779 25.3965 92.1523 25.3965C93.3073 25.3965 94.2902 25.1385 95.1011 24.6225C95.912 24.0819 96.5264 23.3692 96.9441 22.4846C97.3864 21.6 97.6076 20.6047 97.6076 19.4989V17.103H100.962V27.645H97.6076V25.2122C96.9933 26.1706 96.1701 26.9201 95.138 27.4607C94.1305 27.9767 92.8772 28.2348 91.3783 28.2348ZM83.7482 14.6334C83.7482 13.2327 84.08 11.9058 84.7435 10.6525C85.4315 9.3993 86.4267 8.37951 87.7291 7.59316C89.0561 6.80682 90.6779 6.41364 92.5946 6.41364C95.224 6.41364 97.2267 7.17542 98.6028 8.69896C100.004 10.2225 100.778 12.299 100.925 14.9283H97.6076C97.5339 13.2082 97.0916 11.8689 96.2806 10.9106C95.4697 9.9522 94.2411 9.47302 92.5946 9.47302C91.3414 9.47302 90.3216 9.71876 89.5353 10.2102C88.7735 10.6771 88.2083 11.3037 87.8397 12.0901C87.4711 12.8519 87.2868 13.6996 87.2868 14.6334H83.7482Z" fill="currentColor"/>
+        <path d="M104.527 7.0034H107.845V27.645H104.527V7.0034ZM107.845 16.4396L107.292 13.7488C107.292 13.1099 107.378 12.3727 107.55 11.5372C107.747 10.7017 108.103 9.90306 108.619 9.14128C109.16 8.35494 109.934 7.70374 110.941 7.1877C111.949 6.67166 113.276 6.41364 114.922 6.41364V9.84162C113.472 9.84162 112.219 10.0505 111.162 10.4682C110.106 10.886 109.282 11.574 108.693 12.5324C108.127 13.4908 107.845 14.7931 107.845 16.4396Z" fill="currentColor"/>
+        <path d="M123.883 28.2348C122.531 28.2348 121.303 27.989 120.197 27.4976C119.116 26.9815 118.255 26.2443 117.617 25.286C116.978 24.3276 116.658 23.1604 116.658 21.7843C116.658 20.1624 117.051 18.8846 117.838 17.9508C118.649 17.017 119.718 16.3413 121.045 15.9235C122.371 15.4812 123.821 15.1986 125.394 15.0757C126.991 14.9529 128.564 14.9037 130.112 14.9283V17.6191C126.77 17.4962 124.264 17.7911 122.593 18.5037C120.946 19.1918 120.123 20.2361 120.123 21.6368C120.123 22.8655 120.504 23.7993 121.266 24.4382C122.052 25.0771 123.182 25.3965 124.657 25.3965C125.812 25.3965 126.795 25.1385 127.606 24.6225C128.417 24.0819 129.031 23.3692 129.449 22.4846C129.891 21.6 130.112 20.6047 130.112 19.4989V17.103H133.466V27.645H130.112V25.2122C129.498 26.1706 128.675 26.9201 127.642 27.4607C126.635 27.9767 125.382 28.2348 123.883 28.2348ZM116.253 14.6334C116.253 13.2327 116.584 11.9058 117.248 10.6525C117.936 9.3993 118.931 8.37951 120.234 7.59316C121.561 6.80682 123.182 6.41364 125.099 6.41364C127.728 6.41364 129.731 7.17542 131.107 8.69896C132.508 10.2225 133.282 12.299 133.429 14.9283H130.112C130.038 13.2082 129.596 11.8689 128.785 10.9106C127.974 9.9522 126.746 9.47302 125.099 9.47302C123.846 9.47302 122.826 9.71876 122.04 10.2102C121.278 10.6771 120.713 11.3037 120.344 12.0901C119.976 12.8519 119.791 13.6996 119.791 14.6334H116.253Z" fill="currentColor"/>
+      </svg>
+  </div>
+  <div style="display:flex;flex-direction:column;gap:36px;max-width:1440px">
+    <div class="kicker kicker--wide kicker--on-dark">Delivery diagnostic · {{Engagement code}}</div>
+    <h1>{{Where delivery time goes on [the engagements measured]: the question the deck answers, as a statement}}</h1>
+    <p style="font-size:calc(34px * var(--ts, 1));line-height:1.45;color:rgba(255,255,255,0.78);max-width:1240px;text-wrap:pretty">{{One sentence: what was measured, over what window, and what the deck answers, e.g. "We measured flow across X for six months, and this deck answers where each one actually loses time and what to change first."}}</p>
+  </div>
+  <div class="title-footer">
+    <div style="display:flex;flex-direction:column;gap:10px">
+      <div class="primary">{{Client name}} · {{Audience / org unit}}</div>
+      <div class="secondary">Confidential. Prepared for {{client}} leadership, not for redistribution.</div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:10px;text-align:right">
+      <div class="secondary">{{Presentation date}}</div>
+      <div class="secondary" style="max-width:640px">Drawn from {{resolved providers, e.g. "Azure DevOps and Azure Pipelines"}} records. No survey or interview data is included.</div>
+    </div>
+  </div>
+</section>
+</div>
+
+<!-- ═════════════════════════════════════════════════════════════════════════
+     SLIDE 02 · Executive summary
+     The single most important cross-portfolio insight in the statement card,
+     phrased so it argues against a one-size-fits-all fix. One verdict card
+     per engagement (REPEAT), then the recommendation compressed to one line.
+     Written for the executive who reads nothing else.
+     The verdict cards are a RANKING, not an inventory: they are the top
+     constraints by measured impact, and the statement must say so in plain
+     words ("the largest the records show, not the only ones") - a reader
+     who assumes the list is exhaustive has been misled.
+     ═════════════════════════════════════════════════════════════════════════ -->
+<div class="slide-frame">
+<section class="slide" data-label="Executive summary" data-screen-label="02">
+  <div class="slide-head">
+    <div class="kicker">Executive summary</div>
+    <h2>{{Headline naming each engagement's constraint in one clause, e.g. "A waits on review, B on its release gate, C on unplanned work"}}</h2>
+  </div>
+  <div class="statement">
+    <p>{{The cross-portfolio insight: why a single shared fix would not work, e.g. "The engagements fail in different places, so a single platform initiative would speed up one and leave the others exactly where they are."}}</p>
+  </div>
+  <!-- The ranking disclosure: a quiet line between the statement and the
+       verdict cards, OUTSIDE the statement card so the accent bar spans
+       only the headline. Small and unbolded - it qualifies the statement,
+       it does not compete with it. -->
+  <p class="footnote" style="font-size:calc(23px * var(--ts, 1));color:var(--muted)">{{The ranking disclosure, e.g. "The three constraints below are the largest the records show, ranked by measured impact. They are not the only constraints, but they are where a fix pays back first."}}</p>
+  <div class="grid-3">
+    <!-- REPEAT: one verdict card per engagement -->
+    <div class="card" style="padding:24px;gap:20px">
+      <div style="display:flex;align-items:baseline;gap:14px"><span style="font-family:var(--display);font-size:calc(34px * var(--ts, 1));font-weight:600">{{Engagement}}</span><span style="font-size:calc(22px * var(--ts, 1));color:var(--muted)">{{What it is, two words}}</span></div>
+      <div class="divider"></div>
+      <ul class="rec-list" style="font-size:calc(26px * var(--ts, 1));line-height:1.45;color:var(--ink);gap:14px">
+        <li>{{The constraint's most damning number as one claim, in <strong>bold</strong>}}</li>
+        <li>{{Second supporting fact, one claim}}</li>
+        <li>{{Third supporting fact, one claim; add a fourth only when the data earns it}}</li>
+      </ul>
+    </div>
+    <div class="card" style="padding:24px;gap:20px">
+      <div style="display:flex;align-items:baseline;gap:14px"><span style="font-family:var(--display);font-size:calc(34px * var(--ts, 1));font-weight:600">{{Engagement}}</span><span style="font-size:calc(22px * var(--ts, 1));color:var(--muted)">{{What it is}}</span></div>
+      <div class="divider"></div>
+      <ul class="rec-list" style="font-size:calc(26px * var(--ts, 1));line-height:1.45;color:var(--ink);gap:14px">
+        <li>{{Key number as one claim, in <strong>bold</strong>}}</li>
+        <li>{{Supporting fact}}</li>
+        <li>{{Supporting fact}}</li>
+      </ul>
+    </div>
+    <div class="card" style="padding:24px;gap:20px">
+      <div style="display:flex;align-items:baseline;gap:14px"><span style="font-family:var(--display);font-size:calc(34px * var(--ts, 1));font-weight:600">{{Engagement}}</span><span style="font-size:calc(22px * var(--ts, 1));color:var(--muted)">{{What it is}}</span></div>
+      <div class="divider"></div>
+      <ul class="rec-list" style="font-size:calc(26px * var(--ts, 1));line-height:1.45;color:var(--ink);gap:14px">
+        <li>{{Key number as one claim, in <strong>bold</strong>}}</li>
+        <li>{{Supporting fact}}</li>
+        <li>{{Supporting fact}}</li>
+      </ul>
+    </div>
+    <!-- /REPEAT -->
+  </div>
+  <div class="strip card--tint" style="border:1px solid var(--green-tint-line)">
+    <p style="font-size:calc(30px * var(--ts, 1))"><strong>{{The recommendation in one line, e.g. "Fund N targeted moves, one per constraint:"}}</strong> {{one clause per move}}.</p>
+  </div>
+</section>
+</div>
+
+<!-- ═════════════════════════════════════════════════════════════════════════
+     SLIDE 03 · Portfolio scorecard
+     All engagements on one comparable grid: the four DORA-shaped metrics,
+     each cell = number + one-line interpretation. Color the numbers with
+     num--good / num--warn / num--bad. The engagement that looks deceptively
+     healthy gets the highlighted row (td--hl on all five cells) - that plant
+     is the seed of the Finding-3 twist. Last row omits border-bottom via
+     inline style. Single-engagement decks: keep header + one row.
+     ═════════════════════════════════════════════════════════════════════════ -->
+<div class="slide-frame">
+<section class="slide" data-label="Scorecard" data-screen-label="03">
+  <div class="slide-head">
+    <div class="kicker">Portfolio scorecard</div>
+    <h2>{{The grid's one takeaway, e.g. "[Engagement] leads all four of the standard metrics"}}</h2>
+  </div>
+  <div class="table table--scorecard">
+    <div class="th">Engagement</div>
+    <div class="th">Deploy frequency</div>
+    <div class="th">Lead time p85</div>
+    <div class="th">Change failure rate</div>
+    <div class="th">Time to restore p85</div>
+
+    <!-- REPEAT: one row (5 cells) per engagement -->
+    <div class="td"><span class="td-name">{{Engagement}}</span><span class="td-sub">{{descriptor}} · {{n}} engineers</span></div>
+    <div class="td"><span class="td-metric">{{x.x}}<span class="td-unit"> / week</span></span><span class="td-read">{{one-line read}}</span></div>
+    <div class="td"><span class="td-metric num--warn">{{x.x}}<span class="td-unit"> days</span></span><span class="td-read">{{one-line read}}</span></div>
+    <div class="td"><span class="td-metric">{{x}}%</span><span class="td-read">{{one-line read}}</span></div>
+    <div class="td"><span class="td-metric">{{x.x}}<span class="td-unit"> hours</span></span><span class="td-read">{{one-line read}}</span></div>
+
+    <div class="td"><span class="td-name">{{Engagement}}</span><span class="td-sub">{{descriptor}} · {{n}} engineers</span></div>
+    <div class="td"><span class="td-metric num--bad">{{x.x}}<span class="td-unit"> / week</span></span><span class="td-read">{{one-line read}}</span></div>
+    <div class="td"><span class="td-metric num--bad">{{x.x}}<span class="td-unit"> days</span></span><span class="td-read">{{one-line read}}</span></div>
+    <div class="td"><span class="td-metric num--bad">{{x}}%</span><span class="td-read">{{one-line read}}</span></div>
+    <div class="td"><span class="td-metric num--bad">{{x.x}}<span class="td-unit"> hours</span></span><span class="td-read">{{one-line read}}</span></div>
+
+    <!-- the deceptively-healthy row: highlighted, all numbers green, no bottom border -->
+    <div class="td td--hl" style="border-bottom:none"><span class="td-name">{{Engagement}}</span><span class="td-sub">{{descriptor}} · {{n}} engineers</span></div>
+    <div class="td td--hl" style="border-bottom:none"><span class="td-metric num--good">{{x.x}}<span class="td-unit"> / week</span></span><span class="td-read">{{one-line read}}</span></div>
+    <div class="td td--hl" style="border-bottom:none"><span class="td-metric num--good">{{x.x}}<span class="td-unit"> days</span></span><span class="td-read">{{one-line read}}</span></div>
+    <div class="td td--hl" style="border-bottom:none"><span class="td-metric num--good">{{x}}%</span><span class="td-read">{{one-line read}}</span></div>
+    <div class="td td--hl" style="border-bottom:none"><span class="td-metric num--good">{{x.x}}<span class="td-unit"> hours</span></span><span class="td-read">{{one-line read}}</span></div>
+    <!-- /REPEAT -->
+  </div>
+  <p class="footnote">{{The seed of the twist, e.g. "[Engagement]'s row is green on all four counts, which is why we went looking at the records underneath it."}}</p>
+</section>
+</div>
+
+<!-- ═════════════════════════════════════════════════════════════════════════
+     SLIDE 04 · Finding 1 - the flow constraint
+     Where a change spends its life vs. where it merely waits. Stacked bar =
+     stage-by-stage decomposition of median lead time; segment widths are
+     percentages of the total and must sum to 100. The dominant wait state is
+     the seg--hot segment (red). Two supporting stat cards locate the
+     bottleneck (e.g. reviewer concentration; size→wait amplification).
+     ═════════════════════════════════════════════════════════════════════════ -->
+<div class="slide-frame">
+<section class="slide" data-label="Finding 1 · {{Engagement}}" data-screen-label="04">
+  <div class="slide-head">
+    <div class="kicker">Finding 1 · {{Engagement}}</div>
+    <h2>{{The constraint as a sentence, e.g. "Review is the slowest step in [engagement] delivery"}}</h2>
+    <p class="lede" style="max-width:1380px">{{Median lead time and the split in one line, e.g. "Median lead time is X days. Writing the change accounts for a day of that, and the rest is queue."}}</p>
+  </div>
+  <div class="card" style="padding:28px 34px;gap:24px">
+    <div class="kicker">Median lead time by stage · {{total}} days</div>
+    <div class="stack-bar">
+      <!-- REPEAT: one segment per stage; widths sum to 100%. The dominant wait gets seg--hot + var(--red). -->
+      <div style="width:{{pct}}%;background:var(--green)">{{x.x}}d</div>
+      <div class="seg--hot" style="width:{{pct}}%;background:var(--red)">{{x.x}} days</div>
+      <div style="width:{{pct}}%;background:var(--amber)">{{x.x}}d</div>
+      <div style="width:{{pct}}%;background:var(--green-deep)"></div>
+      <div style="width:{{pct}}%;background:var(--ink)"></div>
+      <!-- /REPEAT -->
+    </div>
+    <div class="stack-labels">
+      <div style="width:{{pct}}%">{{Stage, e.g. Coding}}</div>
+      <div class="seg--hot" style="width:{{pct}}%">{{The dominant wait, e.g. "Open, waiting for a first review"}}</div>
+      <div style="width:{{pct}}%">{{Stage}}</div>
+      <div style="width:{{pct}}%">{{Stage(s)}}</div>
+    </div>
+  </div>
+  <div class="grid-2">
+    <div class="card" style="gap:22px;justify-content:center">
+      <div class="stat stat--hero">{{62%}}</div>
+      <p style="font-size:calc(28px * var(--ts, 1));line-height:1.45"><strong>{{The concentration fact, e.g. "Two of N engineers approve X% of all pull requests."}}</strong> {{Why the queue forms, one sentence.}}</p>
+    </div>
+    <div class="card" style="gap:22px;justify-content:center">
+      <div class="stat stat--hero">{{3.4×}}</div>
+      <p style="font-size:calc(28px * var(--ts, 1));line-height:1.45"><strong>{{The amplification fact, e.g. "Pull requests over X lines wait N× longer than those under Y."}}</strong> {{Mechanism, one sentence.}}</p>
+    </div>
+  </div>
+  <!-- OPTIONAL: one-line footnote carrying the system-level read this
+       finding earns (a root cause, or the measurement guardrail that
+       protects the people in it). One sentence; delete when unused. -->
+  <p class="footnote">{{The system-level read, e.g. "Read this as a property of the repository configuration, not of the people. Nothing requires an approval, so review happens only where someone volunteers. Ranking anyone on these counts would punish the person who reviews the most."}}</p>
+</section>
+</div>
+
+<!-- ═════════════════════════════════════════════════════════════════════════
+     SLIDE 05 · Finding 2 - the batch-size constraint
+     Batch-size-vs-failure chart (column heights proportional to failure
+     rate, tallest = 100%), the mechanism that forces large batches (white
+     card), the recovery-time consequence (red card), and how the team
+     describes it in their own words (dark quote card - only if a real quote
+     exists in commit/PR/ticket text; otherwise delete the card).
+     ═════════════════════════════════════════════════════════════════════════ -->
+<div class="slide-frame">
+<section class="slide" data-label="Finding 2 · {{Engagement}}" data-screen-label="05">
+  <div class="slide-head">
+    <div class="kicker">Finding 2 · {{Engagement}}</div>
+    <h2>{{The relationship as a sentence, e.g. "Release size predicts whether a release fails"}}</h2>
+  </div>
+  <div style="display:grid;grid-template-columns:1.25fr 1fr;gap:20px;flex:1;min-height:0">
+    <div class="card">
+      <div class="kicker">Change failure rate by release size · {{n}} releases</div>
+      <div class="col-chart">
+        <!-- REPEAT: one column per size bucket; height = value scaled so the max is 100%; color by severity -->
+        <div class="col"><span class="col-value">{{x}}%</span><div class="col-fill" style="height:{{pct}}%;background:var(--green)"></div></div>
+        <div class="col"><span class="col-value">{{x}}%</span><div class="col-fill" style="height:{{pct}}%;background:var(--green-deep)"></div></div>
+        <div class="col"><span class="col-value num--warn">{{x}}%</span><div class="col-fill" style="height:{{pct}}%;background:var(--amber)"></div></div>
+        <div class="col"><span class="col-value num--bad">{{x}}%</span><div class="col-fill" style="height:100%;background:var(--red)"></div></div>
+        <!-- /REPEAT -->
+      </div>
+      <div class="col-labels">
+        <div>{{Under 100<br>lines}}</div>
+        <div>{{100 to 400<br>lines}}</div>
+        <div>{{400 to 1,000<br>lines}}</div>
+        <div>{{Over 1,000<br>lines}}</div>
+      </div>
+      <p style="font-size:calc(26px * var(--ts, 1));line-height:1.45;color:var(--body-soft)">{{Where this engagement's median batch sits, e.g. "The median release is X lines, so it sits in the second-worst bucket by default."}}</p>
+    </div>
+    <div class="col-stack">
+      <div class="card" style="padding:24px 30px">
+        <div class="kicker">Why the batches are large</div>
+        <p style="font-size:calc(27px * var(--ts, 1));line-height:1.45"><strong>{{The gate or coupling that forces batching, e.g. "A manual regression sign-off runs every third Thursday, and nothing reaches production between sign-offs."}}</strong> {{Consequence, one sentence.}}</p>
+      </div>
+      <div class="card card--risk" style="padding:24px 30px">
+        <div class="kicker kicker--bad">The cost when it goes wrong</div>
+        <p style="font-size:calc(27px * var(--ts, 1));line-height:1.45"><strong>{{The no-way-back fact, e.g. "Recovery is a fix rolled forward through the same gate: no flags, no per-change rollback."}}</strong> {{Restore-time consequence with the number.}}</p>
+      </div>
+      <!-- OPTIONAL: only with a real quote from PR / ticket / commit text -->
+      <div class="card card--dark" style="padding:22px 30px;gap:14px">
+        <div class="kicker kicker--on-dark">How the team describes it</div>
+        <p style="font-family:var(--display);font-size:calc(34px * var(--ts, 1));font-weight:400;line-height:1.35;color:#ffffff">"{{verbatim quote}}"</p>
+      </div>
+      <!-- /OPTIONAL -->
+    </div>
+  </div>
+  <!-- OPTIONAL: one-line footnote, as on Finding 1 - here typically the
+       body-of-practice claim (queueing theory, CD/DORA) in one sentence. -->
+  <p class="footnote">{{The system-level read, e.g. "Capping the batch size also makes the review requirement feasible, since wait time grows with batch size. The batch-size cap and the review gate therefore support each other."}}</p>
+</section>
+</div>
+
+<!-- ═════════════════════════════════════════════════════════════════════════
+     SLIDE 06 · Finding 3 - the invisible constraint
+     The engagement whose scorecard row passed. Three proxy signals, each
+     derived purely from telemetry, each a strain indicator: e.g. planned-vs-
+     unplanned ratio, WIP per person trend, off-hours activity. Every signal
+     card: big number, what it is, a mini-viz, one-sentence read. Close with
+     the takeaway strip. No morale claims - that boundary is stated in
+     the appendix's method sheet.
+     ═════════════════════════════════════════════════════════════════════════ -->
+<div class="slide-frame">
+<section class="slide" data-label="Finding 3 · {{Engagement}}" data-screen-label="06">
+  <div class="slide-head">
+    <div class="kicker">Finding 3 · {{Engagement}}</div>
+    <h2>{{The reveal, e.g. "[Engagement]'s metrics pass because N people are absorbing the strain"}}</h2>
+    <p class="lede" style="max-width:1420px">{{One line grounding it in telemetry, e.g. "Every signal below is a count from the same event history, and each one runs the other way from the scorecard."}}</p>
+  </div>
+  <div class="grid-3">
+    <div class="card" style="padding:26px;gap:24px">
+      <div class="stat stat--panel">{{1.7 : 1}}</div>
+      <div style="font-size:calc(27px * var(--ts, 1));font-weight:600">{{Signal name, e.g. "Planned work to unplanned work"}}</div>
+      <div style="display:flex;flex-direction:column;gap:12px">
+        <!-- REPEAT: one hbar per engagement. The bar's width and its label
+             are the SAME percent share - label in percent, never a raw
+             count. The outlier is red, bar and label both. -->
+        <div class="hbar-row"><div class="hbar-name">{{Eng.}}</div><div class="hbar-track"><div class="hbar-fill" style="width:{{pct}}%;background:var(--red)"></div></div><div class="hbar-value num--bad">{{x}}%</div></div>
+        <div class="hbar-row"><div class="hbar-name">{{Eng.}}</div><div class="hbar-track"><div class="hbar-fill" style="width:{{pct}}%;background:var(--green)"></div></div><div class="hbar-value">{{x}}%</div></div>
+        <div class="hbar-row"><div class="hbar-name">{{Eng.}}</div><div class="hbar-track"><div class="hbar-fill" style="width:{{pct}}%;background:var(--green)"></div></div><div class="hbar-value">{{x}}%</div></div>
+        <!-- /REPEAT -->
+      </div>
+      <ul class="rec-list">
+        <li>{{The signal's key count as one claim}}</li>
+        <li>{{The read against the portfolio norm, one claim}}</li>
+      </ul>
+    </div>
+    <div class="card" style="padding:26px;gap:24px">
+      <div class="stat stat--panel">{{3.8}}</div>
+      <div style="font-size:calc(27px * var(--ts, 1));font-weight:600">{{Signal name, e.g. "Open items per person, weekly median"}}</div>
+      <div class="mini-cols">
+        <!-- REPEAT: one column per period; heights scaled to max=100%; color escalates green→amber→red -->
+        <div style="height:{{pct}}%;background:var(--green)"></div>
+        <div style="height:{{pct}}%;background:var(--green)"></div>
+        <div style="height:{{pct}}%;background:var(--amber)"></div>
+        <div style="height:{{pct}}%;background:var(--amber)"></div>
+        <div style="height:{{pct}}%;background:var(--amber)"></div>
+        <div style="height:{{pct}}%;background:var(--red)"></div>
+        <div style="height:100%;background:var(--red)"></div>
+        <!-- /REPEAT -->
+      </div>
+      <ul class="rec-list">
+        <li>{{The direction, one claim}}</li>
+        <li>{{What it costs, one claim}}</li>
+      </ul>
+    </div>
+    <div class="card" style="padding:26px;gap:24px">
+      <div class="stat stat--panel">{{31%}}</div>
+      <div style="font-size:calc(27px * var(--ts, 1));font-weight:600">{{Signal name, e.g. "Merges outside 09:00 to 19:00"}}</div>
+      <div style="display:flex;gap:10px">
+        <!-- bars top-aligned to the tallest: margin-top = (52 − height)px -->
+        <div style="flex:1;display:flex;flex-direction:column;gap:8px"><div style="height:52px;background:var(--red);border-radius:4px"></div><span style="font-size:calc(21px * var(--ts, 1));color:var(--muted);text-align:center">{{Nights<br>x%}}</span></div>
+        <div style="flex:1;display:flex;flex-direction:column;gap:8px"><div style="height:{{h}}px;background:var(--amber);border-radius:4px;margin-top:{{52 - h}}px"></div><span style="font-size:calc(21px * var(--ts, 1));color:var(--muted);text-align:center">{{Weekends<br>x%}}</span></div>
+        <div style="flex:1;display:flex;flex-direction:column;gap:8px"><div style="height:{{h}}px;background:var(--green);border-radius:4px;margin-top:{{52 - h}}px"></div><span style="font-size:calc(21px * var(--ts, 1));color:var(--muted);text-align:center">{{Portfolio<br>x%}}</span></div>
+      </div>
+      <ul class="rec-list">
+        <li>{{Where the off-hours work clusters, one claim}}</li>
+        <li>{{What shape that is, one claim}}</li>
+      </ul>
+    </div>
+  </div>
+  <div class="strip card--tint" style="border:1px solid var(--green-tint-line)">
+    <p><strong>{{The takeaway, e.g. "The four green numbers are produced by heroics, and one resignation ends them."}}</strong></p>
+  </div>
+</section>
+</div>
+
+<!-- ═════════════════════════════════════════════════════════════════════════
+     SLIDE 07 · Finding 3, continued - the forensic receipt (evidence slide)
+     The item-level exhibit that makes the abstract signal undeniable: the
+     worst individual cases in the window, straight from the records.
+     CROSS-DOMAIN BY DESIGN: rows may come from ANY dataset - a pull
+     request, a CI run or streak, a work item, an incident - and mixing
+     them on one table is encouraged when the finding spans systems (e.g.
+     an unreviewed mega-merge next to a permanently red pipeline next to
+     the oldest untouched backlog items). The Item cell names the record
+     kind + id ("PR #1", "CI", "KEY-123…"); Magnitude may carry two facts
+     ("N lines · N days open"); Artifacts cites the real ids a
+     skeptic can open. Every id must exist in the extracted JSONL - this
+     table is the thing a skeptic goes and checks. 5 rows; last row
+     borderless. The footnote names what the rows share - the one cause -
+     and links down to the evidence appendix at the end of the page.
+     ═════════════════════════════════════════════════════════════════════════ -->
+<div class="slide-frame">
+<section class="slide" data-label="Finding 3 · Receipt" data-screen-label="07">
+  <div class="slide-head">
+    <div class="kicker">Finding 3, continued</div>
+    <h2>{{The concentration fact, e.g. "Five records show what the missing gates let through"}}</h2>
+    <p class="lede" style="max-width:1420px">These are the worst individual cases in the window, pulled straight from the {{record kinds cited, e.g. "pull-request, CI, and issue"}} records so you can inspect them yourself.</p>
+  </div>
+  <div class="table table--receipt">
+    <div class="th">Item</div>
+    <div class="th">What happened</div>
+    <div class="th">Magnitude</div>
+    <div class="th">Artifacts</div>
+
+    <!-- REPEAT: one row (4 cells) per case, from ANY domain; ids and artifacts must exist in the extracted records -->
+    <div class="td-cell td-id">{{PR #1}}</div>
+    <div class="td-cell">{{What happened, one line, e.g. "Build-system migration of acme/checkout merged with no recorded review"}}</div>
+    <div class="td-cell"><strong>{{N lines}}</strong> {{· second fact, e.g. "18 days open"}}</div>
+    <div class="td-cell td-links">{{repo #1 · KEY-142}}</div>
+
+    <div class="td-cell td-id">{{PR #4}}</div>
+    <div class="td-cell">{{What happened: name the surface when it raises the stakes, e.g. "Payment-processing code merged unreviewed"}}</div>
+    <div class="td-cell"><strong>{{magnitude}}</strong> {{· qualifier, e.g. "payments surface"}}</div>
+    <div class="td-cell td-links">{{artifact ids}}</div>
+
+    <div class="td-cell td-id">{{CI}}</div>
+    <div class="td-cell">{{A pipeline-side case, e.g. "[repo] pipeline failing as the norm, month after month"}}</div>
+    <div class="td-cell"><strong>{{N of M runs failed}}</strong> {{· worst month N of M}}</div>
+    <div class="td-cell td-links">{{Actions history · N re-runs org-wide}}</div>
+
+    <div class="td-cell td-id">{{KEY-1234}}</div>
+    <div class="td-cell">{{A ticket-side case, e.g. "The five oldest backlog items, untouched since [date]"}}</div>
+    <div class="td-cell"><strong>{{N days}}</strong> {{in "To Do" / "In Progress"}}</div>
+    <div class="td-cell td-links">{{board / issue ids}}</div>
+
+    <div class="td-cell td-id" style="border-bottom:none">{{KEY-1234}}</div>
+    <div class="td-cell" style="border-bottom:none">{{What happened}}</div>
+    <div class="td-cell" style="border-bottom:none"><strong>{{magnitude}}</strong> {{unit}}</div>
+    <div class="td-cell td-links" style="border-bottom:none">{{artifact ids}}</div>
+    <!-- /REPEAT -->
+  </div>
+  <p class="footnote">{{What the rows share: one cause, e.g. "Two failure modes, one cause: nothing in the path of a change, or of a backlog item, requires anyone to stop and look."}} Full item-level receipts, every domain: <a href="#appendix">the evidence appendix</a> at the end of this page.</p>
+</section>
+</div>
+
+<!-- ═════════════════════════════════════════════════════════════════════════
+     SLIDE 08 · Recommendations
+     One thrust per constraint found (REPEAT the card), plus one enabler
+     that makes improvement compound (the dark strip - typically: the teams
+     own the measurement themselves). Every card: the intervention, first
+     concrete steps, and an expected delta TIED BACK to the exhibit that
+     motivated it - same numbers, same units as the finding slides.
+     ═════════════════════════════════════════════════════════════════════════ -->
+<div class="slide-frame">
+<section class="slide" data-label="Recommendations" data-screen-label="08">
+  <div class="slide-head">
+    <div class="kicker">Recommendations</div>
+    <h2>{{The shape of the plan, e.g. "Three moves address the three constraints and a fourth makes the gains compound"}}</h2>
+  </div>
+  <div class="grid-3" style="gap:18px">
+    <!-- REPEAT: one card per constraint -->
+    <div class="card" style="padding:24px;gap:20px">
+      <div style="display:flex;align-items:center;gap:14px">
+        <div class="rec-chip">1</div>
+        <span class="kicker" style="font-size:calc(21px * var(--ts, 1))">{{Engagement}}</span>
+      </div>
+      <div class="rec-title">{{The intervention as an imperative, e.g. "Spread review capacity and shrink what gets reviewed"}}</div>
+      <div class="divider"></div>
+      <ul class="rec-list">
+        <li>{{First concrete step}}</li>
+        <li>{{Second step}}</li>
+        <li>{{Third step}}</li>
+      </ul>
+      <div class="rec-delta"><strong>{{Expected quantified delta, tied to the finding's exhibit, e.g. "First review inside one day, p85 lead time from X days to about Y."}}</strong></div>
+    </div>
+    <div class="card" style="padding:24px;gap:20px">
+      <div style="display:flex;align-items:center;gap:14px">
+        <div class="rec-chip">2</div>
+        <span class="kicker" style="font-size:calc(21px * var(--ts, 1))">{{Engagement}}</span>
+      </div>
+      <div class="rec-title">{{Intervention}}</div>
+      <div class="divider"></div>
+      <ul class="rec-list">
+        <li>{{Step}}</li>
+        <li>{{Step}}</li>
+        <li>{{Step}}</li>
+      </ul>
+      <div class="rec-delta"><strong>{{Expected delta.}}</strong></div>
+    </div>
+    <div class="card" style="padding:24px;gap:20px">
+      <div style="display:flex;align-items:center;gap:14px">
+        <div class="rec-chip">3</div>
+        <span class="kicker" style="font-size:calc(21px * var(--ts, 1))">{{Engagement}}</span>
+      </div>
+      <div class="rec-title">{{Intervention}}</div>
+      <div class="divider"></div>
+      <ul class="rec-list">
+        <li>{{Step}}</li>
+        <li>{{Step}}</li>
+        <li>{{Step}}</li>
+      </ul>
+      <div class="rec-delta"><strong>{{Expected delta.}}</strong></div>
+    </div>
+    <!-- /REPEAT -->
+  </div>
+  <div class="strip card--dark" style="display:grid;grid-template-columns:auto 1fr;gap:32px;align-items:center">
+    <div style="display:flex;align-items:center;gap:16px">
+      <div class="rec-chip rec-chip--on-dark">4</div>
+      <span style="font-family:var(--display);font-size:calc(31px * var(--ts, 1));font-weight:600;color:#ffffff;white-space:nowrap">The enabler</span>
+    </div>
+    <p style="font-size:calc(27px * var(--ts, 1));line-height:1.45;color:rgba(255,255,255,0.85)"><strong style="color:#ffffff">{{The enabler in one sentence, e.g. "Make measurement something the teams run themselves."}}</strong> {{Hand-over plan and how measurement will be practiced: extraction, dashboard, survey, and who reviews them together.}}</p>
+  </div>
+  <!-- OPTIONAL: the one measurement guardrail worth keeping, in one line -
+       typically: these numbers stay team-level and diagnostic; the moment
+       one becomes an individual target it stops describing the system.
+       Delete if a finding footnote already says it. -->
+  <p class="footnote">{{The guardrail, one sentence.}}</p>
+</section>
+</div>
+
+<!-- ═════════════════════════════════════════════════════════════════════════
+     SLIDE 09 · Roadmap
+     Swimlane timeline: one lane per engagement + a Measurement lane, over
+     four time windows. Cell variants: --start (the first decisive move),
+     --cont (continuation), --light (lower-intensity / hand-over),
+     --measure (the measurement lane). Empty grid cells stay as empty divs.
+     The amber strip is the early falsifiable checkpoint: the signal that,
+     if absent, means the diagnosis was wrong and scaling pauses.
+     ═════════════════════════════════════════════════════════════════════════ -->
+<div class="slide-frame">
+<section class="slide" data-label="Roadmap" data-screen-label="09">
+  <div class="slide-head">
+    <div class="kicker">Roadmap · {{16 weeks}}</div>
+    <h2>{{Why the ordering, e.g. "[Engagement] goes first because it's the cheapest place to prove the diagnosis"}}</h2>
+  </div>
+  <div class="roadmap">
+    <div></div>
+    <div class="roadmap-col">{{Weeks 1 to 4}}</div>
+    <div class="roadmap-col">{{Weeks 5 to 8}}</div>
+    <div class="roadmap-col">{{Weeks 9 to 12}}</div>
+    <div class="roadmap-col">{{Weeks 13 to 16}}</div>
+
+    <!-- REPEAT: one lane per engagement -->
+    <div class="roadmap-lane">{{Engagement}}</div>
+    <div class="roadmap-cell roadmap-cell--start">{{First move}}</div>
+    <div class="roadmap-cell roadmap-cell--cont">{{Continuation}}</div>
+    <div class="roadmap-cell roadmap-cell--light">{{Hold / hand over}}</div>
+    <div></div>
+
+    <div class="roadmap-lane">{{Engagement}}</div>
+    <div class="roadmap-cell roadmap-cell--light">{{Preparation}}</div>
+    <div class="roadmap-cell roadmap-cell--start">{{First move}}</div>
+    <div class="roadmap-cell roadmap-cell--cont">{{Continuation}}</div>
+    <div class="roadmap-cell roadmap-cell--cont">{{Continuation}}</div>
+
+    <div class="roadmap-lane">{{Engagement}}</div>
+    <div class="roadmap-cell roadmap-cell--start">{{First move}}</div>
+    <div class="roadmap-cell roadmap-cell--cont">{{Continuation}}</div>
+    <div class="roadmap-cell roadmap-cell--cont">{{Continuation}}</div>
+    <div class="roadmap-cell roadmap-cell--light">{{Hand over}}</div>
+    <!-- /REPEAT -->
+
+    <div class="roadmap-lane">Measurement</div>
+    <div class="roadmap-cell roadmap-cell--measure">{{Baseline locked, survey round one}}</div>
+    <div class="roadmap-cell roadmap-cell--measure">{{Dashboard and scripts handed over}}</div>
+    <div class="roadmap-cell roadmap-cell--measure">{{Survey round two, read against telemetry}}</div>
+    <div class="roadmap-cell roadmap-cell--measure">{{Re-measure all four metrics vs. baseline}}</div>
+  </div>
+  <div class="strip card--warn" style="display:flex;gap:32px;align-items:center;border:1px solid var(--amber-tint-line)">
+    <div class="kicker kicker--warn" style="font-size:calc(21px * var(--ts, 1));white-space:nowrap">{{Week 6}} checkpoint</div>
+    <p style="font-size:calc(28px * var(--ts, 1));line-height:1.45"><strong>{{The falsifiable signal, e.g. "[Metric] has to be under [threshold] by week six. If it's higher, the diagnosis was wrong and the rollout stops there."}}</strong></p>
+  </div>
+</section>
+</div>
+
+<!-- ═════════════════════════════════════════════════════════════════════════
+     SLIDE 10 · Closing
+     The engagement's core belief in one quotable line, then dated next
+     steps with owners: immediate commitments, baseline lock, the first
+     falsifiable checkpoint, and the re-measurement date (the final card
+     gets next-card--final). Owners are real names or roles, never blank.
+     ═════════════════════════════════════════════════════════════════════════ -->
+<div class="slide-frame">
+<section class="slide slide--dark" data-label="Closing" data-screen-label="10">
+  <div style="display:flex;flex-direction:column;gap:34px;max-width:1500px">
+    <div class="kicker kicker--wide kicker--on-dark">Closing</div>
+    <h2 style="font-size:calc(64px * var(--ts, 1));letter-spacing:-0.025em;line-height:1.12">{{The thesis in one quotable line, e.g. "Fix the constraint each engagement has, and the metrics follow"}}</h2>
+    <p style="font-size:calc(32px * var(--ts, 1));line-height:1.45;color:rgba(255,255,255,0.78);max-width:1300px">{{One sentence per engagement's need, and what the moves share.}}</p>
+  </div>
+  <div style="display:flex;flex-direction:column;gap:24px">
+    <div class="kicker kicker--on-dark">What happens next</div>
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:24px">
+      <!-- REPEAT: one dated card per commitment; the last one is next-card--final -->
+      <div class="next-card card--ghost">
+        <div class="next-date">{{Date}}</div>
+        <div class="next-what">{{Immediate commitment}}</div>
+        <div class="next-owner">{{Owner, name and role}}</div>
+      </div>
+      <div class="next-card card--ghost">
+        <div class="next-date">{{Date}}</div>
+        <div class="next-what">{{Baseline lock / first survey}}</div>
+        <div class="next-owner">{{Owner}}</div>
+      </div>
+      <div class="next-card card--ghost">
+        <div class="next-date">{{Date}}</div>
+        <div class="next-what">{{First checkpoint, go or stop}}</div>
+        <div class="next-owner">{{Owner}}</div>
+      </div>
+      <div class="next-card next-card--final">
+        <div class="next-date">{{Date}}</div>
+        <div class="next-what">{{Re-measurement against the locked baseline}}</div>
+        <div class="next-owner">{{Owner}}</div>
+      </div>
+      <!-- /REPEAT -->
+    </div>
+  </div>
+</section>
+</div>
+
+<!-- ═════════════════════════════════════════════════════════════════════════
+     SLIDE 11 · Appendix divider
+     The section break into the receipts, as a real slide so it carries the
+     deck's design language. SPARSE: kicker top; the literal label
+     "Appendix" as the oversized title; one plain-language subheader saying
+     what the reader is getting; two pill tags that jump into the section
+     (Methodology -> the method sheet, Source data -> the first evidence
+     sheet); then the window/run meta and a ONE-LINE fairness note at the
+     bottom. Nothing else goes here: every reading rule and definition
+     lives on the method sheet that follows. The fairness line is not
+     optional - it is the contract for a section that names people.
+     ═════════════════════════════════════════════════════════════════════════ -->
+<div class="slide-frame">
+<section class="slide" data-label="Appendix" data-screen-label="11" style="justify-content:space-between">
+  <div class="kicker kicker--wide">Delivery diagnostic · {{Engagement code}}</div>
+  <div style="display:flex;flex-direction:column;gap:36px;max-width:1560px">
+    <h2 style="font-size:calc(120px * var(--ts, 1));letter-spacing:-0.03em;line-height:1">Appendix</h2>
+    <p style="font-size:calc(32px * var(--ts, 1));line-height:1.45;color:var(--body-soft);max-width:1280px">{{The subheader: what this section is, e.g. "Your data, broken down: the methodology and the item-level source data behind each finding, straight from the records."}}</p>
+    <div style="display:flex;gap:18px">
+      <a href="#ax-method" style="display:inline-flex;align-items:center;border:1px solid var(--line);background:var(--card);border-radius:999px;padding:14px 34px;font-size:calc(24px * var(--ts, 1));font-weight:600;color:var(--ink)">↓&nbsp; Methodology</a>
+      <a href="#{{first evidence sheet id, e.g. ax-f1}}" style="display:inline-flex;align-items:center;border:1px solid var(--line);background:var(--card);border-radius:999px;padding:14px 34px;font-size:calc(24px * var(--ts, 1));font-weight:600;color:var(--ink)">↓&nbsp; Source data</a>
+    </div>
+  </div>
+  <div style="display:flex;flex-direction:column;gap:16px">
+    <div style="font-family:var(--mono);font-size:calc(22px * var(--ts, 1));color:var(--muted)">{{window from}} → {{to}} · run {{run_id}} · {{scope, e.g. "N repositories · N Jira projects"}}</div>
+    <p style="font-size:calc(24px * var(--ts, 1));line-height:1.5;color:var(--body-soft);max-width:1420px"><strong>Counts, not grades.</strong> {{The inspection-not-evaluation line: names come from the records, the pattern is structural, nothing here evaluates a person.}}</p>
+  </div>
+</section>
+</div>
+
+
+<!-- ═════════════════════════════════════════════════════════════════════════
+     EVIDENCE APPENDIX - the item-level receipts, after the last slide.
+     Not a slide: a scrolling, fully responsive section on the same page.
+     The slides carry the argument; this carries the audit - the worst
+     individual cases behind each finding, by id, each linked to the
+     provider so a skeptic can open it. The receipt slide's footnote
+     links here (#appendix).
+
+     Every id, magnitude, and link resolves to a record in the extracted
+     JSONL. No invented rows, no placeholder ids - if the sixth item isn't
+     in the records, go back to the records, never guess. Calendar time,
+     never effort. Percentiles over means. Floors named as floors when
+     coverage is truncated.
+     ═════════════════════════════════════════════════════════════════════════ -->
+<section class="appendix" id="appendix" aria-label="Evidence appendix">
+
+  <!-- Method sheet - ONE sheet, scannable, low reading cost. A stats band
+       (one tile per source system: the PRIMARY UNIT count big, from that
+       dataset's record_count; companion record kinds and the population in
+       the small sub-line, reconciling confusable figures in place; never
+       sum mixed record kinds) over three fragment columns: rules held
+       to, invisible in this data (from gaps.md plus the telemetry
+       boundary), and the OPTIONAL exclusions column (delete when nothing
+       was excluded) - each a list of BARE FRAGMENTS, a few words per row,
+       no explanations. The FULL versions (counts, dates, counting
+       decisions) live in the appendix footer, and the fine-print line
+       links there. Do NOT list what the
+       data is strong at - the stat tiles already say it. The closing
+       fine-print line prices the missing instrument into a recommendation
+       and states what access the links require. -->
+  <div class="ax-sheet" id="ax-method">
+    <div class="ax-head">
+      <div class="kicker">Method</div>
+      <h3 class="ax-claim">{{The frame, e.g. "Where the numbers come from, and what they cannot see"}}</h3>
+      <p class="ax-lede">{{One line: providers, window (`window.from` → `window.to`), and the join, e.g. "GitHub and Jira event history, X to Y, joined on pull-request ids and issue keys."}}</p>
+    </div>
+    <div class="ax-stats">
+      <!-- REPEAT: one tile per source system -->
+      <div><span class="ax-stat-num">{{N}}</span><span class="ax-stat-label">{{Pull requests}}</span><span class="ax-stat-sub">{{Population in plain words + companion record kinds, e.g. "Opened, merged, or closed in the window; N reviews, N review requests and N comments travel with them."}}</span></div>
+      <div><span class="ax-stat-num">{{N}}</span><span class="ax-stat-label">{{CI workflow runs}}</span><span class="ax-stat-sub">{{Population and split, e.g. "Started in the window: N passed or failed, N skipped or cancelled. N hours of run time, N re-runs."}}</span></div>
+      <div><span class="ax-stat-num">{{N}}</span><span class="ax-stat-label">{{Issues worked}}</span><span class="ax-stat-sub">{{Population, reconciled against open-today, e.g. "Touched in the window: N still open, N resolved. Open today: N (those N plus N idle older items)."}}</span></div>
+      <!-- /REPEAT -->
+    </div>
+    <div class="ax-facts">
+      <div>
+        <div class="kicker">Rules we held to</div>
+        <ul>
+          <li>p50 and p85, never a mean</li>
+          <li>{{fragment: completeness rule, e.g. "every record in play is counted"}}</li>
+          <li>{{fragment: the key definition, e.g. '"unreviewed" = no recorded human review'}}</li>
+          <li>calendar time, never effort</li>
+        </ul>
+      </div>
+      <div>
+        <div class="kicker kicker--bad">Invisible in this data</div>
+        <ul>
+          <li>{{fragment per blind spot, from gaps.md + the telemetry boundary}}</li>
+          <li>{{fragment}}</li>
+          <li>{{fragment}}</li>
+        </ul>
+      </div>
+      <!-- OPTIONAL: only when the staleness filter excluded scopes -->
+      <div>
+        <div class="kicker kicker--warn">Excluded from this report</div>
+        <ul>
+          <li>{{fragment per excluded scope, name + one-word reason}}</li>
+          <li>{{fragment}}</li>
+        </ul>
+      </div>
+      <!-- /OPTIONAL -->
+    </div>
+    <p class="ax-fine">Full versions of all three lists, with counts and dates: <a href="#ax-footer">the appendix footer</a>. <strong>{{Closing the gaps is Recommendation N:}}</strong> {{instrument, schedule in one clause.}} Links require access to {{provider host(s)}}.</p>
+  </div>
+
+  <!-- REPEAT: one SHEET per finding (3–5 sheets). Each sheet holds 1–3
+       table cards and reads like one more slide of the deck: kicker, then
+       the sheet's claim (not a label), then an optional lede. -->
+  <div class="ax-sheet" id="{{ax-f1, matching its chapter card on the divider slide}}">
+    <div class="ax-head">
+      <div class="kicker">{{Finding 1 · Name}}</div>
+      <h3 class="ax-claim">{{The sheet's claim, e.g. "The largest batches, and where they come from"}}</h3>
+      <!-- OPTIONAL: a lede when the sheet needs framing beyond the heading -->
+      <p class="ax-lede">{{One or two sentences of context with the headline counts.}}</p>
+    </div>
+
+    <!-- REPEAT: one CARD per table. Columns are free per table - keep ids
+         first, magnitudes right-aligned (td.num), and the source dataset in
+         the card header. The .ax-scroll wrapper is what keeps the table
+         usable on narrow screens; never remove it. -->
+    <div class="ax-card">
+      <div class="ax-card-head"><span class="ax-card-title">{{Table title, e.g. "The five largest merged changes"}}</span><span class="ax-card-src">{{source dataset(s), e.g. a3-pull-requests.jsonl · N merged PRs}}</span></div>
+      <div class="ax-scroll">
+      <table>
+        <thead><tr><th>{{Id column}}</th><th>{{What}}</th><th>{{Who}}</th><th class="num">{{Magnitude}}</th><th class="num">{{When / span}}</th></tr></thead>
+        <tbody>
+          <!-- REPEAT: one row per case; every id and link must exist in the records.
+               Use <span class="ax-flag">…</span> to mark a compounding fact on a row
+               (e.g. "no approval", "no non-author comment"). Color the magnitude
+               with ax-mag--bad / ax-mag--warn when it earns it. -->
+          <tr>
+            <td class="id"><a href="{{provider link}}">{{repo #n / KEY-123 / run id}}</a></td>
+            <td>{{What happened, one line}}{{OPTIONAL: <span class="ax-flag">compounding fact</span>}}</td>
+            <td>{{author / actor}}</td>
+            <td class="num"><span class="ax-mag ax-mag--bad">{{value}}</span></td>
+            <td class="num">{{date or span}}</td>
+          </tr>
+          <!-- /REPEAT -->
+        </tbody>
+      </table>
+      </div>
+      <div class="ax-caveat">{{The honesty row: provider limit, truncation, floor-vs-total, or the fairness read that keeps the table diagnostic. Never leave a table without one. If it needs more than two sentences, write one bold-led <div> per fact inside the caveat; the stylesheet detects that structure and stacks the facts with dividers automatically.}}</div>
+    </div>
+    <!-- /REPEAT card -->
+
+    <!-- OPTIONAL card variant: a run-id list (e.g. every run of a permanently
+         red pipeline) renders as pills instead of rows. -->
+    <div class="ax-card">
+      <div class="ax-card-head"><span class="ax-card-title">{{e.g. "[pipeline]: every completed run failed"}}</span><span class="ax-card-src">{{b2-pipeline-runs.jsonl · N completed runs, N failed}}</span></div>
+      <div class="ax-scroll">
+      <table>
+        <thead><tr><th>{{Window}}</th><th>{{All run ids}}</th></tr></thead>
+        <tbody>
+          <tr><td class="num" style="text-align:left;white-space:nowrap">{{from – to}}</td><td><div class="pillrow">
+            <!-- REPEAT: one pill per run id -->
+            <span class="runpill"><a href="{{run link}}">{{run id}}</a></span>
+            <!-- /REPEAT -->
+          </div></td></tr>
+        </tbody>
+      </table>
+      </div>
+      <div class="ax-caveat">{{What the list proves and what it doesn't.}}</div>
+    </div>
+    <!-- /OPTIONAL -->
+  </div>
+  <!-- /REPEAT sheet -->
+
+  <!-- Footer sheet - run provenance and the known limits carried verbatim
+       from the extraction contract, so the appendix travels with its own
+       caveats. -->
+  <div class="ax-sheet" id="ax-footer">
+    <footer class="ax-footer">
+      Generated from extraction run <span style="font-family:var(--mono)">{{run_id}}</span> (window {{from}} → {{to}}, {{resolved providers}}). How we counted: {{the full counting rules the method sheet summarizes: percentiles policy, the record populations with their counts, duplicates removed and boundary records kept, and what the key term ('unreviewed') literally means}}. Known limits carried from the extraction contract: elapsed time is calendar time, never engineer-days; {{the run's own gaps that bear on these tables, from gaps.md: truncations, missing providers, unobservable surfaces}}. {{OPTIONAL, only when the staleness filter excluded scopes - mirror the methodology sheet's exclusions rows, e.g. "Excluded as stale: board 'Example Board 1', no recorded activity since [date]; none of its records appear in this deck."}} Confidential; prepared for {{client}} leadership.
+    </footer>
+    <a class="backlink" href="#">↑ Back to the top of the deck</a>
+  </div>
+
+</section>
+
+</main>
+
+<script>
+  // Scale each fixed-width 1920 slide to the frame width. No dependencies.
+  // A ResizeObserver on <body> (with a plain resize fallback) catches every
+  // width change: window resize, orientation flip, scrollbars appearing.
+  // Height is measured from the slide itself (min-height 1080px, grows with
+  // content), so unexpected font metrics never clip a slide. Below
+  // REFLOW_MAX px the transform is dropped entirely and the mobile reflow
+  // stylesheet lays each slide out as normal single-column content.
+  const DESIGN_W = 1920, DESIGN_H = 1080, REFLOW_MAX = 760;
+  document.querySelectorAll('.slide-frame > .slide').forEach(slide => {
+    const crop = document.createElement('div');
+    crop.className = 'slide-crop';
+    slide.parentNode.insertBefore(crop, slide);
+    crop.appendChild(slide);
+  });
+  function fitSlides() {
+    const reflow = window.innerWidth <= REFLOW_MAX;
+    document.querySelectorAll('.slide-frame').forEach(frame => {
+      const crop = frame.querySelector('.slide-crop');
+      const slide = frame.querySelector('.slide');
+      if (reflow) {           // the mobile stylesheet lays the slide out
+        crop.style.width = crop.style.height = '';
+        slide.style.transform = '';
+        return;
+      }
+      const scale = frame.clientWidth / DESIGN_W;
+      const height = Math.max(DESIGN_H, slide.offsetHeight);
+      crop.style.width = (DESIGN_W * scale) + 'px';
+      crop.style.height = (height * scale) + 'px';
+      slide.style.transform = 'scale(' + scale + ')';
+    });
+  }
+  if (window.ResizeObserver) {
+    // observe the slides too: a slide can grow INSIDE its fixed-height crop
+    // (webfonts swapping in after load) without changing the body's size,
+    // and the crop must follow or it clips the slide's bottom.
+    const ro = new ResizeObserver(fitSlides);
+    ro.observe(document.body);
+    document.querySelectorAll('.slide').forEach(s => ro.observe(s));
+  } else window.addEventListener('resize', fitSlides);
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(fitSlides);
+  fitSlides();
+
+  // Arrow / page keys step between slides; the appendix is the last stop.
+  const stops = Array.from(document.querySelectorAll('.slide-frame, .appendix'));
+  const smooth = window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth';
+  function currentIndex() {
+    return stops.findIndex(f => f.getBoundingClientRect().bottom > window.innerHeight / 2);
+  }
+  window.addEventListener('keydown', e => {
+    if (!['ArrowDown','PageDown','ArrowUp','PageUp','Home','End'].includes(e.key)) return;
+    e.preventDefault();
+    const i = currentIndex();
+    const next = e.key === 'Home' ? 0
+      : e.key === 'End' ? stops.length - 1
+      : (e.key === 'ArrowDown' || e.key === 'PageDown') ? Math.min(i + 1, stops.length - 1)
+      : Math.max(i - 1, 0);
+    stops[next].scrollIntoView({ behavior: smooth, block: 'start' });
+  });
+</script>
+</body>
+</html>

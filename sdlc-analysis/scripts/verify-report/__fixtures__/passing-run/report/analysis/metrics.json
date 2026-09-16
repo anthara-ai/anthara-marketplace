@@ -1,0 +1,17 @@
+{
+  "commits": {
+    "total": 2
+  },
+  "pull_requests": {
+    "time_to_first_review_days": {
+      "p50": 3,
+      "p85": 5
+    },
+    "total": 4,
+    "unreviewed": {
+      "count": 1,
+      "share_pct": 25
+    }
+  },
+  "staleness_exclusions": []
+}

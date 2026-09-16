@@ -1,0 +1,12 @@
+{
+  "name": "sdlc-analysis-validate-run",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Validates an sdlc-analysis extraction run directory against the slice 1 schemas and the output contract's cross-file invariants (docs/output-contract.md section 8). node_modules is not committed; the orchestrator's --verify step and CI run `npm ci` from this package's committed package-lock.json at verify time. See README.md.",
+  "scripts": {
+    "test": "node --test"
+  },
+  "dependencies": {
+    "ajv": "8.20.0"
+  }
+}

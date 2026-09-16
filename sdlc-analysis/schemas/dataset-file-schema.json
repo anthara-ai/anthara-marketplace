@@ -1,0 +1,229 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "sdlc-analysis-dataset-v1",
+  "title": "SDLC Analysis Dataset Sidecar",
+  "description": "Envelope/provenance schema for one dataset's sidecar file, '<id>-<name>.meta.json'. Written by the domain extractor agent AFTER its '<id>-<name>.jsonl' records file is complete, so a killed run never leaves a 'complete' sidecar over a partial records file. The records themselves are NOT described here — they are raw provider records and carry no derived fields. Prose contract: docs/output-contract.md.",
+
+  "type": "object",
+  "required": ["dataset", "records_file", "provider", "window", "scope", "completeness", "record_count", "truncation", "extracted_at"],
+  "properties": {
+
+    "dataset": {
+      "type": "string",
+      "enum": [
+        "a1", "a2", "a3", "a4", "a5", "a6", "a7",
+        "b1", "b2", "b3", "b4", "b5",
+        "c1", "c2", "c3", "c4", "c5", "c6",
+        "d1", "d2", "d3", "d4", "d5", "d6"
+      ],
+      "description": "Lowercase dataset id. Closed set of the 24 datasets: a1-a7 version control, b1-b5 CI/CD, c1-c6 tickets, d1-d6 incidents."
+    },
+
+    "records_file": {
+      "type": "string",
+      "description": "Filename of the JSONL records file this sidecar describes, e.g. 'a2-commits.jsonl'. Must be the filename fixed for this dataset id in docs/output-contract.md section 2 — renaming breaks --resume, the run manifest, and the validator."
+    },
+
+    "provider": {
+      "type": "object",
+      "description": "The source this dataset was extracted from, resolved at runtime rather than hard-wired.",
+      "required": ["name"],
+      "properties": {
+        "name": {
+          "type": ["string", "null"],
+          "description": "Provider identifier as the plugin names it, e.g. 'github', 'azure-devops', 'jira', 'pagerduty'. Null exactly when no provider was connected for this domain, in which case completeness is 'unavailable'."
+        },
+        "detected_via": {
+          "type": ["string", "null"],
+          "enum": ["mcp", "cli", null],
+          "description": "Which of the two detection surfaces found the provider — MCP tools present, or a CLI on PATH. Null exactly when name is null: an unconnected provider was detected via nothing."
+        }
+      },
+      "allOf": [
+        {
+          "if": { "properties": { "name": { "type": "null" } } },
+          "then": { "properties": { "detected_via": { "type": "null" } } }
+        },
+        {
+          "if": { "properties": { "name": { "type": "string" } } },
+          "then": { "properties": { "detected_via": { "enum": ["mcp", "cli"] } } }
+        }
+      ]
+    },
+
+    "window": {
+      "type": "object",
+      "description": "The time window the extraction was asked for, and the bounds it resolved to.",
+      "required": ["requested"],
+      "properties": {
+        "requested": {
+          "type": "string",
+          "description": "The window argument as the user gave it, e.g. '6m'."
+        },
+        "from": {
+          "type": ["string", "null"],
+          "description": "Resolved start of the window, verbatim — original UTC offset preserved, never normalised to Z."
+        },
+        "to": {
+          "type": ["string", "null"],
+          "description": "Resolved end of the window, verbatim — original UTC offset preserved, never normalised to Z."
+        }
+      }
+    },
+
+    "scope": {
+      "type": "object",
+      "description": "What the dataset was extracted from, in the provider's own identifiers.",
+      "required": ["identifiers"],
+      "properties": {
+        "identifiers": {
+          "type": "array",
+          "description": "Provider-native repository / project / service identifiers covered by this dataset. Empty array when the provider was unavailable.",
+          "items": { "type": "string" }
+        },
+        "note": {
+          "type": "string",
+          "description": "How the scope was determined, when that is not obvious from the identifiers alone."
+        }
+      }
+    },
+
+    "completeness": {
+      "type": "string",
+      "enum": ["complete", "truncated", "unavailable"],
+      "description": "Closed three-state enum, always present. 'complete' = pagination genuinely ran to exhaustion and truncation is empty. 'truncated' = extraction started and stopped short, with at least one truncation record. 'unavailable' = nothing was retrieved, so record_count is 0, the JSONL is empty, unavailable_reason is set, truncation is empty (nothing extracted cannot have been cut off), and gaps.md carries a line. There is no fourth state and no absent value."
+    },
+
+    "record_count": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Number of lines in the records file. This is deliberate provenance, not a derived field: the 'no derived fields' prohibition binds the records, and this count is the only thing that makes silent truncation detectable — the validator compares it against the actual line count. See docs/output-contract.md section 4."
+    },
+
+    "truncation": {
+      "type": "array",
+      "description": "Every cutoff that occurred while extracting this dataset. Empty array when nothing was cut off. A non-empty array can coexist with completeness 'truncated' and with nothing else: with 'complete' it is the silent data loss the contract exists to prevent, and with 'unavailable' it is incoherent, because a dataset that was never extracted cannot have been cut off. Both contradictions are rejected by the allOf branches below.",
+      "items": { "$ref": "#/$defs/truncation_record" }
+    },
+
+    "extracted_at": {
+      "type": "string",
+      "description": "When this dataset finished extracting, verbatim — original UTC offset preserved, never normalised to Z."
+    },
+
+    "unavailable_reason": {
+      "type": "string",
+      "description": "Why nothing could be retrieved, in the provider's terms, e.g. 'no incident-management MCP server connected' or 'pipelines_build exposes no timeline action'. Required when completeness is 'unavailable'."
+    }
+  },
+
+  "allOf": [
+    {
+      "if": {
+        "properties": { "completeness": { "const": "complete" } },
+        "required": ["completeness"]
+      },
+      "then": {
+        "properties": { "truncation": { "maxItems": 0 } }
+      }
+    },
+    {
+      "if": {
+        "properties": { "completeness": { "const": "truncated" } },
+        "required": ["completeness"]
+      },
+      "then": {
+        "properties": { "truncation": { "minItems": 1 } }
+      }
+    },
+    {
+      "if": {
+        "properties": { "completeness": { "const": "unavailable" } },
+        "required": ["completeness"]
+      },
+      "then": {
+        "required": ["unavailable_reason"],
+        "properties": {
+          "record_count": { "const": 0 },
+          "truncation": { "maxItems": 0 }
+        }
+      }
+    }
+  ],
+
+  "$defs": {
+    "truncation_record": {
+      "type": "object",
+      "description": "The explicit marker written whenever extraction stopped short of exhaustion. It is the plugin's only bound on volume — there is no cap, no sampling and no dedupe — so it must carry enough for --resume to continue from the cutoff.",
+      "required": ["reason", "detail", "at", "last_record_id", "last_record_timestamp", "cursor"],
+      "properties": {
+        "reason": {
+          "type": "string",
+          "enum": ["rate_limited", "provider_cap", "pagination_unsupported", "context_budget", "provider_error"],
+          "description": "'rate_limited' = provider throttled after one retry. 'provider_cap' = the provider caps what it returns with no paginated alternative. 'pagination_unsupported' = no skip/continuation exists, so the first page is all there is. 'context_budget' = the extracting agent ran out of room to carry more records to disk. 'provider_error' = any other failure while paging."
+        },
+        "detail": {
+          "type": "string",
+          "description": "One sentence in the provider's own terms, naming the unreachable count when the provider reported a total."
+        },
+        "at": {
+          "type": "string",
+          "description": "When the cutoff happened, verbatim — original UTC offset preserved."
+        },
+        "last_record_id": {
+          "type": ["string", "null"],
+          "description": "Provider-native id of the last record written to the JSONL. Null when the cutoff happened before any record landed."
+        },
+        "last_record_timestamp": {
+          "type": ["string", "null"],
+          "description": "That record's timestamp, verbatim. Null when the cutoff happened before any record landed."
+        },
+        "remaining_estimate": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Records known to remain, when the provider reports a total. Omit rather than guess."
+        },
+        "cursor": {
+          "$ref": "#/$defs/cursor"
+        }
+      }
+    },
+
+    "cursor": {
+      "type": "object",
+      "description": "How to continue from the cutoff. A truncation record that cannot be resumed from is a contract defect.",
+      "required": ["resumable"],
+      "properties": {
+        "resumable": {
+          "type": "boolean",
+          "description": "True when the provider offers a continuation surface. False only when it genuinely offers none — never as a shortcut for 'the cursor was not recorded'."
+        },
+        "resume_from": {
+          "type": "object",
+          "description": "Provider-native parameters needed to replay the next page — continuation token, page number, skip, since-timestamp, last issue key, whatever that provider consumes. Free-form because it is the provider's vocabulary, not the plugin's.",
+          "minProperties": 1
+        },
+        "unreachable_reason": {
+          "type": "string",
+          "description": "Why no continuation exists, e.g. 'Jira changelog is capped at its most recent entries and no paginated-changelog tool exists' or 'repo_branch list accepts top but exposes no skip or continuation'. Required when resumable is false."
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": { "resumable": { "const": true } },
+            "required": ["resumable"]
+          },
+          "then": { "required": ["resume_from"] }
+        },
+        {
+          "if": {
+            "properties": { "resumable": { "const": false } },
+            "required": ["resumable"]
+          },
+          "then": { "required": ["unreachable_reason"] }
+        }
+      ]
+    }
+  }
+}

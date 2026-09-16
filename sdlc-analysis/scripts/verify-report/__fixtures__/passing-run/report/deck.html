@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Fixture · Delivery Diagnostic</title>
+<style>
+  .slide { width: 1920px; min-height: 1080px; font-size: calc(24px * var(--ts, 1)); }
+</style>
+</head>
+<body>
+<main class="deck">
+<!-- A structural comment with a number: 42. Comments never count. -->
+<section class="slide" data-label="Finding 1" data-screen-label="04">
+  <h2>Review is the slowest step</h2>
+  <p class="lede">One in four pull requests merged with no recorded human review, and the median wait for a first review was <span data-claim="f1.first-review-wait.p50">3 days</span>.</p>
+  <div class="stat"><span class="stat-num" data-claim="f1.unreviewed.share">25%</span><span class="stat-label">of pull requests unreviewed</span></div>
+  <p class="footnote">Percentiles, never means. Elapsed time is calendar time.</p>
+</section>
+<section class="appendix" id="appendix" aria-label="Evidence appendix">
+  <div class="ax-sheet" id="ax-method">
+    <h3 class="ax-claim">Where the numbers come from, and what they cannot see</h3>
+    <div><span class="ax-stat-num" data-claim="method.pull-requests.total">4</span><span class="ax-stat-label">Pull requests</span></div>
+    <div><span class="ax-stat-num" data-claim="method.commits.total">at least 2</span><span class="ax-stat-label">Commits on disk</span></div>
+    <ul>
+      <li>a2-commits.jsonl is truncated: the provider rate-limited the extraction, so every commit figure is a floor</li>
+      <li>D2 incidents: unavailable, no incident-management server was connected</li>
+    </ul>
+  </div>
+  <div class="ax-sheet" id="ax-f1">
+    <table>
+      <thead><tr><th>Id</th><th>What</th></tr></thead>
+      <tbody><tr><td class="id">PR-103</td><td>Merged with no recorded review</td></tr></tbody>
+    </table>
+    <div class="ax-caveat">Names come from the records. The pattern is structural, and nothing here evaluates a person.</div>
+  </div>
+</section>
+</main>
+<script>
+  // Fit script placeholder with numbers that must be ignored: 1920, 1080.
+</script>
+</body>
+</html>

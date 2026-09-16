@@ -1,0 +1,18 @@
+{
+  "name": "sdlc-analysis",
+  "version": "0.2.0",
+  "description": "Raw SDLC data extraction plus a verified delivery diagnostic — pulls unmodified records for 24 datasets across version control, CI/CD, tickets, and incidents from whatever MCP servers are connected, audits what is missing and why, builds the Portfolio Delivery Diagnostic deck from the records, and verifies every number in it against them.",
+  "author": {
+    "name": "Incubyte",
+    "email": "sapan@incubyte.co"
+  },
+  "keywords": [
+    "sdlc",
+    "extraction",
+    "diagnostic",
+    "version-control",
+    "cicd",
+    "tickets",
+    "incidents"
+  ]
+}

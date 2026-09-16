@@ -1,0 +1,281 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "sdlc-analysis-run-manifest-v1",
+  "title": "SDLC Analysis Run Manifest",
+  "description": "Schema for '_run-manifest.json' at the root of a run directory. Written by the extract orchestrator at assembly from what the domain extractor agents returned through their marker blocks — never from record content, which the orchestrator does not see. '--resume <dir>' reads this file to decide which datasets to re-run. Prose contract: docs/output-contract.md.",
+
+  "type": "object",
+  "required": ["run_id", "started_at", "window", "scope", "output_guard", "domains", "datasets"],
+  "properties": {
+
+    "run_id": {
+      "type": "string",
+      "description": "The run directory's own name — a compact UTC timestamp, e.g. '20260714T093000Z'."
+    },
+
+    "started_at": {
+      "type": "string",
+      "description": "When the run began, verbatim — original UTC offset preserved, never normalised to Z."
+    },
+
+    "completed_at": {
+      "type": ["string", "null"],
+      "description": "When assembly finished, verbatim. Null or absent for a run that has not finished, which is how a resumed run reads before its second pass completes."
+    },
+
+    "plugin_version": {
+      "type": "string",
+      "description": "Version from .claude-plugin/plugin.json, so a run can be read against the contract it was produced under."
+    },
+
+    "invocation": {
+      "type": "object",
+      "description": "The arguments this run was invoked with, echoed back so a run is reproducible from its own output.",
+      "properties": {
+        "domains": {
+          "type": "array",
+          "description": "Domain shortnames selected by --domain. All four when the flag was absent.",
+          "items": { "type": "string", "enum": ["a", "b", "c", "d"] }
+        },
+        "window": { "type": "string", "description": "The --window argument as given, e.g. '6m'." },
+        "out": { "type": "string", "description": "The resolved output directory." },
+        "resume": { "type": ["string", "null"], "description": "The run directory passed to --resume, or null for a fresh run." },
+        "verify": { "type": "boolean", "description": "Whether --verify was requested." }
+      }
+    },
+
+    "window": {
+      "type": "object",
+      "description": "The time window the run was asked for, and the bounds it resolved to. Each dataset's sidecar repeats this so a single file is self-describing.",
+      "required": ["requested"],
+      "properties": {
+        "requested": { "type": "string", "description": "The window argument as the user gave it, e.g. '6m'." },
+        "from": { "type": ["string", "null"], "description": "Resolved start of the window, verbatim." },
+        "to": { "type": ["string", "null"], "description": "Resolved end of the window, verbatim." }
+      }
+    },
+
+    "scope": {
+      "type": "object",
+      "description": "What the run covered, in the providers' own identifiers.",
+      "required": ["identifiers"],
+      "properties": {
+        "identifiers": {
+          "type": "array",
+          "description": "Provider-native repository / project / service identifiers covered by the run. Empty array when no provider was connected at all.",
+          "items": { "type": "string" }
+        },
+        "note": { "type": "string", "description": "How the scope was determined, when that is not obvious from the identifiers alone." }
+      }
+    },
+
+    "scope_selection": {
+      "type": "object",
+      "description": "How the run's scope was decided. 'full' = every scope unit each resolved provider exposes (also how a manifest written before this field existed reads). 'curated' = the user enumerated and picked; per-domain entries record what was kept and — with evidence — what was deliberately left out. Deselected units appear in no dataset, so this object is the only place they remain visible. See docs/output-contract.md section 7.",
+      "required": ["mode"],
+      "properties": {
+        "mode": {
+          "type": "string",
+          "enum": ["full", "curated"],
+          "description": "'full' = full sweep. 'curated' = the user picked scope units per domain after enumeration."
+        },
+        "note": {
+          "type": "string",
+          "description": "Free-text qualifier, e.g. that a curated run fell back to a full sweep because enumeration failed."
+        },
+        "domains": {
+          "type": "object",
+          "description": "One entry per enumerated domain, keyed by shortname. Present only when mode is 'curated'.",
+          "propertyNames": { "enum": ["a", "b", "c", "d"] },
+          "additionalProperties": {
+            "type": "object",
+            "required": ["enumeration", "selection"],
+            "properties": {
+              "enumeration": {
+                "type": "string",
+                "enum": ["complete", "truncated", "failed"],
+                "description": "Whether the scope-scout's listing ran to exhaustion, hit the per-domain cap, or could not run."
+              },
+              "selection": {
+                "type": "string",
+                "enum": ["all", "curated"],
+                "description": "'all' = the user kept everything; the domain extracts at provider default scope and carries no selected/deselected arrays. 'curated' = the user picked; both arrays are present."
+              },
+              "reason": {
+                "type": "string",
+                "description": "Why enumeration failed, in the provider's terms. Required when enumeration is 'failed'."
+              },
+              "selected": {
+                "type": "array",
+                "description": "The units this run extracts, exactly as passed to the domain extractor as scope_units.",
+                "items": { "$ref": "#/$defs/scope_unit" }
+              },
+              "deselected": {
+                "type": "array",
+                "description": "The units deliberately left out, kept visible here with their evidence — exclusion is never silent.",
+                "items": {
+                  "allOf": [{ "$ref": "#/$defs/scope_unit" }],
+                  "required": ["reason"],
+                  "properties": {
+                    "reason": { "type": "string", "description": "Why the unit was left out, e.g. 'user-deselected'." }
+                  }
+                }
+              }
+            },
+            "allOf": [
+              {
+                "if": {
+                  "properties": { "selection": { "const": "curated" } },
+                  "required": ["selection"]
+                },
+                "then": { "required": ["selected", "deselected"] }
+              },
+              {
+                "if": {
+                  "properties": { "enumeration": { "const": "failed" } },
+                  "required": ["enumeration"]
+                },
+                "then": { "required": ["reason"] }
+              }
+            ]
+          }
+        }
+      }
+    },
+
+    "output_guard": {
+      "type": "object",
+      "description": "Evidence that the output directory was checked before any record was written. Records carry author identities and ticket summaries and are never redacted, so placement is the guard.",
+      "required": ["path", "git_ignored"],
+      "properties": {
+        "path": { "type": "string", "description": "The output directory the guard was run against." },
+        "git_ignored": { "type": "boolean", "description": "Result of 'git check-ignore' on the output directory." },
+        "warned": { "type": "boolean", "description": "Whether the user was warned that the path is tracked." },
+        "confirmed_by_user": { "type": "boolean", "description": "Whether the user explicitly confirmed writing to a tracked path. Required when git_ignored is false." }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": { "git_ignored": { "const": false } },
+            "required": ["git_ignored"]
+          },
+          "then": { "required": ["confirmed_by_user"] }
+        }
+      ]
+    },
+
+    "domains": {
+      "type": "array",
+      "description": "One entry per selected domain. A domain whose agent failed, returned nothing, or emitted no markers appears here as 'unavailable' with a reason — never as a missing key and never as an aborted run.",
+      "items": {
+        "type": "object",
+        "required": ["domain", "status", "provider"],
+        "properties": {
+          "domain": {
+            "type": "string",
+            "enum": ["a", "b", "c", "d"],
+            "description": "Domain shortname: a = version control, b = CI/CD, c = tickets, d = incidents."
+          },
+          "status": {
+            "type": "string",
+            "enum": ["resolved", "unavailable"],
+            "description": "'resolved' = a provider was found and the agent reported back. 'unavailable' = no provider was connected, or the agent returned nothing usable."
+          },
+          "provider": {
+            "type": "object",
+            "required": ["name"],
+            "properties": {
+              "name": {
+                "type": ["string", "null"],
+                "description": "Provider identifier resolved for this domain, e.g. 'github', 'azure-devops', 'jira', 'pagerduty'. Null when status is 'unavailable'."
+              },
+              "detected_via": {
+                "type": ["string", "null"],
+                "enum": ["mcp", "cli", null],
+                "description": "Which detection surface found it — MCP tools present, or a CLI on PATH. Null exactly when name is null: an unconnected provider was detected via nothing."
+              }
+            },
+            "allOf": [
+              {
+                "if": { "properties": { "name": { "type": "null" } } },
+                "then": { "properties": { "detected_via": { "type": "null" } } }
+              },
+              {
+                "if": { "properties": { "name": { "type": "string" } } },
+                "then": { "properties": { "detected_via": { "enum": ["mcp", "cli"] } } }
+              }
+            ]
+          },
+          "reason": {
+            "type": "string",
+            "description": "Why the domain is unavailable, in concrete terms. Required when status is 'unavailable'."
+          }
+        },
+        "allOf": [
+          {
+            "if": {
+              "properties": { "status": { "const": "unavailable" } },
+              "required": ["status"]
+            },
+            "then": { "required": ["reason"] }
+          }
+        ]
+      }
+    },
+
+    "datasets": {
+      "type": "array",
+      "description": "Per-dataset completeness for every dataset the run has a sidecar for, copied from those sidecars, except truncation_count which is derived (see below). This is what --resume reads: it re-runs exactly the datasets whose sidecar is absent or not 'complete'. The array's length is not fixed at 24 or at the selected domains' full range — a --resume run legitimately covers only the datasets it re-ran plus whatever sidecars were already on disk.",
+      "items": {
+        "type": "object",
+        "required": ["dataset", "completeness", "record_count", "records_file", "meta_file", "truncation_count"],
+        "properties": {
+          "dataset": {
+            "type": "string",
+            "enum": [
+              "a1", "a2", "a3", "a4", "a5", "a6", "a7",
+              "b1", "b2", "b3", "b4", "b5",
+              "c1", "c2", "c3", "c4", "c5", "c6",
+              "d1", "d2", "d3", "d4", "d5", "d6"
+            ],
+            "description": "Lowercase dataset id, one of the 24 in docs/output-contract.md section 2."
+          },
+          "completeness": {
+            "type": "string",
+            "enum": ["complete", "truncated", "unavailable"],
+            "description": "Same closed three-state enum as the sidecar's, copied from it verbatim."
+          },
+          "record_count": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "Line count of the dataset's JSONL, copied from the sidecar."
+          },
+          "records_file": { "type": "string", "description": "The '<id>-<name>.jsonl' filename." },
+          "meta_file": { "type": "string", "description": "The '<id>-<name>.meta.json' filename." },
+          "truncation_count": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "How many truncation records the sidecar carries, so a reader sees which datasets need --resume without opening every sidecar. NOT copied — the sidecar has no truncation_count field. It is derived as the length of that sidecar's 'truncation' array (truncation.length), 0 for an empty array. The count lives only here, as a run-level roll-up; duplicating it into the sidecar would give truncation.length a second home to drift from. See docs/output-contract.md section 7."
+          }
+        }
+      }
+    },
+
+    "gaps_file": {
+      "type": "string",
+      "description": "Filename of the run's gaps document. Always 'gaps.md'."
+    }
+  },
+
+  "$defs": {
+    "scope_unit": {
+      "type": "object",
+      "required": ["id"],
+      "properties": {
+        "id": { "type": "string", "description": "Provider-native identifier of the unit — a repository, pipeline, board / project, or service." },
+        "name": { "type": "string", "description": "Display name as the provider's listing reported it." },
+        "last_activity": { "type": "string", "description": "Last-activity timestamp copied verbatim from the provider's listing response by the scope-scout. Absent when the listing carried none — never null, never computed." }
+      }
+    }
+  }
+}

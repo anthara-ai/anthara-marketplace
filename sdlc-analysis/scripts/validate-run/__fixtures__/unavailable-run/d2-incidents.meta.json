@@ -1,0 +1,20 @@
+{
+  "dataset": "d2",
+  "records_file": "d2-incidents.jsonl",
+  "provider": {
+    "name": null
+  },
+  "window": {
+    "requested": "6m",
+    "from": "2026-01-14T00:00:00+00:00",
+    "to": "2026-07-14T00:00:00+00:00"
+  },
+  "scope": {
+    "identifiers": []
+  },
+  "completeness": "unavailable",
+  "record_count": 0,
+  "truncation": [],
+  "extracted_at": "2026-07-14T09:12:03+05:30",
+  "unavailable_reason": "no incident-management MCP tools connected"
+}

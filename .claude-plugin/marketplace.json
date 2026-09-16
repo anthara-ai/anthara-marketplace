@@ -14,6 +14,11 @@
       "name": "refactoring",
       "source": "./refactoring",
       "description": "Writes a numbered, step-by-step, behaviour-preserving refactoring plan for a module from its git history and code, and can pitch it to a team as a self-contained HTML page"
+    },
+    {
+      "name": "sdlc-analysis",
+      "source": "./sdlc-analysis",
+      "description": "Extracts raw SDLC records from connected MCP servers, then builds a delivery diagnostic deck in which every number traces back to those records"
     }
   ]
 }

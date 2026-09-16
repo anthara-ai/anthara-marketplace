@@ -1,0 +1,263 @@
+{
+  "run_id": "20260714T033000Z",
+  "started_at": "2026-07-14T09:00:00+05:30",
+  "completed_at": "2026-07-14T09:12:03+05:30",
+  "plugin_version": "0.1.0",
+  "invocation": {
+    "domains": [
+      "a",
+      "b",
+      "c",
+      "d"
+    ],
+    "window": "6m",
+    "out": "./sdlc-analysis-runs/20260714T033000Z",
+    "resume": null,
+    "verify": false
+  },
+  "window": {
+    "requested": "6m",
+    "from": "2026-01-14T00:00:00+00:00",
+    "to": "2026-07-14T00:00:00+00:00"
+  },
+  "scope": {
+    "identifiers": [
+      "example-org/sample-repo"
+    ],
+    "note": "synthetic fixture scope"
+  },
+  "output_guard": {
+    "path": "./sdlc-analysis-runs/20260714T033000Z",
+    "git_ignored": true,
+    "warned": false
+  },
+  "domains": [
+    {
+      "domain": "a",
+      "status": "resolved",
+      "provider": {
+        "name": "github",
+        "detected_via": "mcp"
+      }
+    },
+    {
+      "domain": "b",
+      "status": "resolved",
+      "provider": {
+        "name": "github-actions",
+        "detected_via": "mcp"
+      }
+    },
+    {
+      "domain": "c",
+      "status": "resolved",
+      "provider": {
+        "name": "jira",
+        "detected_via": "mcp"
+      }
+    },
+    {
+      "domain": "d",
+      "status": "resolved",
+      "provider": {
+        "name": "pagerduty",
+        "detected_via": "mcp"
+      }
+    }
+  ],
+  "datasets": [
+    {
+      "dataset": "a1",
+      "completeness": "complete",
+      "record_count": 1,
+      "records_file": "a1-repositories.jsonl",
+      "meta_file": "a1-repositories.meta.json",
+      "truncation_count": 0
+    },
+    {
+      "dataset": "a2",
+      "completeness": "complete",
+      "record_count": 1,
+      "records_file": "a2-commits.jsonl",
+      "meta_file": "a2-commits.meta.json",
+      "truncation_count": 0
+    },
+    {
+      "dataset": "a3",
+      "completeness": "complete",
+      "record_count": 1,
+      "records_file": "a3-pull-requests.jsonl",
+      "meta_file": "a3-pull-requests.meta.json",
+      "truncation_count": 0
+    },
+    {
+      "dataset": "a4",
+      "completeness": "complete",
+      "record_count": 1,
+      "records_file": "a4-review-events.jsonl",
+      "meta_file": "a4-review-events.meta.json",
+      "truncation_count": 0
+    },
+    {
+      "dataset": "a5",
+      "completeness": "complete",
+      "record_count": 1,
+      "records_file": "a5-review-comments.jsonl",
+      "meta_file": "a5-review-comments.meta.json",
+      "truncation_count": 0
+    },
+    {
+      "dataset": "a6",
+      "completeness": "complete",
+      "record_count": 1,
+      "records_file": "a6-branches.jsonl",
+      "meta_file": "a6-branches.meta.json",
+      "truncation_count": 0
+    },
+    {
+      "dataset": "a7",
+      "completeness": "complete",
+      "record_count": 1,
+      "records_file": "a7-tags-releases.jsonl",
+      "meta_file": "a7-tags-releases.meta.json",
+      "truncation_count": 0
+    },
+    {
+      "dataset": "b1",
+      "completeness": "complete",
+      "record_count": 1,
+      "records_file": "b1-pipeline-definitions.jsonl",
+      "meta_file": "b1-pipeline-definitions.meta.json",
+      "truncation_count": 0
+    },
+    {
+      "dataset": "b2",
+      "completeness": "complete",
+      "record_count": 1,
+      "records_file": "b2-pipeline-runs.jsonl",
+      "meta_file": "b2-pipeline-runs.meta.json",
+      "truncation_count": 0
+    },
+    {
+      "dataset": "b3",
+      "completeness": "complete",
+      "record_count": 1,
+      "records_file": "b3-jobs-steps.jsonl",
+      "meta_file": "b3-jobs-steps.meta.json",
+      "truncation_count": 0
+    },
+    {
+      "dataset": "b4",
+      "completeness": "complete",
+      "record_count": 1,
+      "records_file": "b4-deployments.jsonl",
+      "meta_file": "b4-deployments.meta.json",
+      "truncation_count": 0
+    },
+    {
+      "dataset": "b5",
+      "completeness": "complete",
+      "record_count": 1,
+      "records_file": "b5-reruns-approvals.jsonl",
+      "meta_file": "b5-reruns-approvals.meta.json",
+      "truncation_count": 0
+    },
+    {
+      "dataset": "c1",
+      "completeness": "complete",
+      "record_count": 1,
+      "records_file": "c1-projects-boards.jsonl",
+      "meta_file": "c1-projects-boards.meta.json",
+      "truncation_count": 0
+    },
+    {
+      "dataset": "c2",
+      "completeness": "complete",
+      "record_count": 1,
+      "records_file": "c2-issues.jsonl",
+      "meta_file": "c2-issues.meta.json",
+      "truncation_count": 0
+    },
+    {
+      "dataset": "c3",
+      "completeness": "complete",
+      "record_count": 1,
+      "records_file": "c3-issue-changelog.jsonl",
+      "meta_file": "c3-issue-changelog.meta.json",
+      "truncation_count": 0
+    },
+    {
+      "dataset": "c4",
+      "completeness": "complete",
+      "record_count": 1,
+      "records_file": "c4-sprints.jsonl",
+      "meta_file": "c4-sprints.meta.json",
+      "truncation_count": 0
+    },
+    {
+      "dataset": "c5",
+      "completeness": "complete",
+      "record_count": 1,
+      "records_file": "c5-issue-comments.jsonl",
+      "meta_file": "c5-issue-comments.meta.json",
+      "truncation_count": 0
+    },
+    {
+      "dataset": "c6",
+      "completeness": "complete",
+      "record_count": 1,
+      "records_file": "c6-backlog.jsonl",
+      "meta_file": "c6-backlog.meta.json",
+      "truncation_count": 0
+    },
+    {
+      "dataset": "d1",
+      "completeness": "complete",
+      "record_count": 1,
+      "records_file": "d1-services.jsonl",
+      "meta_file": "d1-services.meta.json",
+      "truncation_count": 0
+    },
+    {
+      "dataset": "d2",
+      "completeness": "complete",
+      "record_count": 1,
+      "records_file": "d2-incidents.jsonl",
+      "meta_file": "d2-incidents.meta.json",
+      "truncation_count": 0
+    },
+    {
+      "dataset": "d3",
+      "completeness": "complete",
+      "record_count": 1,
+      "records_file": "d3-incident-timeline.jsonl",
+      "meta_file": "d3-incident-timeline.meta.json",
+      "truncation_count": 0
+    },
+    {
+      "dataset": "d4",
+      "completeness": "complete",
+      "record_count": 1,
+      "records_file": "d4-alerts.jsonl",
+      "meta_file": "d4-alerts.meta.json",
+      "truncation_count": 0
+    },
+    {
+      "dataset": "d5",
+      "completeness": "complete",
+      "record_count": 1,
+      "records_file": "d5-oncall-shifts.jsonl",
+      "meta_file": "d5-oncall-shifts.meta.json",
+      "truncation_count": 0
+    },
+    {
+      "dataset": "d6",
+      "completeness": "complete",
+      "record_count": 1,
+      "records_file": "d6-priorities.jsonl",
+      "meta_file": "d6-priorities.meta.json",
+      "truncation_count": 0
+    }
+  ],
+  "gaps_file": "gaps.md"
+}

@@ -1,0 +1,54 @@
+{
+  "schema": "sdlc-analysis-evidence-ledger-v1",
+  "run_id": "20260714T033000Z",
+  "deck_file": "deck.html",
+  "compute_script": "analysis/compute.mjs",
+  "metrics_file": "analysis/metrics.json",
+  "datasets_used": ["a2", "a3", "a4"],
+  "lower_bound_datasets": ["a2"],
+  "unavailable_datasets": ["d2"],
+  "staleness_exclusions": [],
+  "claims": [
+    {
+      "id": "method.pull-requests.total",
+      "rendered": "4",
+      "metric": "pull_requests.total",
+      "value": 4,
+      "datasets": ["a3"],
+      "population": 4,
+      "method": "every a3 record in the window",
+      "lower_bound": false
+    },
+    {
+      "id": "f1.unreviewed.share",
+      "rendered": "25%",
+      "metric": "pull_requests.unreviewed.share_pct",
+      "value": 25,
+      "datasets": ["a3", "a4"],
+      "population": 4,
+      "method": "pull requests with no a4 review event, as a percent of all a3 pull requests",
+      "lower_bound": false,
+      "receipts": ["PR-103"]
+    },
+    {
+      "id": "f1.first-review-wait.p50",
+      "rendered": "3 days",
+      "metric": "pull_requests.time_to_first_review_days.p50",
+      "value": 3,
+      "datasets": ["a3", "a4"],
+      "population": 3,
+      "method": "reviewed pull requests; calendar days from created_at to the earliest a4 submitted_at; nearest-rank p50",
+      "lower_bound": false
+    },
+    {
+      "id": "method.commits.total",
+      "rendered": "at least 2",
+      "metric": "commits.total",
+      "value": 2,
+      "datasets": ["a2"],
+      "population": 2,
+      "method": "every a2 record on disk; the dataset is truncated so this is a floor",
+      "lower_bound": true
+    }
+  ]
+}

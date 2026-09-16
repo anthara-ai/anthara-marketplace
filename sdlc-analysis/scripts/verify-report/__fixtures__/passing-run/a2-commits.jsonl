@@ -1,0 +1,2 @@
+{"sha":"a1b2c3d4","repository":"example-org/sample-repo","branch":"main","author":"fixture-user@example.com","authored_at":"2026-03-01T08:00:00+00:00","message":"fixture commit one"}
+{"sha":"e5f6a7b8","repository":"example-org/sample-repo","branch":"main","author":"fixture-user@example.com","authored_at":"2026-03-02T08:00:00+00:00","message":"fixture commit two"}

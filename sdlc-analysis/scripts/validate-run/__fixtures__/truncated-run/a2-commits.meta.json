@@ -1,0 +1,37 @@
+{
+  "dataset": "a2",
+  "records_file": "a2-commits.jsonl",
+  "provider": {
+    "name": "github",
+    "detected_via": "mcp"
+  },
+  "window": {
+    "requested": "6m",
+    "from": "2026-01-14T00:00:00+00:00",
+    "to": "2026-07-14T00:00:00+00:00"
+  },
+  "scope": {
+    "identifiers": [
+      "example-org/sample-repo"
+    ],
+    "note": "synthetic fixture scope"
+  },
+  "completeness": "truncated",
+  "record_count": 5,
+  "truncation": [
+    {
+      "reason": "rate_limited",
+      "detail": "Provider returned 429 after the second retry",
+      "at": "2026-07-14T09:12:03+05:30",
+      "last_record_id": "a2-four-fixture-record",
+      "last_record_timestamp": "2026-07-14T09:12:03+05:30",
+      "cursor": {
+        "resumable": true,
+        "resume_from": {
+          "page": 5
+        }
+      }
+    }
+  ],
+  "extracted_at": "2026-07-14T09:12:03+05:30"
+}
