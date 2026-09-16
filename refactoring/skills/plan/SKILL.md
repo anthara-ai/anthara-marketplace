@@ -51,7 +51,7 @@ Eight things, in this order. Each one leaves numbers in the plan, so the team ca
 
 One markdown file, written to be read in view mode and put on a screen in front of the team. Headings, tables and Mermaid diagrams; numbers in the text where an adjective would otherwise go; each refactoring fits on one screen.
 
-- **A summary block at the top.** The module, the problem statement in the developer's words, a one-line diagnosis, a one-line description of the shape afterwards, how many tests and refactorings follow, and the commit hash and history window the analysis was run on, because numbers without a hash cannot be reproduced or known to have gone stale. Two more lines: the stop rule, that any red means revert the step rather than fix forward; and what is out of scope, which is features, bug fixes, performance and reformatting.
+- **A summary block at the top.** The module, the problem statement in the developer's words, a one-line diagnosis, a one-line description of the shape afterwards, how many tests and refactorings follow, and the commit the analysis was run on, as the full 40-character hash with its short form beside it, together with the origin remote and the history window, because numbers without a hash cannot be reproduced or known to have gone stale, and because the links below need the full hash. Two more lines: the stop rule, that any red means revert the step rather than fix forward; and what is out of scope, which is features, bug fixes, performance and reformatting.
 - **How to use this plan.** A short paragraph for the team: one refactoring is one commit or one pull request; take them in the order given unless a step is marked independent; run the step's check before and after; revert on red. A pull request can say "R3" and everyone knows what it means.
 - **A table of every step.** Number, title, catalogue name, what it depends on, risk, whether a test covers it or it runs blind, and a phase. The phase is exactly one of `seam`, `characterisation test`, `refactoring` or `public surface`, so a reader can see the ordering at a glance. This is the slide the team looks at longest.
 - **The evidence.** The contract. The hotspot table with the numbers, in the columns `file | commits in window | lines | deep lines | in plan? (R-numbers or "left alone")`. The change-coupling findings, both the outside files that travel with the module and the inside files that never travel together. Code age and knowledge. The problem statement's trace through the code as it is today. A before-and-after dependency diagram in Mermaid.
@@ -62,6 +62,19 @@ One markdown file, written to be read in view mode and put on a screen in front 
 - **Questions for the team**: whatever the plan could not settle from the code, such as whether an export is used outside the repository, whether a name can change, who owns a file whose last author has left.
 - **The measures**, a table with the columns `measure | now | after the plan | how it is measured`, one row for every number the plan promises to move. The problem statement's touch count, the longest function, the files coupled with a named file and the test count are the usual rows. Every number in the table was either observed during the investigation or is a stated target. A row whose "now" could not be measured says "not measured" rather than a guess.
 - **Done when.** The export list and the golden outputs diff clean, the tests are green, and every row of the measures table has reached its "after the plan" number. A date to re-run the forensics and see whether the hotspot stayed cool.
+
+## Every file mention is a link
+
+A reader of the plan should be able to open the line being described. Write every file reference as a path from the repository root, or as a basename that is unique in the repository, with its line or line range after a colon, such as `src/billing/invoice.service.ts:259-315`. A file the plan proposes to create, or a file in another repository, is written the same way and is not linked, because it does not exist at the commit.
+
+Then run the link tool over the finished file. It wraps every mention that exists at the commit in a link to the repository host at that commit, verifies every link against the local clone rather than the network, and reports a mention that matches more than one file so it can be qualified:
+
+```bash
+node <skill>/references/check-links.mjs docs/refactoring/<module-slug>-plan.md --repo . --hash <full hash> --fix
+node <skill>/references/check-links.mjs docs/refactoring/<module-slug>-plan.md --repo . --hash <full hash>
+```
+
+The second run must be silent. A repository with no origin remote gets no links, and the summary block says so.
 
 ## Where plans go wrong
 
@@ -75,7 +88,7 @@ One markdown file, written to be read in view mode and put on a screen in front 
 
 ## Done when
 
-The plan file exists. Every refactoring has what, why, catalogue name, where, check, dependencies and risk; every one bigger than a commit has sub-steps; every one points at a piece of evidence. The characterisation tests come before the refactorings that need them, and the seam-creating steps before the tests. The leave-alone list gives a reason per item. The summary's numbers can be reproduced from the stated hash. A developer who has never opened the module could pick R1, know what to do, and know how to tell that they did it without changing anything.
+The plan file exists. Every refactoring has what, why, catalogue name, where, check, dependencies and risk; every one bigger than a commit has sub-steps; every one points at a piece of evidence. The characterisation tests come before the refactorings that need them, and the seam-creating steps before the tests. The leave-alone list gives a reason per item. The summary's numbers can be reproduced from the stated hash. Every file mention that exists at that hash is a link to it, and `check-links.mjs` is silent. A developer who has never opened the module could pick R1, know what to do, and know how to tell that they did it without changing anything.
 
 ## Then
 
