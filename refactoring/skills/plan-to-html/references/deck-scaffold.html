@@ -212,7 +212,13 @@
     .step-card                     one step on one screen: id, title and
                                    catalogue name, then what, why, check,
                                    undo and risk as labelled fields. For
-                                   the riskiest step, or the first one
+                                   the riskiest step, or the first one.
+                                   The four fields read row by row, what
+                                   and why, then check and undo, so the
+                                   row gap is LARGER than the column gap
+                                   on purpose. Even them up and proximity
+                                   groups each column instead, which asks
+                                   the eye to read what, check, why, undo
     .asks                          the decisions the room is asked to make:
                                    numbered, one line each, drawn from the
                                    plan's questions for the team and the
@@ -630,7 +636,7 @@
   .step-card-id { font-family: var(--mono); font-size: calc(30px * var(--ts, 1)); font-weight: 700; color: var(--accent-ink); }
   .step-card-title { font-family: var(--display); font-size: calc(36px * var(--ts, 1)); font-weight: 600; line-height: 1.2; }
   .step-card-cat { font-size: calc(23px * var(--ts, 1)); color: var(--muted); }
-  .step-fields { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px 32px; }
+  .step-fields { display: grid; grid-template-columns: repeat(2, 1fr); gap: 34px 24px; }
   .step-field { display: flex; flex-direction: column; gap: 8px; }
   .step-field .kicker { font-size: calc(19px * var(--ts, 1)); }
   .step-field p { font-size: calc(25px * var(--ts, 1)); line-height: 1.4; color: var(--body-soft); }
