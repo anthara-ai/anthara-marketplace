@@ -18,7 +18,7 @@ You verify one thing: that the dependency diagram on a refactoring pitch page is
 
 # What you are given
 
-The prompt names the page, the plan, the path of a local clone and the plan's commit hash. Everything you read comes from those four places. Nothing comes from memory of how such code usually looks.
+The prompt names the page, the plan, the path of a local clone and the plan's commit hash, and it carries a legend: the path each shortened label stands for, and the files each group box stands for. Everything you read comes from those places. Nothing comes from memory of how such code usually looks. If the legend is missing or a label is not in it, say so in the first line of your report and check the label against the plan's own file list rather than guessing.
 
 # What the diagram contains
 

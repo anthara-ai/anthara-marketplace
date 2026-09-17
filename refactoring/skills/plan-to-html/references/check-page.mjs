@@ -33,6 +33,7 @@ const TEXT_CHECKS = [
   // Only inline styles: that is where a filler writes type sizes. The
   // stylesheet's own `.shape svg` sizes are inside an SVG viewBox and scale
   // with the diagram, so they must NOT go through --ts.
+  { name: 'stray closing anchor', re: /<\/a>\s*<\/a>/g, hint: 'an </a> with no opening tag; the browser drops it, but the markup is wrong and a later tool may not' },
   { name: 'bold lead-in glued to the next word', re: /<\/strong>[A-Za-z]/g, hint: 'put a space after </strong>, or the two sentences render as one word' },
   { name: 'bare font-size in an inline style', re: /style="[^"]*font-size:\s*\d+px/g, hint: 'use calc(<n>px * var(--ts, 1)), and follow the same rule for any CSS you add' },
 ]
@@ -88,6 +89,22 @@ function proseOf(html) {
     .replace(/<[^>]+>/g, ' ')
     .replace(/&[a-z#0-9]+;/gi, ' ')
     .replace(/\s+/g, ' ')
+}
+
+const ID_CELL = /<td\b[^>]*class="[^"]*\bid\b[^"]*"[^>]*>([\s\S]*?)<\/td>/g
+const stackValues = inner => inner.split(/<[a-z]+\b[^>]*class="[^"]*\bax-stack\b[^"]*"[^>]*>/)
+const textOf = fragment => fragment.replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').trim()
+
+const markupOf = html => html.replace(/<!--[\s\S]*?-->/g, ' ')
+
+function checkIdCells(html) {
+  for (const [, inner] of markupOf(html).matchAll(ID_CELL)) {
+    for (const value of stackValues(inner).map(textOf).filter(Boolean)) {
+      if (!/\s/.test(value)) continue
+      report('appendix', `prose in a monospace id cell: "${value.slice(0, 60)}"`,
+        'td.id holds one identifier or one path per .ax-stack line; words, counts and pairs joined by "and" go in a text or num cell')
+    }
+  }
 }
 
 function checkBold(html) {
@@ -310,6 +327,7 @@ checkHeadings(html)
 checkColumnHeaders(html)
 checkProse(html)
 checkBold(html)
+checkIdCells(html)
 checkCopyLength(html)
 checkAnchors(html)
 checkChartNames(html)

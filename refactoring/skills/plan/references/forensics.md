@@ -85,9 +85,11 @@ Last change, total commits, file. Old with few commits is stable: leave it. Old 
 ## Knowledge
 
 ```bash
-git shortlog -sn --since="24 months ago" -- <module>
-git shortlog -sn -- <file>
+git shortlog -sn HEAD --since="24 months ago" -- <module>
+git shortlog -sn HEAD -- <file>
 ```
+
+`shortlog` needs the revision. Without `HEAD` it reads a log from stdin and waits there until the tool times out, which cost one run four minutes.
 
 A file with one author who has left the team gets more characterisation tests, because nobody can say what is intentional, and the plan names a reviewer for it. A file with many authors and no majority has nobody who owns it, which is often why it is in the state it is in.
 

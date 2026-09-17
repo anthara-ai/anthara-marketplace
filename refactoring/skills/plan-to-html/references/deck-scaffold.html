@@ -237,6 +237,14 @@
                                    beside the page, by heading slug),
                                    .ax-scroll > table, .ax-caveat
     td.id, td.num, .ax-mag, .ax-flag
+                                   td.id is monospace and nowrap: one
+                                   identifier or one path, never words.
+                                   Prose in it takes the whole row and
+                                   pushes the other columns off the sheet,
+                                   so check-page.mjs flags any id cell
+                                   whose text holds a space. A short name
+                                   with its path in the reason column
+                                   reads better than the path itself.
     .ax-stack                      one value per line inside a td.id.
                                    td.id is nowrap, which is right for
                                    one short identifier and wrong for a
