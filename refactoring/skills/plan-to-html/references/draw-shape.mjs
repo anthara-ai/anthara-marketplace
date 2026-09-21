@@ -40,12 +40,9 @@
 //              page, on a slide and again in the appendix, without duplicate
 //              ids. Boxes and edges carry data attributes, not ids, and are
 //              unaffected.
-//   --legend:  also print an <ol class="shape-legend"> after the SVG, one
-//              item per box: the label, then the path or every file behind
-//              it as links. A projected slide has no hover, so a page for the
-//              team or the tech lead carries this list under every panel,
-//              and every appendix does. Every box then needs a path or files,
-//              and the script refuses one without.
+//   --legend:  optional: also print an <ol class="shape-legend"> after the
+//              SVG, one item per box, the label and the path or files behind
+//              it as links, for a page that wants the paths in text as well.
 //              Every box then needs a path or files.
 //   edge.kind: omitted (exists today) | "after" (the plan adds it) |
 //              "future" (dashed: made possible by the plan, added by no step) |

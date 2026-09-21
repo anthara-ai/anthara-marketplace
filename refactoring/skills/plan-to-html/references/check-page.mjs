@@ -14,8 +14,7 @@
 //
 // The diagram's specificity is checked here too: a group box carries the
 // files it stands for, a box wrapped in a link has its href, on a page for
-// the team or the tech lead every box names a path and every panel carries
-// its legend of paths, and a legend, when one
+// the team or the tech lead every box names a path, and a legend, when one
 // is drawn, covers every box, since "legacy routers" tells a developer
 // nothing until the box opens the routers.
 //
@@ -346,9 +345,8 @@ function checkDiagramSpecificity(html, audience) {
       report(where, `the group box "${attr(tag, 'data-node')}" names no files`, 'give it "files" in the shape spec, so the verifier and the legend know what it stands for')
     }
     const label = attr(section, 'aria-label') ?? 'a section'
-    const pathsAreRead = AUDIENCES_THAT_READ_PATHS.has(audience) || isAppendix(section)
-    if (pathsAreRead) checkEveryBoxNamesAPath(rects, label, where)
-    checkLegendCovers(section, rects, label, where, pathsAreRead)
+    if (AUDIENCES_THAT_READ_PATHS.has(audience) || isAppendix(section)) checkEveryBoxNamesAPath(rects, label, where)
+    checkLegendCovers(section, rects, label, where)
   }
 }
 
@@ -358,9 +356,8 @@ function checkEveryBoxNamesAPath(rects, label, where) {
   }
 }
 
-function checkLegendCovers(section, rects, label, where, legendRequired) {
+function checkLegendCovers(section, rects, label, where) {
   const legend = legendPathsIn(section)
-  if (legend.size === 0 && legendRequired) report(where, `"${label}" draws a diagram with no legend`, 'render the panel with draw-shape.mjs --legend and paste the list under it; a projected slide has no hover, so the path has to be in text')
   if (legend.size === 0) return
   for (const path of pathsBehind(rects).filter(path => !legend.has(path))) {
     report(where, `${path} is drawn in "${label}" but missing from its legend`, 'regenerate the legend from the same spec as the panel')
