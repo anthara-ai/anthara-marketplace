@@ -156,6 +156,11 @@
     .stat.stat--hero / --panel     the big number; colour it with
                                    .num--accent, .num--before, .num--caution
     .chip                          phase and risk chips for step rows.
+                                   A chip keeps its own text colour when
+                                   it is a link, so an id chip on a dark
+                                   slide stays legible: never give a.chip
+                                   `color: inherit`, which once turned the
+                                   closing slide's chips into blank pills.
                                    A chip that carries a step id (R3, T1)
                                    is an <a class="chip"> whose href is
                                    #step-<id> on the appendix step card,
@@ -206,6 +211,24 @@
                                    the plan creates or moves. Lay it out on
                                    the layered grid below and check it with
                                    check-page.mjs; do not place boxes by eye
+    .pill-link                     on the divider slide, one per appendix
+                                   sheet. Keep the divider to about seven
+                                   pills: fold the evidence into a few
+                                   sheets (steps, shape, forensics, contract
+                                   and tests, left alone and open, measures,
+                                   provenance) rather than one sheet per
+                                   plan table, since check-page.mjs wants a
+                                   pill for every sheet and twelve pills
+                                   read as a table of contents
+    .shape-legend                  optional, under a panel: one line per
+                                   box, the label then the repository path
+                                   (or every path a group box stands for)
+                                   as links. Printed by draw-shape.mjs
+                                   --legend from the same spec as the
+                                   panel, never typed. The default is no
+                                   legend, because the box itself is the
+                                   link and its hover title carries the
+                                   path or the files
     .tiles > .tile                 small stat tiles in a row (the contract:
                                    exports, callers, entry points, all
                                    unchanged)
@@ -286,6 +309,9 @@
   - Write one small JSON spec per panel (nodes with a column and a row, edges
     from id to id) and run `node references/draw-shape.mjs spec.json`. Paste
     its output into a .shape-panel. The spec format is in the script's header.
+    When the same panel appears twice, on a slide and in the appendix, draw
+    the second copy with `--suffix -ax` so its title and marker ids do not
+    collide with the first.
   - The generator places every box on a grid (column i at x = i * 230, row j
     at y = j * 68), routes every edge as horizontal and vertical segments only,
     gives a box with several edges one port per edge so no two arrowheads
@@ -317,6 +343,20 @@
     check-page.mjs uses them to confirm every edge names a drawn box, and the
     dependency-graph-verifier agent uses them to check the diagram against
     the code at the plan's commit. Keep them.
+  - EVERY BOX IS THE LINK TO WHAT IT STANDS FOR. A single box carries "path"
+    in the spec and the generator wraps it in <a data-path> with a hover
+    title naming the path, so after check-links.mjs --fix a click on the box
+    opens the file at the plan's commit. A group box lists its "files": they
+    land on the rect as data-files, the hover title lists them one per line,
+    and the box links to the deepest folder holding them all. check-page.mjs
+    refuses a group box without files, and on a team or tech-lead page and in
+    every appendix it refuses any box that names no path. A box for a file
+    the plan creates has a path and no link, because the file does not exist
+    yet. No separate legend is needed: the label is for the room, the box
+    itself is for the developer. --legend still prints one for a page that
+    wants the paths in text.
+  - THE APPENDIX CAPS THE PANEL AT 1000px. A 650px viewBox stretched to a
+    1650px sheet draws 33px labels, which reads as a poster, not a diagram.
   - Label width: at 13px mono a character is about 8px, so a 190px box holds
     about 21 characters. A longer name needs a shorter label, and the lede or
     footnote beside the diagram says what the short label stands for.
@@ -380,6 +420,16 @@
   - A file in another repository, or a file a step proposes to create, does
     not exist at the commit and stays plain text. When the clone has no
     remote, nothing is linked and the provenance footer says so once.
+  - WHEN A SENTENCE STANDS FOR SEVERAL FILES, EVERY ONE OF THEM IS A LINK.
+    "The three importers" or "two policy helpers" gives the reader one link
+    or none. Name each file, with its extension and enough path to be
+    unique, in the sentence, the cell or the legend, and the link tool wraps
+    each one. A name written without its extension, such as
+    "oidc-provider.factory", is invisible to the link tool, and it reports
+    the name when the page links that file nowhere else.
+  - The same tool fills the href of every <a data-path> the diagram
+    generator wrote, for files and for folders, so a box in the shape
+    diagram opens the thing it stands for.
 
   VIEWING, PRINT, JAVASCRIPT OFF
   - In a browser the slides stack vertically, scaled to the window. Arrow
@@ -541,7 +591,7 @@
   .table--compact .td-name, .table--compact .td-sub { display: block; }
   .table--compact .td-id { font-size: calc(22px * var(--ts, 1)); }
   .table--compact .chip { font-size: calc(18px * var(--ts, 1)); padding: 2px 10px; }
-  a.chip { color: inherit; text-decoration: none; cursor: pointer; }
+  a.chip { text-decoration: none; cursor: pointer; }
   a.chip:hover, a.chip:focus-visible { text-decoration: underline; text-underline-offset: 3px; }
   .step-link { color: inherit; text-decoration: underline; text-decoration-color: color-mix(in srgb, currentColor 40%, transparent); text-underline-offset: 3px; }
   .ax-details:target { outline: 2px solid var(--accent); outline-offset: 4px; border-radius: 8px; }
@@ -632,6 +682,17 @@
   .shape svg .arrow { fill: var(--before); }
   .shape svg .arrow--after { fill: var(--accent); }
   .shape svg .arrow--back { fill: var(--caution); }
+  .shape svg a { cursor: pointer; outline: none; }
+  .shape svg a:hover .box, .shape svg a:focus-visible .box { stroke: var(--accent); stroke-width: 2.5; }
+  .shape svg a:hover text, .shape svg a:focus-visible text { text-decoration: underline; }
+  .appendix .shape-panel svg { max-width: 1000px; }
+  .shape-legend { margin: 0; padding: 0; list-style: none; columns: 2; column-gap: 32px; font-size: calc(15px * var(--ts, 1)); line-height: 1.5; color: var(--body-soft); }
+  .shape-legend li { break-inside: avoid; padding: 2px 0; }
+  .shape-legend .mono { color: var(--ink); }
+  .shape-legend .mono::after { content: " →"; color: var(--muted); }
+  .shape-legend a { color: var(--accent-ink); font-family: var(--mono); text-decoration: underline; text-decoration-color: var(--line); text-underline-offset: 3px; }
+  .shape-legend-note { font-size: 0.85em; color: var(--muted); text-transform: uppercase; letter-spacing: 0.04em; }
+  .appendix .shape-legend { font-size: max(13px, 1.1vw); }
 
   .tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; }
   .tile { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 20px 24px; display: flex; flex-direction: column; gap: 6px; }
@@ -766,6 +827,7 @@
     .shape, .step-fields { grid-template-columns: 1fr; }
     .shape-panel { overflow-x: auto; -webkit-overflow-scrolling: touch; }
     .shape-panel svg { min-width: 760px; }
+    .shape-legend { columns: 1; }
     .step-card { padding: 16px 18px; }
     .pair-value { width: 120px; }
     .hbar-name { width: 140px; }
@@ -971,7 +1033,7 @@
         <rect class="box" data-node="snomed" x="230" y="0" width="190" height="42"/><text x="242" y="26">SnomedClient</text>
         <rect class="box" data-node="loinc" x="230" y="68" width="190" height="42"/><text x="242" y="94">LoincClient</text>
         <rect class="box" data-node="mapper" x="230" y="136" width="190" height="42"/><text x="242" y="162">CodeMapper</text>
-        <rect class="box box--group" data-node="others" x="230" y="204" width="190" height="42"/><text x="242" y="230">7 others, unchanged</text>
+        <rect class="box box--group" data-node="others" data-files="src/assessment/audit.ts,src/assessment/cache.ts,src/assessment/clock.ts,src/assessment/clock-format.ts,src/assessment/config.ts,src/assessment/logger.ts,src/assessment/metrics.ts" x="230" y="204" width="190" height="42"/><text x="242" y="230">7 others, unchanged</text>
         <path class="edge" data-from="svc" data-to="snomed" d="M190 74H196V21H230" marker-end="url(#cat-today-arrow-today)"/>
         <path class="edge" data-from="svc" data-to="loinc" d="M190 89H230" marker-end="url(#cat-today-arrow-today)"/>
         <path class="edge" data-from="svc" data-to="mapper" d="M190 94H209.3V157H230" marker-end="url(#cat-today-arrow-today)"/>
@@ -988,7 +1050,7 @@
         <rect class="box box--after" data-node="snomed" x="460" y="0" width="190" height="42"/><text x="472" y="26">SnomedProvider</text>
         <rect class="box box--after" data-node="loinc" x="460" y="68" width="190" height="42"/><text x="472" y="94">LoincProvider</text>
         <rect class="box box--gone" data-node="next" x="460" y="136" width="190" height="42"/><text x="472" y="162">NextProvider</text>
-        <rect class="box box--group" data-node="others" x="230" y="204" width="190" height="42"/><text x="242" y="230">7 others, unchanged</text>
+        <rect class="box box--group" data-node="others" data-files="src/assessment/audit.ts,src/assessment/cache.ts,src/assessment/clock.ts,src/assessment/clock-format.ts,src/assessment/config.ts,src/assessment/logger.ts,src/assessment/metrics.ts" x="230" y="204" width="190" height="42"/><text x="242" y="230">7 others, unchanged</text>
         <path class="edge edge--after" data-from="svc" data-to="iface" d="M190 89H230" marker-end="url(#cat-after-arrow-after)"/>
         <path class="edge" data-from="svc" data-to="others" d="M190 94H216V225H230" marker-end="url(#cat-after-arrow-today)"/>
         <path class="edge edge--after" data-from="iface" data-to="snomed" d="M420 79H426V21H460" marker-end="url(#cat-after-arrow-after)"/>
@@ -997,7 +1059,12 @@
       </svg>
     </div>
   </div>
-  <p class="footnote">Both panels come from <span class="mono">draw-shape.mjs</span>, so no boxes collide and every arrow is the same shape. Untouched collaborators collapse into one counted box. The verifier agent checks every edge against the code.</p>
+  <ol class="shape-legend" aria-label="What each box stands for">
+    <li><span class="mono">AssessmentService</span> <a class="src-link" data-path="src/assessment/assessment.service.ts" href="#">src/assessment/assessment.service.ts</a></li>
+    <li><span class="mono">7 others, unchanged</span> <a class="src-link" data-path="src/assessment/audit.ts" href="#">src/assessment/audit.ts</a>, <a class="src-link" data-path="src/assessment/cache.ts" href="#">src/assessment/cache.ts</a>, <a class="src-link" data-path="src/assessment/clock.ts" href="#">src/assessment/clock.ts</a>, <a class="src-link" data-path="src/assessment/clock-format.ts" href="#">src/assessment/clock-format.ts</a>, <a class="src-link" data-path="src/assessment/config.ts" href="#">src/assessment/config.ts</a>, <a class="src-link" data-path="src/assessment/logger.ts" href="#">src/assessment/logger.ts</a>, <a class="src-link" data-path="src/assessment/metrics.ts" href="#">src/assessment/metrics.ts</a></li>
+    <li><span class="mono">CodeProvider</span> <span class="mono">src/assessment/providers/code-provider.ts</span> <span class="shape-legend-note">new</span></li>
+  </ol>
+  <p class="footnote">Both panels come from <span class="mono">draw-shape.mjs</span>, so no boxes collide and every arrow is the same shape. Untouched collaborators collapse into one counted box, and the legend under the panel names every file behind it. The verifier agent checks every edge against the code.</p>
   <div class="tiles">
     <div class="tile"><span class="tile-num">14</span><span class="tile-label">exports</span><span class="tile-sub">Unchanged by every step</span></div>
     <div class="tile"><span class="tile-num">9</span><span class="tile-label">callers outside the module</span><span class="tile-sub">Found by import search, none edited</span></div>

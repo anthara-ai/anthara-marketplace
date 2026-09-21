@@ -18,6 +18,14 @@
 // to the repository host taken from the clone's origin remote. It touches
 // nothing inside an existing link, an HTML tag or attribute, an SVG, a
 // <title>, a script, a style, a comment, or a fenced code block.
+//
+// Two more checks on a page. A box the diagram generator wrapped in
+// <a data-path="…"> (a file or a folder) gets its href filled the same way,
+// so a box in the shape diagram opens the file it stands for. And a file
+// written without its extension, such as `oidc-provider.factory` for
+// oidc-provider.factory.ts, is reported when the page links that file
+// nowhere, because a name the link tool cannot see is a name the reader
+// cannot open.
 
 import { readFile, writeFile } from 'node:fs/promises'
 import { execFileSync } from 'node:child_process'
@@ -40,16 +48,18 @@ if (!option('--hash')) console.error(`check-links: no --hash given, using HEAD o
 const remote = (() => { try { return git('remote', 'get-url', 'origin') } catch { return '' } })()
 
 const HOSTS = [
-  { name: 'GitHub', match: /github\.com[/:]([^/]+)\/([^/.]+)/, link: (m, p, a, b) => `https://github.com/${m[1]}/${m[2]}/blob/${hash}/${p}${a ? `#L${a}${b && b !== a ? `-L${b}` : ''}` : ''}` },
-  { name: 'GitLab', match: /gitlab\.com[/:](.+?)\/([^/.]+)(?:\.git)?$/, link: (m, p, a, b) => `https://gitlab.com/${m[1]}/${m[2]}/-/blob/${hash}/${p}${a ? `#L${a}${b && b !== a ? `-${b}` : ''}` : ''}` },
-  { name: 'Bitbucket', match: /bitbucket\.org[/:]([^/]+)\/([^/.]+)/, link: (m, p, a, b) => `https://bitbucket.org/${m[1]}/${m[2]}/src/${hash}/${p}${a ? `#lines-${a}${b && b !== a ? `:${b}` : ''}` : ''}` },
-  { name: 'Azure DevOps', match: /dev\.azure\.com\/([^/]+)\/([^/]+)\/_git\/([^/?]+)/, link: (m, p, a, b) => `https://dev.azure.com/${m[1]}/${m[2]}/_git/${m[3]}?path=/${p}&version=GC${hash}${a ? `&line=${a}&lineEnd=${b ?? a}&lineStartColumn=1&lineEndColumn=1&lineStyle=plain&_a=contents` : ''}` },
+  { name: 'GitHub', match: /github\.com[/:]([^/]+)\/([^/.]+)/, link: (m, p, a, b) => `https://github.com/${m[1]}/${m[2]}/blob/${hash}/${p}${a ? `#L${a}${b && b !== a ? `-L${b}` : ''}` : ''}`, folder: (m, p) => `https://github.com/${m[1]}/${m[2]}/tree/${hash}/${p}` },
+  { name: 'GitLab', match: /gitlab\.com[/:](.+?)\/([^/.]+)(?:\.git)?$/, link: (m, p, a, b) => `https://gitlab.com/${m[1]}/${m[2]}/-/blob/${hash}/${p}${a ? `#L${a}${b && b !== a ? `-${b}` : ''}` : ''}`, folder: (m, p) => `https://gitlab.com/${m[1]}/${m[2]}/-/tree/${hash}/${p}` },
+  { name: 'Bitbucket', match: /bitbucket\.org[/:]([^/]+)\/([^/.]+)/, link: (m, p, a, b) => `https://bitbucket.org/${m[1]}/${m[2]}/src/${hash}/${p}${a ? `#lines-${a}${b && b !== a ? `:${b}` : ''}` : ''}`, folder: (m, p) => `https://bitbucket.org/${m[1]}/${m[2]}/src/${hash}/${p}` },
+  { name: 'Azure DevOps', match: /dev\.azure\.com\/([^/]+)\/([^/]+)\/_git\/([^/?]+)/, link: (m, p, a, b) => `https://dev.azure.com/${m[1]}/${m[2]}/_git/${m[3]}?path=/${p}&version=GC${hash}${a ? `&line=${a}&lineEnd=${b ?? a}&lineStartColumn=1&lineEndColumn=1&lineStyle=plain&_a=contents` : ''}`, folder: (m, p) => `https://dev.azure.com/${m[1]}/${m[2]}/_git/${m[3]}?path=/${p}&version=GC${hash}` },
 ]
 const host = HOSTS.map(h => ({ h, m: remote.match(h.match) })).find(x => x.m)
 const linkFor = (path, from, to) => host ? host.h.link(host.m, path, from, to) : null
+const folderLinkFor = path => host ? host.h.folder(host.m, path) : null
 
 const tree = git('ls-tree', '-r', '--name-only', hash).split('\n')
 const treeSet = new Set(tree)
+const folderSet = new Set(tree.flatMap(path => path.split('/').slice(0, -1).map((_, depth, parts) => parts.slice(0, depth + 1).join('/'))))
 const bySuffix = ref => tree.filter(t => t === ref || t.endsWith(`/${ref}`))
 const lineCounts = new Map()
 const lineCount = path => {
@@ -77,7 +87,8 @@ function checkExistingLinks(text) {
       const where = url.slice(0, 90)
       if (linkHash.length !== 40) report('short hash', where, `the host needs the 40-character hash ${hash}`)
       else if (linkHash !== hash) report('wrong commit', where, `the plan was written at ${hash.slice(0, 7)}`)
-      if (!treeSet.has(path)) { report('path missing', where, `no such file at ${hash.slice(0, 7)}`); continue }
+      if (!treeSet.has(path) && !folderSet.has(path)) { report('path missing', where, `no such file or folder at ${hash.slice(0, 7)}`); continue }
+      if (!treeSet.has(path)) continue
       if (from && +from > lineCount(path)) report('line out of range', where, `${path} has ${lineCount(path)} lines`)
       if (to && +to > lineCount(path)) report('line out of range', where, `${path} has ${lineCount(path)} lines`)
       if (from && to && +to < +from) report('line range reversed', where, 'lineEnd is before line')
@@ -158,12 +169,72 @@ function linkifyText(text, unlinked) {
   return text.replace(REF, (token, ref, from, to) => wrap(token, ref, from, to))
 }
 
+// ---- 3. every box the diagram wrapped in <a data-path> is a link ---------
+
+const BOX_LINK = /<a\b([^>]*\bdata-path="([^"]+)"[^>]*)>/g
+
+function linkBoxes(html, unlinkedBoxes) {
+  return html.replace(BOX_LINK, (tag, attrs, path) => {
+    const target = resolveBoxTarget(path)
+    if (!target) { report('path missing', `box for ${path}`, `no such file or folder at ${hash.slice(0, 7)}; fix the path in the shape spec and redraw`); return tag }
+    if (/\bhref="[^"]+"/.test(attrs)) return tag
+    unlinkedBoxes.push(path)
+    if (!fix || !host) return tag
+    return `<a${attrs} href="${esc(target)}">`
+  })
+}
+
+const resolveBoxTarget = path => treeSet.has(path) ? linkFor(path) : folderSet.has(path) ? folderLinkFor(path) : null
+
+// ---- 4. a file named without its extension is a file the reader cannot open
+
+const STEM_EXT = new RegExp(`\\.(?:${EXT})$`)
+const stems = new Map()
+for (const path of tree) {
+  const base = path.slice(path.lastIndexOf('/') + 1)
+  const stem = base.replace(STEM_EXT, '')
+  if (stem === base || !/[.\-_]/.test(stem)) continue
+  stems.set(stem, stems.has(stem) ? null : path)
+}
+const STEM_TOKEN = /(?<![\w/@.#-])([\w-]+(?:\.[\w-]+)*)(?![\w/.])/g
+
+function findNamesWithoutExtension(text, linkedPaths, found) {
+  for (const [, token] of text.matchAll(STEM_TOKEN)) {
+    const path = stems.get(token)
+    if (!path || STEM_EXT.test(token) || linkedPaths.has(path)) continue
+    found.set(token, path)
+  }
+}
+
+const linkedPathsOn = text => new Set([
+  ...[...text.matchAll(/data-path="([^"]+)"/g)].map(m => m[1]),
+  ...[...text.matchAll(/(?:blob|src|tree)\/[0-9a-f]{40}\/([^\s"'#)?]+)/g)].map(m => m[1]),
+  ...[...text.matchAll(/\?path=\/([^&\s"')]+)/g)].map(m => m[1]),
+])
+
 const original = await readFile(file, 'utf8').catch(() => { console.error(`check-links: cannot read ${file}`); process.exit(2) })
 checkExistingLinks(original)
 
 const unlinked = []
+const unlinkedBoxes = []
+const namesWithoutExtension = new Map()
 const segments = isMarkdown ? markdownSegments(original) : textSegments(original)
-const rewritten = [...segments].map(([text, linkable]) => linkable ? linkifyText(text, unlinked) : text).join('')
+const linkedPaths = linkedPathsOn(original)
+const rewrittenText = [...segments].map(([text, linkable]) => {
+  if (!linkable) return text
+  findNamesWithoutExtension(text, linkedPaths, namesWithoutExtension)
+  return linkifyText(text, unlinked)
+}).join('')
+const rewritten = isMarkdown ? rewrittenText : linkBoxes(rewrittenText, unlinkedBoxes)
+
+if (unlinkedBoxes.length) {
+  const unique = [...new Set(unlinkedBoxes)]
+  if (fix && host) console.log(`linked ${unique.length} box(es) in the shape diagram: ${unique.join(', ')}`)
+  else report('unlinked box', unique.join(', '), host ? 'run again with --fix' : 'the clone has no origin remote, so nothing can be linked; say so once in the provenance')
+}
+for (const [token, path] of namesWithoutExtension) {
+  report('file named without its extension', token, `write it as ${path.slice(path.lastIndexOf('/') + 1)} (or link ${path} once on the page) so the reader can open it`)
+}
 
 if (unlinked.length) {
   const unique = [...new Set(unlinked)]

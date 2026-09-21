@@ -12,6 +12,12 @@
 // run through a box they do not connect, edges naming a box that is not
 // drawn).
 //
+// The diagram's specificity is checked here too: a group box carries the
+// files it stands for, a box wrapped in a link has its href, on a page for
+// the team or the tech lead every box names a path, and a legend, when one
+// is drawn, covers every box, since "legacy routers" tells a developer
+// nothing until the box opens the routers.
+//
 // Repository links are checked by the plan skill's check-links.mjs against a
 // local clone, and the diagram's accuracy against the code is checked by the
 // dependency-graph-verifier agent. Checks needing a rendered page (slide
@@ -316,6 +322,48 @@ function checkDiagram(svg, labelSize) {
   })
 }
 
+const AUDIENCES_THAT_READ_PATHS = new Set(['team', 'tech-lead'])
+const audienceOf = path => path.match(/\.for-([a-z-]+)\.html$/)?.[1] ?? null
+
+function checkBoxLinks(html) {
+  for (const [tag] of markupOf(html).matchAll(/<a\b[^>]*\bdata-path="[^"]+"[^>]*>/g)) {
+    if (!/\bhref="[^"]+"/.test(tag)) report('diagram links', `a box or legend link for ${attr(tag, 'data-path')} has no href`, 'run check-links.mjs --fix, which fills every <a data-path> from the clone')
+  }
+}
+
+const sectionsOf = html => markupOf(html).split(/(?=<section\b)/).filter(s => /<rect\b[^>]*data-node=/.test(s))
+const isAppendix = section => /class="appendix"/.test(section)
+const rectsIn = section => [...section.matchAll(/<rect\b[^>]*data-node="[^"]*"[^>]*>/g)].map(([tag]) => tag)
+const pathsBehind = rects => rects.flatMap(tag => (attr(tag, 'data-files') ?? attr(tag, 'data-path') ?? '').split(',').filter(Boolean))
+const legendPathsIn = section => new Set([...section.matchAll(/<ol class="shape-legend"[\s\S]*?<\/ol>/g)].flatMap(([legend]) => [...legend.matchAll(/data-path="([^"]+)"|<span class="mono">([^<]+)<\/span> <span class="shape-legend-note">/g)].map(m => m[1] ?? m[2])))
+
+function checkDiagramSpecificity(html, audience) {
+  const where = 'diagram specificity'
+  for (const section of sectionsOf(html)) {
+    const rects = rectsIn(section)
+    for (const tag of rects.filter(tag => /box--group/.test(tag) && !attr(tag, 'data-files'))) {
+      report(where, `the group box "${attr(tag, 'data-node')}" names no files`, 'give it "files" in the shape spec, so the verifier and the legend know what it stands for')
+    }
+    const label = attr(section, 'aria-label') ?? 'a section'
+    if (AUDIENCES_THAT_READ_PATHS.has(audience) || isAppendix(section)) checkEveryBoxNamesAPath(rects, label, where)
+    checkLegendCovers(section, rects, label, where)
+  }
+}
+
+function checkEveryBoxNamesAPath(rects, label, where) {
+  for (const tag of rects.filter(tag => !attr(tag, 'data-path') && !attr(tag, 'data-files'))) {
+    report(where, `the box "${attr(tag, 'data-node')}" in "${label}" names no path`, 'give it "path" in the shape spec, so the box opens the file; a developer reads the path, not the label')
+  }
+}
+
+function checkLegendCovers(section, rects, label, where) {
+  const legend = legendPathsIn(section)
+  if (legend.size === 0) return
+  for (const path of pathsBehind(rects).filter(path => !legend.has(path))) {
+    report(where, `${path} is drawn in "${label}" but missing from its legend`, 'regenerate the legend from the same spec as the panel')
+  }
+}
+
 const pagePath = process.argv[2] ?? ''
 const html = await readFile(pagePath, 'utf8').catch(() => {
   console.error('usage: node check-page.mjs <page.html>')
@@ -331,6 +379,8 @@ checkIdCells(html)
 checkCopyLength(html)
 checkAnchors(html)
 checkChartNames(html)
+checkBoxLinks(html)
+checkDiagramSpecificity(html, audienceOf(pagePath))
 const svgs = parseSvgs(html)
 const labelSize = labelFontSize(html)
 svgs.forEach(svg => checkDiagram(svg, labelSize))

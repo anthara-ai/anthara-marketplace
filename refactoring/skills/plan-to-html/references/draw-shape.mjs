@@ -3,20 +3,47 @@
 // Node 18+, no dependencies.
 //
 //   node draw-shape.mjs shape-today.json > shape-today.svg
+//   node draw-shape.mjs shape-today.json --legend > shape-today.html
+//   node draw-shape.mjs shape-today.json --suffix -ax > appendix-copy.svg
 //
 // The spec:
 //   {
 //     "id": "shape-today",
 //     "title": "One or two sentences read aloud by a screen reader.",
-//     "nodes": [ { "id": "ctrl", "label": "IntegrationController", "col": 0, "row": 0 },
-//                { "id": "reg",  "label": "ProviderRegistry", "col": 2, "row": 1, "kind": "after" } ],
+//     "nodes": [ { "id": "ctrl", "label": "IntegrationController", "col": 0, "row": 0,
+//                  "path": "src/integrations/integration.controller.ts" },
+//                { "id": "reg",  "label": "ProviderRegistry", "col": 2, "row": 1, "kind": "after",
+//                  "path": "src/integrations/provider.registry.ts" },
+//                { "id": "rest", "label": "7 other collaborators", "col": 2, "row": 2, "kind": "group",
+//                  "files": ["src/integrations/a.ts", "src/integrations/b.ts", "..."] } ],
 //     "edges": [ { "from": "ctrl", "to": "act" },
 //                { "from": "act", "to": "reg", "kind": "after" } ]
 //   }
 //   node.kind: omitted (exists today) | "after" (the plan creates it) |
 //              "gone" (dashed: removed, or the next provider) | "group"
 //              (one dotted box standing for several untouched collaborators;
-//              give it a "count" and the label carries it)
+//              list its "files" and the count is theirs, or give a "count"
+//              when the files are not worth naming, as on a leadership page)
+//   node.path: the repository path the box stands for, relative to the clone
+//              root. The box itself is the link: a box with a path is wrapped
+//              in <a data-path> with a <title> naming the path, so a hover
+//              shows it and check-links.mjs --fix turns the box into a link
+//              to the file at the plan's commit. A group box lists its files;
+//              its rect carries them as data-files, its <title> lists them
+//              one per line, and its link opens the deepest folder that holds
+//              them all. A box of kind "after" stands for a file that does
+//              not exist yet, so it carries its path and no link. The
+//              verifier reads data-path and data-files instead of guessing
+//              from labels, so "legacy routers" is never the whole story.
+//   --suffix:  appended to every id the SVG declares (its title and its
+//              arrowhead markers), so the same panel can appear twice on one
+//              page, on a slide and again in the appendix, without duplicate
+//              ids. Boxes and edges carry data attributes, not ids, and are
+//              unaffected.
+//   --legend:  optional: also print an <ol class="shape-legend"> after the
+//              SVG, one item per box, the label and the path or files behind
+//              it as links, for a page that wants the paths in text as well.
+//              Every box then needs a path or files.
 //   edge.kind: omitted (exists today) | "after" (the plan adds it) |
 //              "future" (dashed: made possible by the plan, added by no step) |
 //              "back" (a dependency that points against the layering, a cycle
@@ -54,8 +81,13 @@ const MONO_CHAR = 13 * 0.62
 const MAX_NODES = 8, MAX_EDGES = 8, MAX_FAN = 3
 const BACK_LANE_GAP = 14, BACK_INSET = 30
 
-const spec = JSON.parse(await readFile(process.argv[2] ?? '', 'utf8').catch(() => {
-  console.error('usage: node draw-shape.mjs <spec.json>')
+const args = process.argv.slice(2)
+const wantLegend = args.includes('--legend')
+const option = name => { const i = args.indexOf(name); return i >= 0 ? args[i + 1] : undefined }
+const idSuffix = option('--suffix') ?? ''
+const specPath = args.find((a, i) => !a.startsWith('--') && args[i - 1] !== '--suffix') ?? ''
+const spec = JSON.parse(await readFile(specPath, 'utf8').catch(() => {
+  console.error('usage: node draw-shape.mjs <spec.json> [--legend]')
   process.exit(2)
 }))
 
@@ -76,6 +108,16 @@ for (const n of spec.nodes) {
   if (LABEL_X + n.label.length * MONO_CHAR > COL_W - 4) fail(`label "${n.label}" is too long for a box; shorten it`)
   const twin = spec.nodes.find(m => m !== n && m.col === n.col && m.row === n.row)
   if (twin) fail(`"${n.id}" and "${twin.id}" share cell (${n.col},${n.row})`)
+  checkWhatTheBoxStandsFor(n)
+}
+
+function checkWhatTheBoxStandsFor(n) {
+  const isGroup = n.kind === 'group'
+  if (n.files && !isGroup && n.kind !== 'after') fail(`"${n.id}" lists files but is neither a group box nor a new-files box; give a single box a "path"`)
+  if (n.files && !Array.isArray(n.files)) fail(`"${n.id}" has "files" that is not a list of paths`)
+  if (n.files && n.count !== undefined && n.count !== n.files.length) fail(`"${n.id}" says count ${n.count} but lists ${n.files.length} files; drop the count or fix the list`)
+  if (n.path && (isGroup || n.files)) fail(`"${n.id}" is a group box with a "path"; list its "files" instead`)
+  if (wantLegend && !n.path && !n.files) fail(`--legend needs a path on every box, and "${n.id}" has none; add "path" (or "files" on a group box), or render without the legend`)
 }
 const isBack = e => e.kind === 'back'
 const panelHasAfter = spec.nodes.some(n => n.kind === 'after') || spec.edges.some(e => e.kind === 'after')
@@ -196,21 +238,32 @@ function routeBack(e, k) {
 }
 
 const esc = s => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/"/g, '&quot;')
+const standsFor = n => n.files ? ` data-files="${esc(n.files.join(','))}"` : n.path ? ` data-path="${esc(n.path)}"` : ''
+const commonFolder = files => {
+  const parts = files.map(f => f.split('/').slice(0, -1))
+  const shared = parts[0].filter((segment, depth) => parts.every(p => p[depth] === segment))
+  return shared.join('/')
+}
+const linkTarget = n => n.files ? commonFolder(n.files) : n.path
+const hoverText = n => n.files ? n.files.join('\n') : n.path
 const boxClass = n => ['box', n.kind === 'after' && 'box--after', n.kind === 'gone' && 'box--gone', n.kind === 'group' && 'box--group'].filter(Boolean).join(' ')
 const EDGE_KINDS = new Set(['after', 'future', 'back', 'indirect'])
 const edgeKind = e => EDGE_KINDS.has(e.kind) ? e.kind : 'today'
 const arrowClass = kind => kind === 'today' || kind === 'indirect' ? 'arrow' : `arrow arrow--${kind === 'future' ? 'after' : kind}`
 const kinds = new Set(spec.edges.map(edgeKind))
-const markerId = kind => `${spec.id}-arrow-${kind}`
+const panelId = `${spec.id}${idSuffix}`
+const markerId = kind => `${panelId}-arrow-${kind}`
 
 const out = []
-out.push(`<svg viewBox="0 0 ${width} ${height}" role="img" aria-labelledby="${spec.id}-title">`)
-out.push(`  <title id="${spec.id}-title">${esc(spec.title)}</title>`)
+out.push(`<svg viewBox="0 0 ${width} ${height}" role="img" aria-labelledby="${panelId}-title">`)
+out.push(`  <title id="${panelId}-title">${esc(spec.title)}</title>`)
 out.push(`  <defs>${[...kinds].map(kind =>
   `<marker id="${markerId(kind)}" markerUnits="userSpaceOnUse" markerWidth="${ARROW}" markerHeight="${ARROW}" refX="${ARROW}" refY="${ARROW / 2}" orient="auto"><path d="M0 0L${ARROW} ${ARROW / 2}L0 ${ARROW}z" class="${arrowClass(kind)}"/></marker>`).join('')}</defs>`)
-for (const n of nodes.values()) {
-  out.push(`  <rect class="${boxClass(n)}" data-node="${n.id}" x="${n.x}" y="${n.y}" width="${COL_W}" height="${ROW_H}"/><text x="${n.x + LABEL_X}" y="${n.y + LABEL_Y}">${esc(n.label)}</text>`)
-}
+const boxMarkup = n => `<rect class="${boxClass(n)}" data-node="${n.id}"${standsFor(n)} x="${n.x}" y="${n.y}" width="${COL_W}" height="${ROW_H}"/><text x="${n.x + LABEL_X}" y="${n.y + LABEL_Y}">${esc(n.label)}</text>`
+const linkedBox = n => (n.path || n.files) && n.kind !== 'after'
+  ? `<a class="box-link" data-path="${esc(linkTarget(n))}"><title>${esc(hoverText(n))}</title>${boxMarkup(n)}</a>`
+  : n.path ? `<g><title>${esc(n.path)} (new)</title>${boxMarkup(n)}</g>` : boxMarkup(n)
+for (const n of nodes.values()) out.push(`  ${linkedBox(n)}`)
 const pathOf = (e, k) => isBack(e) ? routeBack(e, k) : route(e)
 spec.edges.forEach((e, k) => {
   const kind = edgeKind(e)
@@ -218,4 +271,16 @@ spec.edges.forEach((e, k) => {
   out.push(`  <path class="edge${kind === 'today' ? '' : ` edge--${kind}`}" data-from="${e.from}" data-to="${e.to}" d="${pathOf(e, backIndex)}" marker-end="url(#${markerId(kind)})"/>`)
 })
 out.push('</svg>')
+if (wantLegend) out.push(legendMarkup())
 console.log(out.join('\n'))
+
+function legendMarkup() {
+  const items = spec.nodes.map(n => `  <li><span class="mono">${esc(n.label)}</span> ${legendPaths(n)}</li>`)
+  return ['<ol class="shape-legend" aria-label="What each box stands for">', ...items, '</ol>'].join('\n')
+}
+
+function legendPaths(n) {
+  if (n.kind === 'after') return `<span class="mono">${esc(n.path)}</span> <span class="shape-legend-note">new</span>`
+  const paths = n.files ?? [n.path]
+  return paths.map(p => `<a class="src-link" data-path="${esc(p)}">${esc(p)}</a>`).join(', ')
+}

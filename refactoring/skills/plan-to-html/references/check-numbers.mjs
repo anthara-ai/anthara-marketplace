@@ -7,6 +7,9 @@
 //   node page-text.mjs page.html > read.txt
 //   node check-numbers.mjs read.txt docs/refactoring/<module>-plan.md
 //
+// A list of line numbers after a path, such as `spec.ts:669,693`, is read as
+// two numbers and not as 669,693, so a page may cite either line on its own.
+//
 // Exits 1 with one line per missing number and the page line it sits on.
 
 import { readFile } from 'node:fs/promises'
@@ -19,11 +22,13 @@ if (!readPath || !planPath) {
 
 const NUMBER = /(?<![A-Za-z0-9_.#-])\d[\d,]*(?:\.\d+)?%?(?![\w.]*[A-Za-z])/g
 const normalise = token => token.replace(/,/g, '')
+const LINE_LIST = /(:\d+(?:-\d+)?),(?=\d)/g
+const separateLineLists = text => text.replace(LINE_LIST, '$1, ')
 const SLIDE_COUNTER = /^\[kicker\]\s*\d+ of \d+\b/
 const SINGLE_DIGIT = /^\d$/
 
-const planNumbers = new Set([...(await readFile(planPath, 'utf8')).matchAll(NUMBER)].map(([token]) => normalise(token)))
-const pageLines = (await readFile(readPath, 'utf8')).split('\n')
+const planNumbers = new Set([...separateLineLists(await readFile(planPath, 'utf8')).matchAll(NUMBER)].map(([token]) => normalise(token)))
+const pageLines = separateLineLists(await readFile(readPath, 'utf8')).split('\n')
 
 const numbersOn = line => [...line.matchAll(NUMBER)].map(([token]) => normalise(token))
 const isCounted = (line, token) => SLIDE_COUNTER.test(line) || SINGLE_DIGIT.test(token)
