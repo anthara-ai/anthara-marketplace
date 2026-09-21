@@ -234,4 +234,4 @@ cd scripts/verify-report && npm ci && npm test
 
 ## License
 
-Proprietary. Copyright (c) 2026 Anthara, all rights reserved — see [LICENSE](LICENSE). Use, copying, modification, distribution or sale requires prior written permission. Licensing inquiries: sapan@anthara.ai.
+Apache License 2.0. Copyright 2026 Anthara — see the marketplace [LICENSE](../LICENSE). Licensing inquiries: sapan@anthara.ai.

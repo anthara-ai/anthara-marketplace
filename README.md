@@ -75,3 +75,7 @@ Edits to the plugin's files take effect the next time Claude Code starts.
    ```
 
 3. Give the plugin its own `README.md` with install and usage instructions.
+
+## License
+
+Apache License 2.0. Copyright 2026 Anthara — see [LICENSE](LICENSE). Licensing inquiries: sapan@anthara.ai.

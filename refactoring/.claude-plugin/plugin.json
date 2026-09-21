@@ -6,5 +6,6 @@
     "name": "Incubyte",
     "email": "sapan@incubyte.co"
   },
+  "license": "Apache-2.0",
   "keywords": ["refactoring", "legacy", "hotspots", "technical-debt", "plan", "presentation", "html"]
 }
