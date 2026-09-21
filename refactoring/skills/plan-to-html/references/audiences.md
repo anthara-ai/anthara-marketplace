@@ -18,7 +18,7 @@ Questions, in order:
 4. **What are we deliberately not touching, and why?** The leave-alone list, because a developer who sees ugly code nearby will otherwise fix it "while they are here".
 5. **What do we need to settle before the first commit?** The plan's questions for the team that a developer can answer: names, whether an export is used elsewhere, who reviews a file whose author has left.
 
-Leads with the after-shape. Vocabulary is fully technical: file names, function names, catalogue names, test ids. Every box in the shape diagram stands for a path this room can open with a click, a group box lists every file behind it on hover, and a set of files in prose is always written out in full, never "and two others". The hotspot trend and the business cost are appendix material, since this room already knows the file is painful. Closing decision: who takes which independent step this sprint, and agreement on the names the plan proposes.
+Leads with the after-shape. Vocabulary is fully technical: file names, function names, catalogue names, test ids. Every box in the shape diagram stands for a path this room can open with a click, the legend under each panel names that path and every file behind a group box, and a set of files in prose is always written out in full, never "and two others". The hotspot trend and the business cost are appendix material, since this room already knows the file is painful. Closing decision: who takes which independent step this sprint, and agreement on the names the plan proposes.
 
 Usually five or six slides.
 
@@ -34,7 +34,7 @@ Questions, in order:
 4. **What does it cost, and when does it land?** A refactoring plan carries no estimate in engineer days, because nothing in a git history supports one. Say so. Then give what the plan does carry: the commit count, and a schedule derived from the dependency lines, which is usually a first phase of independent steps that fit one sprint and a second phase that is a strict chain. What the work competes with is not in the plan either, so put it to the room as a question rather than pretend to answer it.
 5. **What are you asking me to decide?** Approve the first phase. Name the reviewer. Say what this displaces.
 
-Leads with the felt cost. Vocabulary is technical but light: file names are fine, catalogue names are not needed, and a step is described by what it does rather than by its Fowler name. The after-shape is the spill slide's exhibit, every box a link so the lead can check which files sit behind "the controller and the services" without opening the appendix, and both panels, today and after, are in the appendix. The step table, the duplication measurements and the hotspot table are appendix material.
+Leads with the felt cost. Vocabulary is technical but light: file names are fine, catalogue names are not needed, and a step is described by what it does rather than by its Fowler name. The after-shape is the spill slide's exhibit, with its legend under it so the lead can check which files sit behind "the controller and the services" without opening the appendix, and both panels, today and after, are in the appendix with their legends. The step table, the duplication measurements and the hotspot table are appendix material.
 
 Load budget for this reader: one exhibit per slide, no more than three cards beside it, and no card that restates what the exhibit already shows. If a slide needs a bulleted list to make its point, the point is not yet one claim.
 
@@ -52,7 +52,7 @@ Questions, in order:
 4. **Is it risky?** Nothing a customer sees changes. The test counts. The one gap named plainly.
 5. **What do you need from me?** The time, and a date to check the result against the numbers on this page.
 
-Leads with the cost in delivery terms. Vocabulary is plain: "the file that handles this" rather than its path, "a check that proves nothing changed" rather than "characterisation test". File names and step ids appear only in the appendix, where the shape diagram lives with every box a link, since a group box labelled "legacy routers" is the right level for this room and the paths behind it are one click away for whoever asks. No dependency diagram, no catalogue names, no step table on a slide. Charts are the before-and-after bar pair and the growth columns, and nothing else.
+Leads with the cost in delivery terms. Vocabulary is plain: "the file that handles this" rather than its path, "a check that proves nothing changed" rather than "characterisation test". File names and step ids appear only in the appendix, where the shape diagram lives with its legend, since a group box labelled "legacy routers" is the right level for this room and the paths behind it are one click away for whoever asks. No dependency diagram, no catalogue names, no step table on a slide. Charts are the before-and-after bar pair and the growth columns, and nothing else.
 
 Usually four slides.
 
@@ -68,7 +68,7 @@ Questions, in order:
 4. **What is deliberately left alone?** One card, because the seniors in the room will ask.
 5. **What does this room decide today?** The first phase, the reviewer, the names.
 
-Leads with the cost of doing nothing. Headings are plain, small print is technical. The shape diagram, the full step table and the hotspot table are all in the appendix, every box in the diagram a link for the seniors, and the divider slide's pills are how they get to them during the meeting.
+Leads with the cost of doing nothing. Headings are plain, small print is technical. The shape diagram, the full step table and the hotspot table are all in the appendix, with the diagram's legend under each panel for the seniors, and the divider slide's pills are how they get to them during the meeting.
 
 Usually five slides.
 

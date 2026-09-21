@@ -18,7 +18,7 @@ You verify one thing: that the dependency diagram on a refactoring pitch page is
 
 # What you are given
 
-The prompt names the page, the plan, the path of a local clone and the plan's commit hash, and it may carry a legend: the path each shortened label stands for, and the files each group box stands for. The page carries the same facts on the diagram itself: each `rect` has `data-path` with the repository path it stands for, or `data-files` with a comma-separated list on a group box, and the `a` around a box carries a `title` saying the same in text. Read those first. Everything you read comes from those places. Nothing comes from memory of how such code usually looks. If a box carries neither attribute and the prompt's legend does not name it, say so in the first line of your report and check the label against the plan's own file list rather than guessing.
+The prompt names the page, the plan, the path of a local clone and the plan's commit hash, and it may carry a legend: the path each shortened label stands for, and the files each group box stands for. The page carries the same facts on the diagram itself: each `rect` has `data-path` with the repository path it stands for, or `data-files` with a comma-separated list on a group box, and a panel on a team or tech-lead page, or in any appendix, has an `ol.shape-legend` under it that says the same in text. Read those first. Everything you read comes from those places. Nothing comes from memory of how such code usually looks. If a box carries neither attribute and the prompt's legend does not name it, say so in the first line of your report and check the label against the plan's own file list rather than guessing.
 
 # What the diagram contains
 

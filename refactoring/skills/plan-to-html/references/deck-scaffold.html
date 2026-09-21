@@ -220,15 +220,17 @@
                                    plan table, since check-page.mjs wants a
                                    pill for every sheet and twelve pills
                                    read as a table of contents
-    .shape-legend                  optional, under a panel: one line per
-                                   box, the label then the repository path
-                                   (or every path a group box stands for)
-                                   as links. Printed by draw-shape.mjs
+    .shape-legend                  under a panel: one line per box, the
+                                   label and then the repository path, or
+                                   every path a group box stands for, as
+                                   links. Printed by draw-shape.mjs
                                    --legend from the same spec as the
-                                   panel, never typed. The default is no
-                                   legend, because the box itself is the
-                                   link and its hover title carries the
-                                   path or the files
+                                   panel, never typed. Required under
+                                   every panel on a team or tech-lead page
+                                   and under every appendix panel, since a
+                                   projected slide has no hover and that
+                                   reader wants the path in text. A
+                                   leadership slide may leave it off
     .tiles > .tile                 small stat tiles in a row (the contract:
                                    exports, callers, entry points, all
                                    unchanged)
@@ -343,18 +345,24 @@
     check-page.mjs uses them to confirm every edge names a drawn box, and the
     dependency-graph-verifier agent uses them to check the diagram against
     the code at the plan's commit. Keep them.
-  - EVERY BOX IS THE LINK TO WHAT IT STANDS FOR. A single box carries "path"
-    in the spec and the generator wraps it in <a data-path> with a hover
-    title naming the path, so after check-links.mjs --fix a click on the box
-    opens the file at the plan's commit. A group box lists its "files": they
-    land on the rect as data-files, the hover title lists them one per line,
-    and the box links to the deepest folder holding them all. check-page.mjs
-    refuses a group box without files, and on a team or tech-lead page and in
-    every appendix it refuses any box that names no path. A box for a file
+  - EVERY BOX SAYS WHAT IT STANDS FOR. A single box carries "path" in the
+    spec, and the generator wraps it in <a data-path> with a hover title
+    naming the path, so after check-links.mjs --fix a click on the box opens
+    the file at the plan's commit. A group box lists its "files". They land
+    on the rect as data-files, the hover title lists them one per line, and
+    the box links to the deepest folder holding them all. A box for a file
     the plan creates has a path and no link, because the file does not exist
-    yet. No separate legend is needed: the label is for the room, the box
-    itself is for the developer. --legend still prints one for a page that
-    wants the paths in text.
+    yet.
+  - THE LABEL IS FOR THE ROOM, THE LEGEND IS FOR THE DEVELOPER. A label holds
+    about 21 characters and cannot hold a path, and a projected slide has no
+    hover. So run draw-shape.mjs with --legend and paste the
+    <ol class="shape-legend"> it prints under the panel. It names, per box,
+    the path or every file behind a group. A team or tech-lead page carries
+    it under every panel, and every page carries it under the appendix
+    panels. A leadership slide may leave it off, since that room does not
+    read paths. check-page.mjs refuses a group box without files, a box that
+    names no path where paths are read, a panel with no legend there, and a
+    legend that misses a drawn path.
   - THE APPENDIX CAPS THE PANEL AT 1000px. A 650px viewBox stretched to a
     1650px sheet draws 33px labels, which reads as a poster, not a diagram.
   - Label width: at 13px mono a character is about 8px, so a 190px box holds

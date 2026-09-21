@@ -142,10 +142,16 @@ test('a team page whose box names no path is refused, a leadership slide is not'
   assert.doesNotMatch(leadership, /diagram specificity/)
 })
 
-test('a team page without a legend passes when every box is a link', () => {
+test('a team page whose diagram has no legend is refused even when every box is a link', () => {
   const linked = draw(specWithPaths).stdout.replace(/<a class="box-link"([^>]*)>/g, '<a class="box-link"$1 href="#x">')
   const { stdout } = run(CHECK_PAGE, pageAround(linked, 'team'))
-  assert.doesNotMatch(stdout, /diagram specificity|diagram links/)
+  assert.match(stdout, /"The shape" draws a diagram with no legend/)
+})
+
+test('a leadership slide may leave the legend off', () => {
+  const linked = draw(specWithPaths).stdout.replace(/<a class="box-link"([^>]*)>/g, '<a class="box-link"$1 href="#x">')
+  const { stdout } = run(CHECK_PAGE, pageAround(linked, 'leadership'))
+  assert.doesNotMatch(stdout, /no legend/)
 })
 
 test('a group box that names no files is refused for every audience', () => {
