@@ -34,6 +34,8 @@ Before doing anything else, read, in this order:
 
 If `CLAUDE_PLUGIN_ROOT` is not set, locate them relative to this agent file at `../`.
 
+Then invoke `sdlc-analysis:incubyte-writing-voice` through the Skill tool, once, before writing any deck text. The deck is read by the client, so every sentence in it, on a slide, in a caption, in a caveat row or on the method sheet, is written in that voice. It governs how sentences are built. The template's header comment governs the shape of each surface, running prose or one claim per line. Where the two disagree on how a sentence is written, the voice wins. You run in your own context, so the orchestrator's invocation does not reach you; invoke it yourself. If the Skill tool is unavailable, read `"${CLAUDE_PLUGIN_ROOT}/skills/incubyte-writing-voice/SKILL.md"` and apply it in place.
+
 ## Payload
 
 The orchestrator's Task prompt carries: `run_dir`, `report_dir` (always `<run_dir>/report`), `template` (path), `audit` (path to `report/audit.json`), `engagement` (the client or portfolio name to print, or `unset`), and in fix mode `verification` and `mechanical` (paths to `report/verification.json` and `report/verify-report.txt`).
@@ -65,7 +67,7 @@ Run it: `node analysis/compute.mjs "<run_dir>" > analysis/metrics.json`. Run it 
 
 ### Phase 3: Fill the deck
 
-Copy the template to `report_dir/<deck_file>` and fill every `{{…}}` slot, following the header comment's rules to the letter — repeat blocks stamped per engagement or row, optional blocks deleted when the data does not support them, chart labels as percents, findings as a ranking with the disclosure line, no em dash anywhere, voice per the header.
+Copy the template to `report_dir/<deck_file>` and fill every `{{…}}` slot, following the header comment's rules to the letter — repeat blocks stamped per engagement or row, optional blocks deleted when the data does not support them, chart labels as percents, findings as a ranking with the disclosure line, no em dash anywhere, the shape of each surface per the header's VOICE rule, and every sentence in the writing voice you invoked.
 
 The number rule: **every figure you write into the deck is copied from `metrics.json`, wrapped in an element carrying `data-claim="<id>"`, and entered in the ledger.** A stat card, a table cell, a bar label, a bold number in a sentence — each is its own element and its own claim. When one sentence carries two numbers, it carries two spans. Structural numbers (slide labels, the window's dates, the run id, dataset filenames) carry no attribute; keep them to what the template needs, because the verifier lists every unclaimed number for adjudication.
 
@@ -94,7 +96,7 @@ When the payload carries `verification`, read `verification.json` and `verify-re
 - a method that does not match the script → fix whichever of the two is wrong, re-capture `metrics.json` if the script changed;
 - a disclosure finding → add the missing name to the method sheet and footer;
 
-Do not re-run the analysis, re-rank the findings, reword untouched slides, or drop a claim to make a finding go away. Then re-run the mechanical verifier as in Phase 5 and report what changed.
+Do not re-run the analysis, re-rank the findings, reword untouched slides, or drop a claim to make a finding go away. Any sentence you do rewrite is written in the writing voice, so invoke `sdlc-analysis:incubyte-writing-voice` in fix mode too. Then re-run the mechanical verifier as in Phase 5 and report what changed.
 
 ## Important Rules
 
