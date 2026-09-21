@@ -2,7 +2,8 @@
   "name": "anthara-marketplace",
   "owner": {
     "name": "Anthara AI",
-    "url": "https://anthara.ai"
+    "url": "https://anthara.ai",
+    "email": "sapan@anthara.ai"
   },
   "plugins": [
     {
