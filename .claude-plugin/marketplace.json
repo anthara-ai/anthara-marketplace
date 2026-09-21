@@ -14,7 +14,7 @@
     {
       "name": "refactoring",
       "source": "./refactoring",
-"description": "Writes a numbered, step-by-step, behaviour-preserving refactoring plan for a module from its git history and code, and can pitch it to a team as a self-contained HTML deck with the evidence in an appendix"
+      "description": "Writes a numbered, step-by-step, behaviour-preserving refactoring plan for a module from its git history and code, and can pitch it to a team as a self-contained HTML deck with the evidence in an appendix"
     },
     {
       "name": "sdlc-analysis",
