@@ -1,32 +1,4 @@
 #!/usr/bin/env node
-// Checks, and with --fix writes, the repository links in a refactoring plan
-// or in a pitch page rendered from one. Node 18+, no dependencies, needs a
-// local clone that holds the plan's commit.
-//
-//   node check-links.mjs docs/refactoring/<slug>-plan.md --repo . --hash <commit>
-//   node check-links.mjs docs/refactoring/<slug>-plan.for-team.html --repo . --hash <commit> --fix
-//
-// Every link is verified against the clone, never against the network: the
-// path must exist at the commit, the commit must be the full 40-character
-// hash (Azure DevOps refuses a short one), and the line range must lie inside
-// the file. Every file the plan or page mentions that exists at the commit
-// must be a link. A mention that does not resolve in the tree is left alone,
-// because it is either a file the plan proposes to create or a file in
-// another repository, and neither can be linked at this commit.
-//
-// --fix rewrites the file in place, wrapping every unlinked mention in a link
-// to the repository host taken from the clone's origin remote. It touches
-// nothing inside an existing link, an HTML tag or attribute, an SVG, a
-// <title>, a script, a style, a comment, or a fenced code block.
-//
-// Two more checks on a page. A box the diagram generator wrapped in
-// <a data-path="…"> (a file or a folder) gets its href filled the same way,
-// so a box in the shape diagram opens the file it stands for. And a file
-// written without its extension, such as `oidc-provider.factory` for
-// oidc-provider.factory.ts, is reported when the page links that file
-// nowhere, because a name the link tool cannot see is a name the reader
-// cannot open.
-
 import { readFile, writeFile } from 'node:fs/promises'
 import { execFileSync } from 'node:child_process'
 
@@ -70,8 +42,6 @@ const lineCount = path => {
 const findings = []
 const report = (kind, detail, hint) => findings.push({ kind, detail, hint })
 
-// ---- 1. every existing repository link resolves in the clone -------------
-
 const URL_PARSERS = [
   { re: /https:\/\/github\.com\/[^/\s"')]+\/[^/\s"')]+\/blob\/([0-9a-f]+)\/([^\s"'#)]+)(?:#L(\d+)(?:-L(\d+))?)?/g },
   { re: /https:\/\/gitlab\.com\/[^\s"')]+?\/-\/blob\/([0-9a-f]+)\/([^\s"'#)]+)(?:#L(\d+)(?:-(\d+))?)?/g },
@@ -96,8 +66,6 @@ function checkExistingLinks(text) {
   }
 }
 
-// ---- 2. every mention of a file that exists at the commit is a link ------
-
 const EXT = 'tsx?|[cm]?jsx?|py|go|rb|java|kt|cs|rs|php|swift|scala|json|ya?ml|toml|sql|css|scss|html|vue|svelte|md|cjs|mjs'
 const REF = new RegExp(`(?<![\\w/@.-])((?:[\\w@.-]+/)*[\\w.-]+\\.(?:${EXT}))(?::(\\d+)(?:-(\\d+))?)?(?![\\w/])`, 'g')
 
@@ -111,65 +79,66 @@ const resolve = ref => {
 
 const isMarkdown = /\.md$/i.test(file)
 
-function* textSegments(html) {
-  // Yields [text, isLinkable] over an HTML document. Text inside <a>, <svg>,
-  // <title>, <script>, <style>, tags themselves and comments is not linkable.
-  const re = /<!--[\s\S]*?-->|<\/?([a-zA-Z][\w-]*)[^>]*>/g
-  const skip = new Set(['a', 'svg', 'title', 'script', 'style'])
-  const open = []
-  let last = 0, m
-  while ((m = re.exec(html))) {
-    yield [html.slice(last, m.index), open.length === 0]
-    yield [m[0], false]
-    last = re.lastIndex
-    const tag = m[1]?.toLowerCase()
-    if (tag && skip.has(tag)) {
-      if (m[0].startsWith('</')) { if (open[open.length - 1] === tag) open.pop() }
-      else if (!m[0].endsWith('/>')) open.push(tag)
-    }
-  }
-  yield [html.slice(last), open.length === 0]
+const TAGS_WHOSE_TEXT_IS_NEVER_LINKED = new Set(['a', 'svg', 'title', 'script', 'style'])
+
+function trackUnlinkableTag(markup, tagName, openTags) {
+  const tag = tagName?.toLowerCase()
+  if (!tag || !TAGS_WHOSE_TEXT_IS_NEVER_LINKED.has(tag)) return
+  if (markup.startsWith('</')) { if (openTags[openTags.length - 1] === tag) openTags.pop(); return }
+  if (!markup.endsWith('/>')) openTags.push(tag)
 }
 
-function* markdownSegments(md) {
-  // Linkable text excludes fenced code blocks, existing links and bare URLs.
-  const re = /```[\s\S]*?```|\[[^\]\n]*\]\([^)\n]*\)|https?:\/\/\S+/g
-  let last = 0, m
-  while ((m = re.exec(md))) {
-    yield [md.slice(last, m.index), true]
-    yield [m[0], false]
-    last = re.lastIndex
+function* htmlSegments(html) {
+  const commentOrTag = /<!--[\s\S]*?-->|<\/?([a-zA-Z][\w-]*)[^>]*>/g
+  const openUnlinkableTags = []
+  let last = 0, match
+  while ((match = commentOrTag.exec(html))) {
+    yield [html.slice(last, match.index), openUnlinkableTags.length === 0]
+    yield [match[0], false]
+    last = commentOrTag.lastIndex
+    trackUnlinkableTag(match[0], match[1], openUnlinkableTags)
   }
-  yield [md.slice(last), true]
+  yield [html.slice(last), openUnlinkableTags.length === 0]
 }
 
-const esc = s => s.replace(/&/g, '&amp;')
-
-function linkifyText(text, unlinked) {
-  // In markdown a reference usually sits in backticks: wrap the whole span.
-  const wrap = (token, ref, from, to) => {
-    const hit = resolve(ref)
-    if (!hit) return token
-    if (hit.ambiguous) { report('ambiguous mention', ref, `qualify it: ${hit.ambiguous.slice(0, 3).join(', ')}`); return token }
-    if (from && +from > lineCount(hit.path)) report('line out of range', `${ref}:${from}`, `${hit.path} has ${lineCount(hit.path)} lines`)
-    unlinked.push(`${ref}${from ? `:${from}` : ''}`)
-    if (!fix || !host) return token
-    const url = linkFor(hit.path, from, to)
-    return isMarkdown ? `[${token}](${url})` : `<a class="src-link" href="${esc(url)}">${token}</a>`
+function* markdownSegments(markdown) {
+  const fencedCodeOrLinkOrBareUrl = /```[\s\S]*?```|\[[^\]\n]*\]\([^)\n]*\)|https?:\/\/\S+/g
+  let last = 0, match
+  while ((match = fencedCodeOrLinkOrBareUrl.exec(markdown))) {
+    yield [markdown.slice(last, match.index), true]
+    yield [match[0], false]
+    last = fencedCodeOrLinkOrBareUrl.lastIndex
   }
-  if (isMarkdown) {
-    return text.replace(/`([^`\n]+)`|((?:[\w@.-]+\/)*[\w.-]+\.(?:tsx?|[cm]?jsx?|py|go|rb|java|kt|cs|rs|php|swift|scala|json|ya?ml|toml|sql|css|scss|html|vue|svelte|md))(?::(\d+)(?:-(\d+))?)?(?![\w/])/g, (token, code, bare, from, to) => {
-      if (code !== undefined) {
-        const m = code.match(new RegExp(`^((?:[\\w@.-]+/)*[\\w.-]+\\.(?:${EXT}))(?::(\\d+)(?:-(\\d+))?)?(?:[,:]\\s*\\d+)*$`))
-        return m ? wrap(token, m[1], m[2], m[3]) : token
-      }
-      return wrap(token, bare, from, to)
-    })
-  }
-  return text.replace(REF, (token, ref, from, to) => wrap(token, ref, from, to))
+  yield [markdown.slice(last), true]
 }
 
-// ---- 3. every box the diagram wrapped in <a data-path> is a link ---------
+const esc = text => text.replace(/&/g, '&amp;')
+
+function linkedMention(token, ref, from, to, unlinked) {
+  const hit = resolve(ref)
+  if (!hit) return token
+  if (hit.ambiguous) { report('ambiguous mention', ref, `qualify it: ${hit.ambiguous.slice(0, 3).join(', ')}`); return token }
+  if (from && +from > lineCount(hit.path)) report('line out of range', `${ref}:${from}`, `${hit.path} has ${lineCount(hit.path)} lines`)
+  unlinked.push(`${ref}${from ? `:${from}` : ''}`)
+  if (!fix || !host) return token
+  const url = linkFor(hit.path, from, to)
+  return isMarkdown ? `[${token}](${url})` : `<a class="src-link" href="${esc(url)}">${token}</a>`
+}
+
+const MENTION = `((?:[\\w@.-]+/)*[\\w.-]+\\.(?:${EXT}))(?::(\\d+)(?:-(\\d+))?)?`
+const BACKTICKED_SPAN_OR_BARE_MENTION = new RegExp(`\`([^\`\\n]+)\`|${MENTION}(?![\\w/])`, 'g')
+const MENTION_FILLING_A_BACKTICKED_SPAN = new RegExp(`^${MENTION}(?:[,:]\\s*\\d+)*$`)
+
+function linkifyMarkdown(text, unlinked) {
+  return text.replace(BACKTICKED_SPAN_OR_BARE_MENTION, (token, backticked, bare, from, to) => {
+    if (backticked === undefined) return linkedMention(token, bare, from, to, unlinked)
+    const mention = backticked.match(MENTION_FILLING_A_BACKTICKED_SPAN)
+    return mention ? linkedMention(token, mention[1], mention[2], mention[3], unlinked) : token
+  })
+}
+
+const linkifyHtml = (text, unlinked) => text.replace(REF, (token, ref, from, to) => linkedMention(token, ref, from, to, unlinked))
+const linkifyText = isMarkdown ? linkifyMarkdown : linkifyHtml
 
 const BOX_LINK = /<a\b([^>]*\bdata-path="([^"]+)"[^>]*)>/g
 
@@ -185,8 +154,6 @@ function linkBoxes(html, unlinkedBoxes) {
 }
 
 const resolveBoxTarget = path => treeSet.has(path) ? linkFor(path) : folderSet.has(path) ? folderLinkFor(path) : null
-
-// ---- 4. a file named without its extension is a file the reader cannot open
 
 const STEM_EXT = new RegExp(`\\.(?:${EXT})$`)
 const stems = new Map()
@@ -218,7 +185,7 @@ checkExistingLinks(original)
 const unlinked = []
 const unlinkedBoxes = []
 const namesWithoutExtension = new Map()
-const segments = isMarkdown ? markdownSegments(original) : textSegments(original)
+const segments = isMarkdown ? markdownSegments(original) : htmlSegments(original)
 const linkedPaths = linkedPathsOn(original)
 const rewrittenText = [...segments].map(([text, linkable]) => {
   if (!linkable) return text
