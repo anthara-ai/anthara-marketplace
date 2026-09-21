@@ -173,6 +173,16 @@ function findNamesWithoutExtension(text, linkedPaths, found) {
   }
 }
 
+const SHORTEST_NAME_WORTH_MATCHING = 3
+const authorsInHistory = () => {
+  const namesAndEmails = git('log', '--format=%an%n%ae', hash).split('\n').map(line => line.trim())
+  return [...new Set(namesAndEmails.filter(entry => entry.length >= SHORTEST_NAME_WORTH_MATCHING))]
+}
+const escapeForRegExp = text => text.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+const asAWholeWord = name => new RegExp(`(?<!\\w)${escapeForRegExp(name)}(?!\\w)`)
+const proseOf = html => html.replace(/<(script|style)\b[\s\S]*?<\/\1>/g, ' ').replace(/<[^>]+>/g, ' ')
+const peopleNamedOn = html => authorsInHistory().filter(author => asAWholeWord(author).test(proseOf(html)))
+
 const linkedPathsOn = text => new Set([
   ...[...text.matchAll(/data-path="([^"]+)"/g)].map(m => m[1]),
   ...[...text.matchAll(/(?:blob|src|tree)\/[0-9a-f]{40}\/([^\s"'#)?]+)/g)].map(m => m[1]),
@@ -201,6 +211,11 @@ if (unlinkedBoxes.length) {
 }
 for (const [token, path] of namesWithoutExtension) {
   report('file named without its extension', token, `write it as ${path.slice(path.lastIndexOf('/') + 1)} (or link ${path} once on the page) so the reader can open it`)
+}
+if (!isMarkdown) {
+  for (const person of peopleNamedOn(original)) {
+    report('person named', person, 'the page names nobody from the history; write the role and the share instead, such as "the author of 84 percent of the commits in this folder"')
+  }
 }
 
 if (unlinked.length) {
