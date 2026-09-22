@@ -1,0 +1,1374 @@
+<!DOCTYPE html>
+<!--
+  ============================================================================
+  Refactoring pitch - deck scaffold for plan-to-html
+  ============================================================================
+
+  This file is the design system and the page mechanics for the pitch that
+  plan-to-html writes. It is not a template: it fixes how the page looks and
+  behaves, and it fixes nothing about what the page says or in what order.
+  The argument, the slide list and the charts are decided per plan and per
+  audience by the skill.
+
+  HOW TO USE IT
+  - Copy this file to docs/refactoring/<module-slug>-plan.html.
+  - Replace THIS comment with four or five lines of provenance: what the page
+    is, who it is for, the plan it was rendered from and the commit that plan
+    was written at. The fill guidance below is for the author, not for the
+    reader of the delivered page.
+  - Keep <head> as it is, except the four theme tokens marked THEME below.
+  - Delete every <section> that carries data-catalogue. Those sections are a
+    rendered catalogue of the components, so the scaffold can be opened and
+    checked on its own. None of them ships.
+  - Compose the deck from the components documented below: one .slide-frame
+    per slide, then the .appendix. Every `{{…}}` is a slot: a finished page
+    contains none. Blocks marked REPEAT are stamped per row or card. Blocks
+    marked OPTIONAL are deleted when the plan does not support them.
+  - Before shipping, grep the file for `{{`, for `data-catalogue`, and for the
+    em dash (U+2014). All three must return nothing.
+  - Every sentence on the page, slides and appendix alike, is written in the
+    incubyte writing voice, whose rules are in the skill at
+    "${CLAUDE_PLUGIN_ROOT}/skills/incubyte-writing-voice/SKILL.md". Every
+    heading is clear and direct: one claim, in the room's words, and stop.
+    check-page.mjs enforces the mechanical part of the voice (em dashes,
+    semicolons, long parentheses, two-claim headings, long bold); the rest
+    is read for by hand before the hand-over.
+
+  THE PAGE'S TWO HALVES
+  - Slides carry the argument. Each slide is a 1920x1080 canvas scaled to the
+    window, so it projects in a meeting and prints one per PDF page. A slide
+    makes one claim, says it in the heading, and shows the number that
+    supports it. Anything the claim does not need goes to the appendix.
+  - 1080 IS A BUDGET, NOT A SUGGESTION. The slide's min-height lets it GROW
+    rather than clip, which is a safety valve for unexpected font metrics and
+    not permission to overfill. A slide whose rendered height exceeds 1080 at
+    the design width has too much on it: it will spill onto a second PDF page
+    and the room will see a scroll. Measure every slide before shipping (the
+    check is in the skill's verify step) and fix an over-height slide by
+    MOVING something to the appendix, never by shrinking type.
+  - The appendix carries the audit. It is a scrolling section after the last
+    slide that reflows at any width. It holds the plan's evidence as table
+    cards: the step table in full, the hotspot table, the change coupling,
+    the contract, the safety net and the measures. Every card names where in
+    the markdown plan its rows come from and closes with a caveat row. Every
+    file, function and commit in it links to the repository host at the
+    plan's commit hash, so a skeptic can open it.
+
+  HEADINGS AND COLUMN HEADERS
+  - A heading is one plain claim in the room's words, at most about sixteen
+    words, with no second clause hung on with ", and" or ", which". Whatever
+    the heading does not say goes in the lede. "The main file tripled in four
+    months" is a heading; "The file that carries the flow nearly tripled, and
+    a cleanup was undone within eight weeks" is a lede pretending to be one.
+  - A column header names what the column holds and its unit, in two to six
+    words a reader outside the team can parse without the plan: "Commits in
+    12 months", "Deeply nested lines", "Touched by the plan". Never
+    a one-word term from the method ("Net", "Pair", "Surface", "Reading") and
+    never a question ("In plan?"). The method's definition, when the reader
+    needs it, goes in the card's caveat row.
+  - check-page.mjs enforces both, together with the prose rules it can read:
+    no semicolon, no parenthesis carrying four or more words, and no bold
+    lead-in glued to the sentence after it ("<strong>Approve.</strong> Eight" needs the space).
+
+  COPY BUDGETS (check-page.mjs enforces them; the numbers are words)
+    lede 40 · body 32 · footnote 40 · kicker 14 · step field 36 ·
+    path label 8 · pair label 6 · tile sub-line 14 · appendix lede 50
+  - A slide is read in the time it takes to say its heading. When a reader
+    stops on a term, the fix is, in this order: cut the term, rename it to a
+    plain word, move the detail to the appendix. Adding a sentence to the
+    slide is the last resort, and it has to fit the budget above. Four
+    rounds of readers each asking for one more gloss will otherwise turn a
+    slide into a page, and the budget is what stops that.
+  - Glossary material for a technical audience lives once, in the appendix
+    step sheet, as a "Terms" line, not scattered through the slides.
+
+  WORDS THE ROOM DOES NOT KNOW
+  - The method's words are the plan's, not the room's. Gloss each one in
+    plain words the first time it appears on a page, in the same sentence:
+    provider (a code host such as GitHub), the module and the path (name
+    them), hotspot (a file that changes unusually often), seam (a place to
+    cut with no behaviour change), characterisation test (pins what the
+    code does today, right or wrong), no test (nothing watches the step but
+    the compiler), deep lines (indented four levels or more). After the
+    gloss the short word is fine.
+  - Never cite what you do not name: "a neighbouring library" is
+    "libs/integrations".
+  - A before-and-after claim uses one unit on both sides: "seven files
+    today, one file after", never "three commits today, one file after".
+  - Every count on a slide adds up to the total on the same slide, and a
+    kicker's total matches the chips under it. Do the sum before shipping.
+  - The step table's column for what catches a mistake never reads "blind":
+    the chip says "no test", because blind is the absence of an answer.
+  - The appendix step table has six columns. The catalogue name is not one
+    of them: it rides on each step's disclosure summary ("R3 · Extract the
+    client · Extract Class"), because a seventh column of textbook labels
+    was the one thing every cold reader rated hardest on the page.
+
+  THEME (Anthara's, shipped as the default)
+  The five tokens below and the title slide's brand slot carry Anthara's
+  theme as web/src/app/globals.css ships it, so a page for an Anthara
+  repository needs no theming step. A page for another company changes
+  these five tokens and the brand slot, and nothing else.
+  - --paper    the page background            #f6f5f2
+  - --ink      the body text colour, which is also the dark slides' surface
+                                              #1e3a2f
+  - --accent   the one emphasis colour, never a warning or error colour
+                                              #3a7a5d
+  - --caution  the warning amber              #c28200
+  - --sans     the body font stack, Geist first, always ending in the
+               system's own fonts. The page loads no font, no script and no
+               stylesheet from anywhere.
+  - .brand     the title slide's brand slot: the Anthara wordmark as inline
+               SVG (letters in currentColor so they follow the dark slide's
+               text colour) and the repository name beside it.
+  Every grey, panel and rule tone is derived from --ink and --paper with
+  color-mix(), so a themed page stays neutral without hand-tuning. Static
+  fallbacks precede each color-mix() for browsers without it, and each one is
+  the computed value of the color-mix() below it against the five tokens
+  above, so an engine that skips color-mix() renders the same theme rather
+  than a grey one. A theming step that changes the five tokens recomputes
+  every fallback as well, or the page ships one theme with a grey understudy.
+  The mix ratios are chosen so that --muted and --caution-ink stay at or above 4.5:1 on
+  --paper for any dark ink on a light paper, including a coloured ink such
+  as a deep brand green: a lighter mix passed on a near-black ink and failed
+  on a green one.
+
+  WHAT EACH COLOUR MEANS (do not add a colour)
+  - accent   what the plan targets, and every "after the plan" number
+  - grey     what the plan leaves alone, and every "today" number
+  - caution  a medium risk, a step that runs without a test, and a gap that
+             blocks a step. Nothing else is caution-coloured, so a reader
+             who sees it knows to slow down.
+  Phase chips (seam, test, refactoring, public surface) are monochrome on
+  purpose. Four colours for four phases would make a reader hunt for a
+  meaning the colours do not carry.
+
+  TYPE SIZES
+  - Every font-size on a slide, inline ones included, is written as
+    calc(<n>px * var(--ts, 1)). One variable rescales the slide's type
+    hierarchy when the canvas is dropped (narrow viewports, or JavaScript
+    off). A bare px font-size on a slide is a fill error.
+  - Appendix sizes are fluid, max(<floor>px, <n>vw), and need no --ts.
+
+  COMPONENTS (slide side)
+    .slide-frame > .slide          one slide; add .slide--dark for the title
+                                   and the closing slide
+    .kicker                        small caps label over a heading;
+                                   --on-dark, --accent, --caution variants
+    h1, h2, .lede, .footnote       the type ladder: h1 on dark slides only
+    .statement                     the one sentence a slide exists for, with
+                                   an accent bar
+    .card                          white panel; --tint (accent), --caution,
+                                   --dark, --ghost (on dark slides)
+    .strip                         a one-line banner. Layout only: always
+                                   written as `card strip`, plus a card
+                                   variant for colour
+    .grid-2, .grid-3, .col-stack   layout only
+    .stat.stat--hero / --panel     the big number; colour it with
+                                   .num--accent, .num--before, .num--caution
+    .chip                          phase and risk chips for step rows.
+                                   A chip keeps its own text colour when
+                                   it is a link, so an id chip on a dark
+                                   slide stays legible: never give a.chip
+                                   `color: inherit`, which once turned the
+                                   closing slide's chips into blank pills.
+                                   A chip that carries a step id (R3, T1)
+                                   is an <a class="chip"> whose href is
+                                   #step-<id> on the appendix step card,
+                                   so a first-time reader can open the
+                                   step from the slide; the slide's lede
+                                   says once what R and T stand for:
+                                   --seam, --test, --refactor, --surface are
+                                   monochrome; --risk-medium and --blind are
+                                   caution-tinted
+    .table                         a data grid of .th and .td cells. A .td
+                                   is a flex column, so put ONE element in
+                                   it (a span, a chip row): bare text beside
+                                   an inline <span> becomes two stacked
+                                   items and doubles the row height;
+                                   .table--steps is the seven-column step
+                                   table preset and drops the last row's
+                                   bottom border by itself. A full step
+                                   table does not fit a slide at seven
+                                   columns: use .table--steps-compact
+                                   .table--compact (six columns, no
+                                   catalogue, one line per step, and so no
+                                   .td-sub) when a
+                                   developer audience needs every step on
+                                   one slide, and keep the seven-column
+                                   version in the appendix
+    .src-link                      a file or line mention linked to the
+                                   repository at the plan's commit; written
+                                   by check-links.mjs --fix, never by hand
+    .pair                          the before/after chart: two bars per row,
+                                   grey today, accent after, both to scale
+                                   against the same maximum
+    .hbar-row                      one horizontal bar per file or step,
+                                   width = share of the largest
+    .col-chart, .mini-cols         columns over time (file growth, commits
+                                   per quarter); tallest = 100%
+    .stack-bar                     a share split (lines in plan vs left
+                                   alone); widths sum to 100%
+    .path                          the problem statement's path: one pill
+                                   per file touched today, and the shorter
+                                   row after the plan
+    .shape                         the shape of the change: two inline SVG
+                                   panels, today and after (or .shape--single
+                                   for one panel spanning the slide), boxes
+                                   for files or classes and arrows for
+                                   dependencies, redrawn from the plan's
+                                   Mermaid diagram.
+                                   Grey for what exists, accent for what
+                                   the plan creates or moves. Lay it out on
+                                   the layered grid below and check it with
+                                   check-page.mjs; do not place boxes by eye
+    .pill-link                     on the divider slide, one per appendix
+                                   sheet. Keep the divider to about seven
+                                   pills: fold the evidence into a few
+                                   sheets (steps, shape, forensics, contract
+                                   and tests, left alone and open, measures,
+                                   provenance) rather than one sheet per
+                                   plan table, since check-page.mjs wants a
+                                   pill for every sheet and twelve pills
+                                   read as a table of contents
+    .shape-legend                  optional, under a panel: one line per
+                                   box, the label then the repository path
+                                   (or every path a group box stands for)
+                                   as links. Printed by draw-shape.mjs
+                                   --legend from the same spec as the
+                                   panel, never typed. The default is no
+                                   legend, because the box itself is the
+                                   link and its hover title carries the
+                                   path or the files
+    .tiles > .tile                 small stat tiles in a row (the contract:
+                                   exports, callers, entry points, all
+                                   unchanged)
+    .step-card                     one step on one screen: id, title and
+                                   catalogue name, then what, why, check,
+                                   undo and risk as labelled fields. For
+                                   the riskiest step, or the first one.
+                                   The four fields read row by row, what
+                                   and why, then check and undo, so the
+                                   row gap is LARGER than the column gap
+                                   on purpose. Even them up and proximity
+                                   groups each column instead, which asks
+                                   the eye to read what, check, why, undo
+    .asks                          the decisions the room is asked to make:
+                                   numbered, one line each, drawn from the
+                                   plan's questions for the team and the
+                                   go or no-go on the first step
+    .next-card                     dated next steps on the closing slide
+
+  COMPONENTS (appendix side)
+    .appendix > .ax-sheet          one sheet per theme (evidence, steps,
+                                   safety net, measures, provenance)
+    .ax-head > .kicker, .ax-claim, .ax-lede
+    .ax-stats                      stat tiles for the provenance sheet
+    .ax-facts                      three fine-print columns
+    .ax-card                       one table card: .ax-card-head (title +
+                                   .ax-card-src, whose plan section name is
+                                   a link to that heading in the markdown
+                                   beside the page, by heading slug),
+                                   .ax-scroll > table, .ax-caveat
+    td.id, td.num, .ax-mag, .ax-flag
+                                   td.id is monospace and nowrap: one
+                                   identifier or one path, never words.
+                                   Prose in it takes the whole row and
+                                   pushes the other columns off the sheet,
+                                   so check-page.mjs flags any id cell
+                                   whose text holds a space. A short name
+                                   with its path in the reason column
+                                   reads better than the path itself.
+    .ax-stack                      one value per line inside a td.id.
+                                   td.id is nowrap, which is right for
+                                   one short identifier and wrong for a
+                                   cell holding two file paths, such as
+                                   a change-coupling pair: on one line
+                                   the row outgrows the sheet and the
+                                   count column scrolls out of sight.
+                                   Wrap each value in .ax-stack and drop
+                                   the connecting word
+    .ax-label                      a small uppercase field label (What, Why,
+                                   Check) inside a disclosure or sub-step.
+                                   Never <strong>: bold in the appendix is
+                                   reserved for the two-to-five-word handle
+                                   that opens a caveat row, and a sub-step's
+                                   id. A bold sentence is a finding
+    details.ax-details             a native disclosure for a step's full
+                                   what / why / check text. Each carries
+                                   id="step-<id>" (the six tests share one
+                                   disclosure, id="step-T"), and the page
+                                   script opens the one a link targets
+    ol.ax-substeps                 inside a disclosure, when the plan splits
+                                   the step into sub-steps: one <li
+                                   id="step-R3.1"> per sub-step with
+                                   .ax-substep-id, .ax-substep-title (what
+                                   moves, a few words), one sentence of
+                                   what, and .ax-substep-check (the tests
+                                   it leans on, plus a blind chip when it
+                                   runs without one). Never a paragraph
+                                   that lists sub-steps in running prose,
+                                   and every "R3.1" chip on a slide links
+                                   to its own <li>
+    .ax-footer, .backlink          provenance as four terse bullets (source
+                                   and commit, method, link access, nothing
+                                   changed). Counting rules go in the
+                                   sheet's "how we counted" column, never
+                                   repeated here. Then the way back up
+
+  THE DIAGRAM IS GENERATED, NEVER DRAWN BY HAND
+  - Write one small JSON spec per panel (nodes with a column and a row, edges
+    from id to id) and run `node references/draw-shape.mjs spec.json`. Paste
+    its output into a .shape-panel. The spec format is in the script's header.
+    When the same panel appears twice, on a slide and in the appendix, draw
+    the second copy with `--suffix -ax` so its title and marker ids do not
+    collide with the first.
+  - The generator places every box on a grid (column i at x = i * 230, row j
+    at y = j * 68), routes every edge as horizontal and vertical segments only,
+    gives a box with several edges one port per edge so no two arrowheads
+    land on the same point, sends column-skipping edges along a row gutter
+    where there is never a box, and draws one arrowhead shape at one size for
+    every edge. An edge of kind "future" is dashed, for a dependency the
+    plan makes possible but no step adds. An edge of kind "back" is dashed
+    in the caution colour and runs under the grid, for a cycle that exists
+    today; it is allowed in the today panel only, since a cycle after the
+    plan is a defect for a step to remove. An edge of kind "indirect" is
+    dotted, for a dependency that is not an import: an event both sides
+    name, a queue, a shared table, a config key. It refuses an undeclared
+    backwards edge, a label too long for its box and two nodes on one cell,
+    so the failure is a message rather than a diagram that looks odd.
+  - NO DEPENDENCY CHANGE, NO DIAGRAM. When no step adds or removes an edge
+    between modules (Long Function, dead code, a conditional replaced inside
+    one class), there is no shape to draw. Skip the shape slide and the
+    panels; the team deck leads with the X-ray of the hot file instead. Two
+    identical panels are not a diagram.
+  - A PANEL IS A STORY, NOT AN IMPORT GRAPH. The generator and check-page.mjs
+    both refuse more than 8 boxes or 8 edges in one panel, and the generator
+    refuses a box with more than 3 edges in or 3 edges out. Draw the edges
+    the slide's claim rests on, collapse the rest into one "group" box, and
+    let the <title> carry the full statement. Sixteen edges routed
+    perfectly are still sixteen lines nobody in the room can follow.
+  - Dependencies point LEFT TO RIGHT: callers in the leftmost column, the
+    module in the middle, providers and externals on the right.
+  - Each rect carries data-node and each edge carries data-from and data-to.
+    check-page.mjs uses them to confirm every edge names a drawn box, and the
+    dependency-graph-verifier agent uses them to check the diagram against
+    the code at the plan's commit. Keep them.
+  - EVERY BOX IS THE LINK TO WHAT IT STANDS FOR. A single box carries "path"
+    in the spec and the generator wraps it in <a data-path> with a hover
+    title naming the path, so after check-links.mjs --fix a click on the box
+    opens the file at the plan's commit. A group box lists its "files": they
+    land on the rect as data-files, the hover title lists them one per line,
+    and the box links to the deepest folder holding them all. check-page.mjs
+    refuses a group box without files, and on a team or tech-lead page and in
+    every appendix it refuses any box that names no path. A box for a file
+    the plan creates has a path and no link, because the file does not exist
+    yet. No separate legend is needed: the label is for the room, the box
+    itself is for the developer. --legend still prints one for a page that
+    wants the paths in text.
+  - THE APPENDIX CAPS THE PANEL AT 1000px. A 650px viewBox stretched to a
+    1650px sheet draws 33px labels, which reads as a poster, not a diagram.
+  - Label width: at 13px mono a character is about 8px, so a 190px box holds
+    about 21 characters. A longer name needs a shorter label, and the lede or
+    footnote beside the diagram says what the short label stands for.
+  - LEGIBILITY IS A FUNCTION OF RENDERED WIDTH. A label is 13px only when the
+    viewBox renders at 880px. Two panels side by side on a 1920 slide give
+    each ~880px, which is fine. In the appendix the sheet is narrower, so
+    .appendix .shape stacks the panels vertically and each takes the full
+    sheet width. Never put two panels side by side in the appendix, and never
+    put a panel in a half-width card on a slide: use .shape--single with the
+    one panel the slide needs (usually "after") spanning the slide.
+    .shape--single is `flex: none` on purpose: a flex-shrunk container clamps
+    the SVG's height and the width follows, which is how a diagram that fits
+    the markup ends up illegible on the page. The browser check reads the
+    rendered SVG width at the 1920 design width and fails below 750px. Below
+    760px viewports the panel scrolls sideways with a 760px minimum SVG
+    width, so a phone never sees a shrunken diagram.
+
+  WHEN THE CHANGE IS BIG
+  - The diagram shows the SHAPE OF THE CHANGE, not the dependency graph. Cap
+    it at about 12 boxes over 4 columns. Past that nobody reads it.
+  - Above the cap, collapse rather than shrink. Every node the plan does not
+    touch becomes ONE grouped box (`box--group`) labelled with its count, for
+    example "7 other collaborators". Only the nodes the plan creates, moves,
+    deletes or re-points keep a box of their own. The argument is what the
+    plan changes, and an untouched collaborator drawn individually costs a
+    row and returns nothing.
+  - If the collapsed diagram still needs more than 12 boxes, do not draw it.
+    Put the dependency change in the appendix as a table with one row per
+    edge (from, to, what changes). A table reflows at any size, cannot
+    overlap itself, and is readable by a screen reader.
+  - If the plan's own steps add up to replacing most of the module, the plan
+    skill already requires the plan to say so. The page repeats that rather
+    than drawing a rewrite as if it were a refactoring.
+
+  CHART RULES
+  - Every mark is to scale. A before bar and an after bar share one maximum.
+    A column chart's tallest column is 100% and the rest are proportional.
+  - A bar that draws a share is labelled with that share as a percent. A bar
+    that draws a magnitude is labelled with the magnitude and its unit. Raw
+    counts belong in stat cards, prose and appendix tables.
+  - Every chart's numbers appear in text beside it.
+  - Every chart has an accessible name: role="img" and aria-label on a div
+    chart, or a <title> as the first child of an inline SVG.
+
+  LINKS TO THE REPOSITORY
+  - Every file the page mentions that exists at the plan's commit is a link
+    to the repository host at that commit, with the line range when the
+    mention carries one. Do not write these by hand: run the plan skill's
+    `check-links.mjs <page> --repo <clone> --hash <commit> --fix`, which wraps
+    every mention in <a class="src-link"> and verifies every link against the
+    clone (the path exists at the commit, the lines are inside the file).
+  - The hash in a link is the FULL 40-character hash. Azure DevOps refuses a
+    short one with an error page, and the other hosts redirect. The provenance
+    comment and the page's text may show the short form.
+  - Forms per host, for reference:
+      GitHub file        https://github.com/[org]/[repo]/blob/[hash]/[path]#L[from]-L[to]
+      GitLab file        https://gitlab.com/[group]/[repo]/-/blob/[hash]/[path]#L[from]-[to]
+      Bitbucket file     https://bitbucket.org/[ws]/[repo]/src/[hash]/[path]#lines-[from]:[to]
+      Azure DevOps file  https://dev.azure.com/[org]/[project]/_git/[repo]?path=/[path]&version=GC[hash]&line=[from]&lineEnd=[to]&lineStartColumn=1&lineEndColumn=1&lineStyle=plain&_a=contents
+      commit             .../commit/[hash] on every host
+  - A file in another repository, or a file a step proposes to create, does
+    not exist at the commit and stays plain text. When the clone has no
+    remote, nothing is linked and the provenance footer says so once.
+  - WHEN A SENTENCE STANDS FOR SEVERAL FILES, EVERY ONE OF THEM IS A LINK.
+    "The three importers" or "two policy helpers" gives the reader one link
+    or none. Name each file, with its extension and enough path to be
+    unique, in the sentence, the cell or the legend, and the link tool wraps
+    each one. A name written without its extension, such as
+    "oidc-provider.factory", is invisible to the link tool, and it reports
+    the name when the page links that file nowhere else.
+  - The same tool fills the href of every <a data-path> the diagram
+    generator wrote, for files and for folders, so a box in the shape
+    diagram opens the thing it stands for.
+
+  VIEWING, PRINT, JAVASCRIPT OFF
+  - In a browser the slides stack vertically, scaled to the window. Arrow
+    keys, PageUp and PageDown step between slides, and the appendix is the
+    last stop.
+  - Below 760px the canvas is dropped and each slide reflows as a single
+    column.
+  - With JavaScript off the same reflow layout is used at every width. The
+    page is complete without script. Script only scales the canvas and
+    handles the keys.
+  - Print to PDF: one slide per landscape page, then the appendix on its own
+    pages.
+  ============================================================================
+-->
+<html lang="en" class="no-js">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{Module}} · Refactoring plan</title>
+<script>document.documentElement.classList.replace('no-js', 'js');</script>
+<style>
+  :root {
+    /* THEME: the four tokens the theming step may set. */
+    --paper: #f6f5f2;
+    --ink: #1e3a2f;
+    --accent: #3a7a5d;
+    --sans: "Geist", "Geist Sans", Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+
+    /* Derived tones. Static fallbacks first, color-mix() overrides after. */
+    --card: #ffffff;
+    --line: #e0e2de;
+    --line: color-mix(in srgb, var(--ink) 10%, var(--paper));
+    --muted: #5a6e66;
+    --muted: color-mix(in srgb, var(--ink) 72%, var(--paper));
+    --body-soft: #495f56;
+    --body-soft: color-mix(in srgb, var(--ink) 80%, var(--paper));
+    --before: #bec4bf;
+    --before: color-mix(in srgb, var(--ink) 26%, var(--paper));
+    --accent-tint: #e5eae5;
+    --accent-tint: color-mix(in srgb, var(--accent) 9%, var(--paper));
+    --accent-tint-line: #bed0c5;
+    --accent-tint-line: color-mix(in srgb, var(--accent) 30%, var(--paper));
+    --accent-ink: #356e55;
+    --accent-ink: color-mix(in srgb, var(--accent) 82%, var(--ink));
+    --caution: #c28200;
+    --caution-tint: #f1eada;
+    --caution-tint: color-mix(in srgb, var(--caution) 10%, var(--paper));
+    --caution-tint-line: #e4cea0;
+    --caution-tint-line: color-mix(in srgb, var(--caution) 34%, var(--paper));
+    --caution-ink: #806513;
+    --caution-ink: color-mix(in srgb, var(--caution) 60%, var(--ink));
+    --on-dark: rgba(255,255,255,0.78);
+    --on-dark: color-mix(in srgb, var(--paper) 78%, transparent);
+    --on-dark-soft: rgba(255,255,255,0.55);
+    --on-dark-soft: color-mix(in srgb, var(--paper) 55%, transparent);
+    --on-dark-line: rgba(255,255,255,0.16);
+    --on-dark-line: color-mix(in srgb, var(--paper) 16%, transparent);
+
+    --display: var(--sans);
+    --mono: ui-monospace, "SFMono-Regular", Menlo, Consolas, "Liberation Mono", monospace;
+
+    --ts: 0.58;
+  }
+  @media (min-width: 761px)  { :root { --ts: 0.72; } }
+  @media (min-width: 1100px) { :root { --ts: 0.84; } }
+  @media (min-width: 1500px) { :root { --ts: 0.96; } }
+  @media (min-width: 761px)  { html.js { --ts: 1; } }
+
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--ink); color: var(--ink); -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+  a { color: var(--accent-ink); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  a:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; border-radius: 3px; }
+  p, h1, h2, h3, ul, ol { margin: 0; }
+  strong { font-weight: 700; }
+
+  .deck { display: flex; flex-direction: column; gap: 8px; padding: 8px; }
+  .slide-frame { width: 100%; border-radius: 4px; }
+  .slide {
+    width: 100%; min-height: 0;
+    background: var(--paper); color: var(--ink);
+    font-family: var(--sans); letter-spacing: -0.011em;
+    padding: clamp(18px, 3vw, 76px) clamp(18px, 4vw, 76px);
+    display: flex; flex-direction: column; gap: clamp(14px, 1.4vw, 24px);
+  }
+  .slide--dark { background: var(--ink); color: var(--paper); justify-content: flex-start; gap: clamp(24px, 2.5vw, 48px); }
+
+  @media (min-width: 761px) {
+    html.js .slide-frame { overflow: hidden; }
+    html.js .slide-crop { overflow: hidden; }
+    html.js .slide { width: 1920px; min-height: 1080px; padding: 52px 76px; gap: 24px; transform-origin: top left; }
+    html.js .slide--dark { padding: 96px; justify-content: space-between; gap: 0; }
+  }
+
+  .kicker { font-family: var(--sans); font-size: calc(22px * var(--ts, 1)); font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
+  .kicker--wide { letter-spacing: 0.12em; }
+  .kicker--on-dark { color: var(--on-dark-soft); }
+  .kicker--accent { color: var(--accent-ink); }
+  .kicker--caution { color: var(--caution-ink); }
+  h1 { font-family: var(--display); font-size: calc(92px * var(--ts, 1)); font-weight: 500; line-height: 1.05; letter-spacing: -0.025em; text-wrap: balance; }
+  h2 { font-family: var(--display); font-size: calc(52px * var(--ts, 1)); font-weight: 500; letter-spacing: -0.02em; line-height: 1.1; text-wrap: balance; }
+  h3 { font-family: var(--display); font-size: calc(34px * var(--ts, 1)); font-weight: 600; letter-spacing: -0.015em; line-height: 1.2; }
+  .slide-head { display: flex; flex-direction: column; gap: 12px; }
+  .lede { font-size: calc(28px * var(--ts, 1)); line-height: 1.45; color: var(--body-soft); max-width: 1400px; text-wrap: pretty; }
+  .lede--on-dark { color: var(--on-dark); }
+  .footnote { font-size: calc(26px * var(--ts, 1)); line-height: 1.45; color: var(--body-soft); text-wrap: pretty; }
+  .footnote--quiet { font-size: calc(23px * var(--ts, 1)); color: var(--muted); }
+  .body { font-size: calc(27px * var(--ts, 1)); line-height: 1.45; }
+  .mono { font-family: var(--mono); }
+  .src-link { color: inherit; text-decoration: underline; text-decoration-color: color-mix(in srgb, currentColor 40%, transparent); text-underline-offset: 3px; }
+  .src-link:hover { text-decoration-color: currentColor; }
+
+  .card { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 26px 32px; display: flex; flex-direction: column; gap: 18px; }
+  .card--tint { background: var(--accent-tint); border-color: var(--accent-tint-line); }
+  .card--caution { background: var(--caution-tint); border-color: var(--caution-tint-line); }
+  .card--dark { background: var(--ink); color: var(--paper); border: none; }
+  .card--ghost { background: color-mix(in srgb, var(--paper) 6%, transparent); border: 1px solid var(--on-dark-line); color: var(--paper); }
+  /* A strip is a one-line banner. It carries LAYOUT ONLY and no surface of
+     its own, so it must always be written as `card strip` (plus a card
+     variant for colour). A surface here would override every card variant,
+     because .strip is declared after them. */
+  .strip { border-radius: 12px; padding: 22px 32px; }
+  .strip p { font-size: calc(29px * var(--ts, 1)); line-height: 1.45; }
+  .divider { height: 1px; background: var(--line); }
+
+  .statement { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 28px 34px; display: flex; gap: 32px; align-items: flex-start; }
+  .statement::before { content: ""; width: 4px; align-self: stretch; background: var(--accent); border-radius: 2px; flex: none; }
+  .statement p { font-size: calc(34px * var(--ts, 1)); line-height: 1.45; font-weight: 600; text-wrap: pretty; }
+
+  .grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; flex: 1; min-height: 0; }
+  .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; flex: 1; min-height: 0; }
+  .col-stack { display: flex; flex-direction: column; gap: 20px; }
+
+  .stat { font-family: var(--display); font-weight: 700; letter-spacing: -0.025em; line-height: 1; font-variant-numeric: tabular-nums; }
+  .stat--hero { font-size: calc(96px * var(--ts, 1)); }
+  .stat--panel { font-size: calc(54px * var(--ts, 1)); }
+  .stat-unit { font-size: 0.42em; font-weight: 500; color: var(--muted); letter-spacing: 0; margin-left: 0.15em; }
+  .num--accent { color: var(--accent-ink); }
+  .num--before { color: var(--muted); }
+  .num--caution { color: var(--caution-ink); }
+
+  .chip { display: inline-flex; align-items: center; border-radius: 999px; padding: 4px 14px; font-size: calc(20px * var(--ts, 1)); font-weight: 600; letter-spacing: 0.02em; white-space: nowrap; border: 1px solid var(--line); background: var(--paper); color: var(--body-soft); }
+  .chip--seam, .chip--test, .chip--refactor, .chip--surface { border-color: var(--line); }
+  .chip--surface { border-color: var(--ink); color: var(--ink); }
+  .chip--risk-medium, .chip--blind { background: var(--caution-tint); border-color: var(--caution-tint-line); color: var(--caution-ink); }
+  .chip--accent { background: var(--accent-tint); border-color: var(--accent-tint-line); color: var(--accent-ink); }
+
+  .table { background: var(--card); border: 1px solid var(--line); border-radius: 12px; overflow: hidden; flex: 1; min-height: 0; display: grid; align-content: start; }
+  .table--steps { grid-template-columns: 90px minmax(320px, 2fr) minmax(220px, 1fr) 210px 200px 170px 170px; }
+  .table--steps > :nth-child(7n+1) { border-left: none; }
+  .table--steps > :nth-last-child(-n+7) { border-bottom: none; }
+  .table--steps-compact { grid-template-columns: 80px minmax(420px, 3fr) 180px 230px 140px 200px; }
+  .table--steps-compact > :nth-child(6n+1) { border-left: none; }
+  .table--steps-compact > :nth-last-child(-n+6) { border-bottom: none; }
+  .table--compact .th { padding: 8px 20px; }
+  .table--compact .td { display: block; padding: 8px 20px; font-size: calc(23px * var(--ts, 1)); line-height: 1.3; }
+  .table--compact .td--row { display: flex; }
+  .table--compact .td-name { font-size: calc(25px * var(--ts, 1)); }
+  .table--compact .td-name, .table--compact .td-sub { display: block; }
+  .table--compact .td-id { font-size: calc(22px * var(--ts, 1)); }
+  .table--compact .chip { font-size: calc(18px * var(--ts, 1)); padding: 2px 10px; }
+  a.chip { text-decoration: none; cursor: pointer; }
+  a.chip:hover, a.chip:focus-visible { text-decoration: underline; text-underline-offset: 3px; }
+  .step-link { color: inherit; text-decoration: underline; text-decoration-color: color-mix(in srgb, currentColor 40%, transparent); text-underline-offset: 3px; }
+  .ax-details:target { outline: 2px solid var(--accent); outline-offset: 4px; border-radius: 8px; }
+  .table--measures { grid-template-columns: minmax(320px, 2fr) 1fr 1fr minmax(320px, 2fr); }
+  .table--measures > :nth-child(4n+1) { border-left: none; }
+  .table--measures > :nth-last-child(-n+4) { border-bottom: none; }
+  .th { padding: 20px 26px; background: var(--paper); border-bottom: 1px solid var(--line); font-size: calc(20px * var(--ts, 1)); font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); display: flex; align-items: center; }
+  .td { padding: 22px 26px; border-bottom: 1px solid var(--line); display: flex; flex-direction: column; gap: 8px; justify-content: center; font-size: calc(25px * var(--ts, 1)); line-height: 1.35; }
+  .td--row { flex-direction: row; align-items: center; gap: 12px; flex-wrap: wrap; }
+  .th + .th, .td + .td { border-left: 1px solid var(--line); }
+  .td--hl { background: var(--accent-tint); }
+  .td--caution { background: var(--caution-tint); }
+  .td-id { font-family: var(--mono); font-size: calc(24px * var(--ts, 1)); font-weight: 600; }
+  .td-name { font-family: var(--display); font-size: calc(30px * var(--ts, 1)); font-weight: 600; line-height: 1.25; }
+  .td-sub { font-size: calc(22px * var(--ts, 1)); color: var(--muted); }
+  .td-metric { font-family: var(--display); font-size: calc(40px * var(--ts, 1)); font-weight: 700; letter-spacing: -0.02em; font-variant-numeric: tabular-nums; }
+  .td-read { font-size: calc(23px * var(--ts, 1)); line-height: 1.35; color: var(--body-soft); }
+
+  .pair { display: flex; flex-direction: column; gap: 22px; }
+  .pair-row { display: grid; grid-template-columns: minmax(200px, 0.9fr) 3fr; gap: 24px; align-items: center; }
+  .pair-label { font-size: calc(26px * var(--ts, 1)); line-height: 1.3; color: var(--body-soft); }
+  .pair-bars { display: flex; flex-direction: column; gap: 8px; }
+  .pair-bar { display: flex; align-items: center; gap: 14px; }
+  .pair-track { flex: 1; height: 28px; }
+  .pair-fill { height: 100%; border-radius: 6px; }
+  .pair-fill--before { background: var(--before); }
+  .pair-fill--after { background: var(--accent); }
+  .pair-value { width: 190px; font-family: var(--display); font-size: calc(26px * var(--ts, 1)); font-weight: 700; letter-spacing: -0.01em; font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .pair-value--before { color: var(--muted); }
+  .pair-value--after { color: var(--accent-ink); }
+  .pair-legend { display: flex; gap: 28px; font-size: calc(22px * var(--ts, 1)); color: var(--muted); }
+  .pair-legend span::before { content: ""; display: inline-block; width: 18px; height: 18px; border-radius: 4px; margin-right: 10px; vertical-align: -3px; background: var(--before); }
+  .pair-legend span.after::before { background: var(--accent); }
+
+  .hbar-row { display: flex; align-items: center; gap: 16px; }
+  .hbar-name { width: 420px; font-family: var(--mono); font-size: calc(22px * var(--ts, 1)); color: var(--body-soft); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .hbar-track { flex: 1; height: 16px; background: var(--paper); border-radius: 8px; overflow: hidden; }
+  .hbar-fill { height: 100%; background: var(--before); }
+  .hbar-fill--accent { background: var(--accent); }
+  .hbar-value { width: 150px; font-family: var(--display); font-size: calc(24px * var(--ts, 1)); font-weight: 700; text-align: right; font-variant-numeric: tabular-nums; }
+
+  .col-chart { flex: 1; min-height: 0; display: flex; align-items: flex-end; gap: 28px; padding: 0 8px; border-bottom: 1px solid var(--line); }
+  .col { flex: 1; min-height: 0; display: flex; flex-direction: column; align-items: center; gap: 12px; height: 100%; justify-content: flex-end; }
+  .col-value { font-family: var(--display); font-size: calc(30px * var(--ts, 1)); font-weight: 700; letter-spacing: -0.02em; font-variant-numeric: tabular-nums; }
+  .col-fill { width: 100%; border-radius: 6px 6px 0 0; background: var(--before); }
+  .col-fill--accent { background: var(--accent); }
+  .col-labels { display: flex; gap: 28px; padding: 0 8px; }
+  .col-labels > div { flex: 1; text-align: center; font-size: calc(22px * var(--ts, 1)); color: var(--body-soft); line-height: 1.35; }
+  .mini-cols { display: flex; align-items: flex-end; gap: 8px; height: 120px; }
+  .mini-cols > div { flex: 1; border-radius: 4px 4px 0 0; background: var(--before); }
+  .mini-cols > .accent { background: var(--accent); }
+
+  .stack-bar { display: flex; height: 84px; border-radius: 8px; overflow: hidden; }
+  .stack-bar > div { display: flex; align-items: center; justify-content: center; font-size: calc(26px * var(--ts, 1)); font-weight: 700; color: var(--paper); background: var(--before); }
+  .stack-bar > .seg--accent { background: var(--accent); }
+  .stack-bar > .seg--before { color: var(--ink); }
+  .stack-labels { display: flex; font-size: calc(23px * var(--ts, 1)); color: var(--body-soft); }
+  .stack-labels > div { padding-right: 12px; }
+  .stack-labels > .seg--accent { font-weight: 700; color: var(--accent-ink); }
+
+  .path { display: flex; flex-direction: column; gap: 18px; }
+  .path-row { display: grid; grid-template-columns: minmax(180px, 0.6fr) 4fr; gap: 24px; align-items: start; }
+  .path-when { font-size: calc(24px * var(--ts, 1)); font-weight: 700; color: var(--muted); padding-top: 8px; }
+  .path-when--after { color: var(--accent-ink); }
+  .path-files { display: flex; flex-wrap: wrap; gap: 10px; }
+  .path-file { font-family: var(--mono); font-size: calc(21px * var(--ts, 1)); padding: 8px 14px; border-radius: 8px; background: var(--paper); border: 1px solid var(--line); color: var(--body-soft); }
+  .path-file--after { background: var(--accent-tint); border-color: var(--accent-tint-line); color: var(--accent-ink); font-weight: 600; }
+  .path-count { font-family: var(--display); font-size: calc(26px * var(--ts, 1)); font-weight: 700; align-self: center; padding-left: 8px; }
+
+  .shape { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; flex: 1; min-height: 0; }
+  .shape-panel { display: flex; flex-direction: column; gap: 12px; min-height: 0; }
+  .shape-panel svg { width: 100%; height: auto; display: block; }
+  .shape-panel .kicker--after { color: var(--accent-ink); }
+  .shape svg text { font-family: var(--mono); font-size: 13px; fill: var(--ink); }
+  .shape--single { grid-template-columns: 1fr; flex: none; min-height: auto; }
+  .shape--single svg { max-width: 1200px; }
+  .appendix .shape { grid-template-columns: 1fr; gap: max(20px, 1.9vw); }
+  .shape svg .box { fill: var(--card); stroke: var(--before); stroke-width: 1.5; rx: 6; }
+  .shape svg .box--after { fill: var(--accent-tint); stroke: var(--accent); }
+  .shape svg .box--gone { stroke-dasharray: 5 4; }
+  .shape svg .box--group { fill: var(--paper); stroke-dasharray: 3 3; }
+  .shape svg .count { fill: var(--muted); font-size: 11px; }
+  .shape svg .edge { stroke: var(--before); stroke-width: 1.5; fill: none; stroke-linejoin: round; }
+  .shape svg .edge--after { stroke: var(--accent); }
+  .shape svg .edge--future { stroke: var(--accent); stroke-dasharray: 5 4; }
+  .shape svg .edge--back { stroke: var(--caution); stroke-dasharray: 6 4; }
+  .shape svg .edge--indirect { stroke-dasharray: 2 3; }
+  .shape svg .arrow { fill: var(--before); }
+  .shape svg .arrow--after { fill: var(--accent); }
+  .shape svg .arrow--back { fill: var(--caution); }
+  .shape svg a { cursor: pointer; outline: none; }
+  .shape svg a:hover .box, .shape svg a:focus-visible .box { stroke: var(--accent); stroke-width: 2.5; }
+  .shape svg a:hover text, .shape svg a:focus-visible text { text-decoration: underline; }
+  .appendix .shape-panel svg { max-width: 1000px; margin-inline: auto; }
+  .shape-legend { margin: 0; padding: 0; list-style: none; columns: 2; column-gap: 32px; font-size: calc(15px * var(--ts, 1)); line-height: 1.5; color: var(--body-soft); }
+  .shape-legend li { break-inside: avoid; padding: 2px 0; }
+  .shape-legend .mono { color: var(--ink); }
+  .shape-legend .mono::after { content: " →"; color: var(--muted); }
+  .shape-legend a { color: var(--accent-ink); font-family: var(--mono); text-decoration: underline; text-decoration-color: var(--line); text-underline-offset: 3px; }
+  .shape-legend-note { font-size: 0.85em; color: var(--muted); text-transform: uppercase; letter-spacing: 0.04em; }
+  .appendix .shape-legend { font-size: max(13px, 1.1vw); }
+
+  .tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; }
+  .tile { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 20px 24px; display: flex; flex-direction: column; gap: 6px; }
+  .tile-num { font-family: var(--display); font-size: calc(48px * var(--ts, 1)); font-weight: 700; letter-spacing: -0.02em; line-height: 1; font-variant-numeric: tabular-nums; }
+  .tile-label { font-size: calc(24px * var(--ts, 1)); font-weight: 600; }
+  .tile-sub { font-size: calc(21px * var(--ts, 1)); line-height: 1.4; color: var(--muted); }
+
+  .step-card { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 28px 32px; display: flex; flex-direction: column; gap: 22px; flex: 1; min-height: 0; }
+  .step-card-head { display: flex; align-items: baseline; gap: 18px; flex-wrap: wrap; }
+  .step-card-id { font-family: var(--mono); font-size: calc(30px * var(--ts, 1)); font-weight: 700; color: var(--accent-ink); }
+  .step-card-title { font-family: var(--display); font-size: calc(36px * var(--ts, 1)); font-weight: 600; line-height: 1.2; }
+  .step-card-cat { font-size: calc(23px * var(--ts, 1)); color: var(--muted); }
+  .step-fields { display: grid; grid-template-columns: repeat(2, 1fr); gap: 34px 24px; }
+  .step-field { display: flex; flex-direction: column; gap: 8px; }
+  .step-field .kicker { font-size: calc(19px * var(--ts, 1)); }
+  .step-field p { font-size: calc(25px * var(--ts, 1)); line-height: 1.4; color: var(--body-soft); }
+  .step-field--wide { grid-column: 1 / -1; }
+  .step-field--caution { background: var(--caution-tint); border: 1px solid var(--caution-tint-line); border-radius: 8px; padding: 14px 18px; }
+  .step-field--caution .kicker { color: var(--caution-ink); }
+
+  .asks { display: flex; flex-direction: column; gap: 16px; counter-reset: ask; }
+  .ask { display: grid; grid-template-columns: 44px 1fr; gap: 18px; align-items: start; }
+  .ask::before { counter-increment: ask; content: counter(ask); width: 44px; height: 44px; border-radius: 8px; background: var(--accent-tint); color: var(--accent-ink); font-family: var(--display); font-size: calc(26px * var(--ts, 1)); font-weight: 700; display: flex; align-items: center; justify-content: center; }
+  .ask p { font-size: calc(27px * var(--ts, 1)); line-height: 1.4; padding-top: 4px; }
+  .ask p strong { display: block; }
+  .ask--on-dark::before { background: color-mix(in srgb, var(--paper) 14%, transparent); color: var(--paper); }
+  .ask--on-dark p { color: var(--on-dark); }
+  .ask--on-dark p strong { color: var(--paper); }
+
+  .rec-chip { width: 44px; height: 44px; border-radius: 8px; flex: none; background: var(--accent-tint); color: var(--accent-ink); font-family: var(--display); font-size: calc(26px * var(--ts, 1)); font-weight: 700; display: flex; align-items: center; justify-content: center; }
+  .rec-list { padding-left: 24px; display: flex; flex-direction: column; gap: 12px; font-size: calc(25px * var(--ts, 1)); line-height: 1.4; color: var(--body-soft); }
+  .rec-list--on-dark { color: var(--on-dark); }
+
+  .brand { display: flex; align-items: center; gap: 16px; font-family: var(--display); font-size: calc(26px * var(--ts, 1)); font-weight: 600; color: var(--on-dark); }
+  .brand-wordmark { height: 44px; width: auto; color: var(--paper); }
+  .title-footer { display: flex; justify-content: space-between; align-items: flex-end; gap: 24px; border-top: 1px solid var(--on-dark-line); padding-top: 32px; }
+  .title-footer .primary { font-size: calc(28px * var(--ts, 1)); font-weight: 600; }
+  .title-footer .secondary { font-size: calc(24px * var(--ts, 1)); color: var(--on-dark-soft); }
+  .next-card { border-radius: 12px; padding: 28px 30px; display: flex; flex-direction: column; gap: 12px; }
+  .next-date { font-family: var(--display); font-size: calc(30px * var(--ts, 1)); font-weight: 700; }
+  .next-what { font-size: calc(25px * var(--ts, 1)); line-height: 1.4; color: var(--on-dark); }
+  .next-owner { font-size: calc(23px * var(--ts, 1)); color: var(--on-dark-soft); margin-top: auto; }
+  .next-card--final { background: var(--accent); color: #ffffff; }
+  .next-card--final .next-what, .next-card--final .next-owner { color: rgba(255,255,255,0.9); }
+
+  .pill-link { display: inline-flex; align-items: center; border: 1px solid var(--line); background: var(--card); border-radius: 999px; padding: 14px 34px; font-size: calc(24px * var(--ts, 1)); font-weight: 600; color: var(--ink); }
+
+  .appendix { display: flex; flex-direction: column; gap: 8px; color: var(--ink); font-family: var(--sans); letter-spacing: -0.011em; }
+  .ax-sheet { background: var(--paper); border-radius: 4px; padding: max(26px, 2.9vw) max(18px, 3.96vw); display: flex; flex-direction: column; gap: max(16px, 1.25vw); }
+  .appendix .kicker { font-size: max(13px, 1.15vw); }
+  .ax-head { display: flex; flex-direction: column; gap: max(8px, 0.63vw); }
+  .ax-claim { font-family: var(--display); font-weight: 500; font-size: max(26px, 2.7vw); line-height: 1.1; letter-spacing: -0.02em; text-wrap: balance; }
+  .ax-lede { font-size: max(16px, 1.46vw); line-height: 1.45; color: var(--body-soft); max-width: 70ch; }
+  .ax-stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr)); gap: max(14px, 1.25vw); }
+  .ax-stats > div { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: max(16px, 1.46vw) max(18px, 1.67vw); display: flex; flex-direction: column; gap: max(6px, 0.55vw); }
+  .ax-stat-num { font-family: var(--display); font-weight: 700; font-size: max(30px, 3vw); letter-spacing: -0.02em; line-height: 1; font-variant-numeric: tabular-nums; }
+  .ax-stat-label { font-size: max(14px, 1.3vw); font-weight: 600; }
+  .ax-stat-sub { font-size: max(12.5px, 1.1vw); line-height: 1.5; color: var(--muted); }
+  .ax-facts { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr)); gap: max(20px, 1.87vw); align-items: start; }
+  .ax-facts > div { display: flex; flex-direction: column; gap: max(12px, 1.1vw); }
+  .ax-facts ul { margin: 0; padding-left: 1.15em; display: flex; flex-direction: column; gap: max(8px, 0.7vw); font-size: max(13px, 1.15vw); line-height: 1.45; color: var(--body-soft); }
+  .ax-facts li::marker { color: var(--muted); }
+  .ax-fine { font-size: max(12.5px, 1.1vw); line-height: 1.5; color: var(--muted); }
+  .ax-fine strong { color: var(--ink); }
+
+  .ax-card { background: var(--card); border: 1px solid var(--line); border-radius: 12px; overflow: hidden; }
+  .ax-card-head { padding: max(14px, 1.15vw) max(16px, 1.46vw); border-bottom: 1px solid var(--line); display: flex; justify-content: space-between; align-items: baseline; gap: 12px 24px; flex-wrap: wrap; }
+  .ax-card-title { font-size: max(13px, 1.15vw); font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
+  .ax-card-src { font-family: var(--mono); font-size: max(12px, 1vw); color: var(--muted); }
+  .ax-card-src a { color: inherit; text-decoration: underline; text-decoration-color: color-mix(in srgb, currentColor 40%, transparent); text-underline-offset: 3px; }
+  .ax-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  .appendix table { width: 100%; min-width: 720px; border-collapse: collapse; font-size: max(15px, 1.3vw); line-height: 1.4; }
+  .appendix th { text-align: left; padding: max(11px, 1vw) max(16px, 1.46vw); font-size: max(12px, 1.05vw); font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); background: var(--paper); border-bottom: 1px solid var(--line); white-space: normal; }
+  .appendix td { padding: max(13px, 1.25vw) max(16px, 1.46vw); border-bottom: 1px solid var(--line); vertical-align: top; }
+  .appendix tr:last-child td { border-bottom: none; }
+  .appendix tr.total td { background: var(--paper); font-weight: 700; }
+  .appendix td.num, .appendix th.num { text-align: right; font-variant-numeric: tabular-nums; }
+  .appendix td.num { white-space: nowrap; }
+  .appendix td.id { font-family: var(--mono); font-size: max(14px, 1.25vw); white-space: nowrap; }
+  .appendix td.id .ax-stack { display: block; }
+  .appendix td .sub { display: block; font-size: 0.88em; color: var(--muted); margin-top: 4px; }
+  .ax-mag { font-family: var(--display); font-weight: 700; font-size: 1.1em; letter-spacing: -0.01em; }
+  .ax-mag--accent { color: var(--accent-ink); }
+  .ax-mag--caution { color: var(--caution-ink); }
+  .ax-flag { display: inline-block; background: var(--caution-tint); color: var(--caution-ink); border: 1px solid var(--caution-tint-line); border-radius: 10px; font-size: 0.78em; font-weight: 600; padding: 2px 0.6em; margin-left: 0.5em; white-space: nowrap; }
+  .ax-flag--accent { background: var(--accent-tint); color: var(--accent-ink); border-color: var(--accent-tint-line); }
+  .ax-caveat { padding: max(12px, 1.1vw) max(16px, 1.46vw); background: var(--paper); border-top: 1px solid var(--line); font-size: max(14px, 1.2vw); line-height: 1.45; color: var(--body-soft); }
+  .ax-caveat:has(> div) { display: flex; flex-direction: column; gap: max(10px, 0.9vw); }
+  .ax-caveat > div { padding-bottom: max(10px, 0.9vw); border-bottom: 1px solid var(--line); }
+  .ax-caveat > div:last-child { padding-bottom: 0; border-bottom: none; }
+  .ax-caveat > div strong { color: var(--ink); }
+  .ax-details { border-top: 1px solid var(--line); }
+  .ax-details summary { cursor: pointer; padding: max(12px, 1.1vw) max(16px, 1.46vw); font-size: max(14px, 1.2vw); font-weight: 500; color: var(--accent-ink); list-style: none; }
+  .ax-details summary::-webkit-details-marker { display: none; }
+  .ax-details summary::before { content: "+"; display: inline-block; width: 1.4em; font-family: var(--mono); }
+  .ax-details[open] summary::before { content: "−"; }
+  .ax-details-body { padding: 0 max(16px, 1.46vw) max(16px, 1.46vw); font-size: max(14px, 1.25vw); line-height: 1.62; color: var(--body-soft); display: flex; flex-direction: column; gap: max(16px, 1.3vw); max-width: 65ch; }
+  .ax-details-body strong { color: var(--ink); }
+  .appendix strong { font-weight: 600; }
+  .ax-label { display: block; margin-bottom: 3px; font-size: 0.74em; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
+  .ax-substep-check .ax-label { display: inline-block; margin: 0 8px 0 0; }
+  .ax-details-body > p .mono { font-size: 0.92em; background: var(--paper); border-radius: 5px; padding: 1px 5px; }
+  .ax-substeps { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: max(10px, 0.9vw); }
+  .ax-substeps li { display: grid; grid-template-columns: auto 1fr; gap: max(12px, 1.1vw); padding: max(10px, 0.9vw) max(14px, 1.2vw); background: var(--paper); border: 1px solid var(--line); border-radius: 10px; }
+  .ax-substeps li > div { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+  .ax-substeps li p { margin: 0; }
+  .ax-substep-id { font-family: var(--mono); font-weight: 700; color: var(--accent-ink); font-size: max(13px, 1.15vw); padding-top: 2px; }
+  .ax-substep-title { font-weight: 500; color: var(--ink); }
+  .ax-substep-check { color: var(--muted); font-size: max(13px, 1.1vw); }
+  .ax-substep-check .chip { font-size: max(11px, 0.9vw); padding: 1px 9px; margin-left: 6px; vertical-align: middle; }
+  .ax-substeps li:target { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .ax-footer { font-size: max(13.5px, 1.25vw); color: var(--body-soft); line-height: 1.55; background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: max(16px, 1.5vw) max(20px, 1.9vw); }
+  .ax-footer ul { margin: 0; padding-left: 1.2em; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 600px), 1fr)); gap: max(8px, 0.7vw) max(24px, 2.2vw); }
+  .ax-footer li::marker { color: var(--muted); }
+  .appendix .backlink { font-size: max(14px, 1.25vw); color: var(--accent-ink); }
+
+  @media (max-width: 760px) {
+    .deck { gap: 6px; padding: 6px; }
+    .slide [style*="grid-template-columns"] { grid-template-columns: 1fr !important; }
+    .grid-2, .grid-3 { grid-template-columns: 1fr; }
+    .card, .statement { padding: 16px 18px; }
+    .strip { padding: 14px 18px; }
+    .statement { gap: 14px; }
+    .title-footer { flex-direction: column; align-items: flex-start; gap: 18px; padding-top: 20px; }
+    .title-footer [style*="text-align:right"] { text-align: left !important; }
+    .next-card { padding: 16px 18px; }
+    .table { overflow-x: auto; }
+    .table--steps { grid-template-columns: 60px minmax(220px, 2fr) minmax(160px, 1fr) 150px 150px 130px 130px; }
+    .table--steps-compact { grid-template-columns: 50px minmax(220px, 3fr) 120px 150px 100px 130px; }
+    .table--measures { grid-template-columns: minmax(200px, 2fr) 120px 120px minmax(200px, 2fr); }
+    .th { padding: 10px 14px; }
+    .td { padding: 12px 14px; }
+    .pair-row, .path-row { grid-template-columns: 1fr; gap: 10px; }
+    .shape, .step-fields { grid-template-columns: 1fr; }
+    .shape-panel { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+    .shape-panel svg { min-width: 760px; }
+    .shape-legend { columns: 1; }
+    .step-card { padding: 16px 18px; }
+    .pair-value { width: 120px; }
+    .hbar-name { width: 140px; }
+    .hbar-value { width: 80px; }
+    .col-chart { flex: none; height: 190px; gap: 12px; }
+    .col-labels { gap: 12px; }
+    .stack-bar { height: 52px; }
+    .stack-bar > div { overflow: hidden; padding: 0 3px; }
+    .mini-cols { height: 80px; }
+    .rec-chip { width: 32px; height: 32px; }
+    .brand-wordmark { height: 30px; }
+  }
+
+  @page { size: 1920px 1080px; margin: 0; }
+  @media print {
+    body { background: var(--paper); }
+    .deck { gap: 0; padding: 0; }
+    .slide-frame { height: auto !important; overflow: visible; border-radius: 0; break-after: page; }
+    .slide-crop { width: auto !important; height: auto !important; overflow: visible; }
+    .slide { transform: none !important; }
+    a { color: inherit; }
+    .appendix { gap: 0; break-before: page; }
+    .ax-sheet { border-radius: 0; }
+    .ax-card { break-inside: avoid; }
+    .ax-scroll { overflow-x: visible; }
+    .appendix table { min-width: 0; }
+    .ax-details { display: block; }
+    .ax-details:not([open]) .ax-details-body { display: block; }
+    .backlink { display: none; }
+  }
+</style>
+</head>
+<body>
+<main class="deck">
+
+<!-- ═════════════════════════════════════════════════════════════════════════
+     Title slide. The only slide with a fixed job: name the module, say in
+     one sentence what the page asks the room to agree to, and state the
+     hash and window the numbers come from. Keep and fill.
+     ═════════════════════════════════════════════════════════════════════════ -->
+<div class="slide-frame">
+<section class="slide slide--dark" aria-label="Title">
+  <div class="brand"><svg class="brand-wordmark" viewBox="0 0 142 34" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="anthara">
+        <path d="M0 1.843H3.1331V33.3952H0V1.843ZM3.1331 1.843H8.6621V4.0546H3.1331V1.843ZM3.1331 31.1836H8.6621V33.3952H3.1331V31.1836Z" fill="#8c3509"/>
+        <path d="M142 1.843V33.3952H138.83V1.843H142ZM138.83 1.843V4.0546H133.338V1.843H138.83ZM138.83 31.1836V33.3952H133.338V31.1836H138.83Z" fill="#8c3509"/>
+        <path d="M16.1824 28.2348C14.8309 28.2348 13.6022 27.989 12.4964 27.4976C11.4152 26.9815 10.5551 26.2443 9.91621 25.286C9.2773 24.3276 8.95785 23.1604 8.95785 21.7843C8.95785 20.1624 9.35102 18.8846 10.1374 17.9508C10.9483 17.017 12.0172 16.3413 13.3442 15.9235C14.6711 15.4812 16.121 15.1986 17.6937 15.0757C19.2909 14.9529 20.8636 14.9037 22.4117 14.9283V17.6191C19.0698 17.4962 16.5633 17.7911 14.8923 18.5037C13.2459 19.1918 12.4227 20.2361 12.4227 21.6368C12.4227 22.8655 12.8036 23.7993 13.5653 24.4382C14.3517 25.0771 15.4821 25.3965 16.9565 25.3965C18.1114 25.3965 19.0943 25.1385 19.9053 24.6225C20.7162 24.0819 21.3305 23.3692 21.7483 22.4846C22.1906 21.6 22.4117 20.6047 22.4117 19.4989V17.103H25.766V27.645H22.4117V25.2122C21.7974 26.1706 20.9742 26.9201 19.9421 27.4607C18.9346 27.9767 17.6814 28.2348 16.1824 28.2348ZM8.55239 14.6334C8.55239 13.2327 8.88413 11.9058 9.54761 10.6525C10.2357 9.3993 11.2309 8.37951 12.5333 7.59316C13.8602 6.80682 15.4821 6.41364 17.3988 6.41364C20.0281 6.41364 22.0309 7.17542 23.407 8.69896C24.8076 10.2225 25.5817 12.299 25.7291 14.9283H22.4117C22.338 13.2082 21.8957 11.8689 21.0848 10.9106C20.2739 9.9522 19.0452 9.47302 17.3988 9.47302C16.1455 9.47302 15.1258 9.71876 14.3394 10.2102C13.5776 10.6771 13.0124 11.3037 12.6438 12.0901C12.2752 12.8519 12.0909 13.6996 12.0909 14.6334H8.55239Z" fill="currentColor"/>
+        <path d="M29.3316 7.0034H32.649V10.5051C32.9685 9.81705 33.4108 9.16586 33.976 8.55152C34.5412 7.91262 35.2907 7.39658 36.2245 7.0034C37.1582 6.61023 38.2763 6.41364 39.5787 6.41364C40.9057 6.41364 42.0975 6.68395 43.1541 7.22456C44.2354 7.76518 45.0709 8.6621 45.6606 9.91534C46.275 11.144 46.5821 12.815 46.5821 14.9283V27.645H43.2647V15.4075C43.2647 14.1297 43.1296 13.0362 42.8593 12.1269C42.589 11.2177 42.1221 10.5297 41.4586 10.0628C40.8197 9.57132 39.935 9.32558 38.8047 9.32558C37.6989 9.32558 36.6791 9.65732 35.7453 10.3208C34.8115 10.9597 34.062 11.8689 33.4968 13.0484C32.9316 14.2034 32.649 15.6041 32.649 17.2505V27.645H29.3316V7.0034Z" fill="currentColor"/>
+        <path d="M52.1048 27.645V1.843H55.4222V24.8068H60.2877V27.645H52.1048ZM48.6399 9.84162V7.0034H59.6979V9.84162H48.6399Z" fill="currentColor"/>
+        <path d="M63.2777 0H66.5951V27.645H63.2777V0ZM66.5951 17.2505L66.0053 13.3065C66.0053 12.6676 66.1282 11.9549 66.3739 11.1686C66.6197 10.3822 67.0251 9.63275 67.5903 8.92012C68.1801 8.18292 68.9541 7.58087 69.9125 7.11398C70.8954 6.64709 72.0995 6.41364 73.5248 6.41364C74.8517 6.41364 76.0435 6.68395 77.1002 7.22456C78.1814 7.76518 79.0169 8.6621 79.6067 9.91534C80.221 11.144 80.5282 12.815 80.5282 14.9283V27.645H77.2108V15.4075C77.2108 14.1297 77.0756 13.0362 76.8053 12.1269C76.535 11.2177 76.0681 10.5297 75.4046 10.0628C74.7657 9.57132 73.8811 9.32558 72.7507 9.32558C71.6449 9.32558 70.6251 9.65732 69.6913 10.3208C68.7575 10.9597 68.008 11.8689 67.4429 13.0484C66.8777 14.2034 66.5951 15.6041 66.5951 17.2505Z" fill="currentColor"/>
+        <path d="M91.3783 28.2348C90.0267 28.2348 88.7981 27.989 87.6923 27.4976C86.611 26.9815 85.751 26.2443 85.1121 25.286C84.4731 24.3276 84.1537 23.1604 84.1537 21.7843C84.1537 20.1624 84.5469 18.8846 85.3332 17.9508C86.1441 17.017 87.2131 16.3413 88.54 15.9235C89.867 15.4812 91.3168 15.1986 92.8895 15.0757C94.4868 14.9529 96.0595 14.9037 97.6076 14.9283V17.6191C94.2656 17.4962 91.7591 17.7911 90.0882 18.5037C88.4417 19.1918 87.6185 20.2361 87.6185 21.6368C87.6185 22.8655 87.9994 23.7993 88.7612 24.4382C89.5475 25.0771 90.6779 25.3965 92.1523 25.3965C93.3073 25.3965 94.2902 25.1385 95.1011 24.6225C95.912 24.0819 96.5264 23.3692 96.9441 22.4846C97.3864 21.6 97.6076 20.6047 97.6076 19.4989V17.103H100.962V27.645H97.6076V25.2122C96.9933 26.1706 96.1701 26.9201 95.138 27.4607C94.1305 27.9767 92.8772 28.2348 91.3783 28.2348ZM83.7482 14.6334C83.7482 13.2327 84.08 11.9058 84.7435 10.6525C85.4315 9.3993 86.4267 8.37951 87.7291 7.59316C89.0561 6.80682 90.6779 6.41364 92.5946 6.41364C95.224 6.41364 97.2267 7.17542 98.6028 8.69896C100.004 10.2225 100.778 12.299 100.925 14.9283H97.6076C97.5339 13.2082 97.0916 11.8689 96.2806 10.9106C95.4697 9.9522 94.2411 9.47302 92.5946 9.47302C91.3414 9.47302 90.3216 9.71876 89.5353 10.2102C88.7735 10.6771 88.2083 11.3037 87.8397 12.0901C87.4711 12.8519 87.2868 13.6996 87.2868 14.6334H83.7482Z" fill="currentColor"/>
+        <path d="M104.527 7.0034H107.845V27.645H104.527V7.0034ZM107.845 16.4396L107.292 13.7488C107.292 13.1099 107.378 12.3727 107.55 11.5372C107.747 10.7017 108.103 9.90306 108.619 9.14128C109.16 8.35494 109.934 7.70374 110.941 7.1877C111.949 6.67166 113.276 6.41364 114.922 6.41364V9.84162C113.472 9.84162 112.219 10.0505 111.162 10.4682C110.106 10.886 109.282 11.574 108.693 12.5324C108.127 13.4908 107.845 14.7931 107.845 16.4396Z" fill="currentColor"/>
+        <path d="M123.883 28.2348C122.531 28.2348 121.303 27.989 120.197 27.4976C119.116 26.9815 118.255 26.2443 117.617 25.286C116.978 24.3276 116.658 23.1604 116.658 21.7843C116.658 20.1624 117.051 18.8846 117.838 17.9508C118.649 17.017 119.718 16.3413 121.045 15.9235C122.371 15.4812 123.821 15.1986 125.394 15.0757C126.991 14.9529 128.564 14.9037 130.112 14.9283V17.6191C126.77 17.4962 124.264 17.7911 122.593 18.5037C120.946 19.1918 120.123 20.2361 120.123 21.6368C120.123 22.8655 120.504 23.7993 121.266 24.4382C122.052 25.0771 123.182 25.3965 124.657 25.3965C125.812 25.3965 126.795 25.1385 127.606 24.6225C128.417 24.0819 129.031 23.3692 129.449 22.4846C129.891 21.6 130.112 20.6047 130.112 19.4989V17.103H133.466V27.645H130.112V25.2122C129.498 26.1706 128.675 26.9201 127.642 27.4607C126.635 27.9767 125.382 28.2348 123.883 28.2348ZM116.253 14.6334C116.253 13.2327 116.584 11.9058 117.248 10.6525C117.936 9.3993 118.931 8.37951 120.234 7.59316C121.561 6.80682 123.182 6.41364 125.099 6.41364C127.728 6.41364 129.731 7.17542 131.107 8.69896C132.508 10.2225 133.282 12.299 133.429 14.9283H130.112C130.038 13.2082 129.596 11.8689 128.785 10.9106C127.974 9.9522 126.746 9.47302 125.099 9.47302C123.846 9.47302 122.826 9.71876 122.04 10.2102C121.278 10.6771 120.713 11.3037 120.344 12.0901C119.976 12.8519 119.791 13.6996 119.791 14.6334H116.253Z" fill="currentColor"/>
+      </svg><span>{{repository name}}</span></div>
+  <div style="display:flex;flex-direction:column;gap:36px;max-width:1500px">
+    <div class="kicker kicker--wide kicker--on-dark">Refactoring plan · {{module path}}</div>
+    <h1>{{The ask as a statement, e.g. "Make adding a code provider a one-file change"}}</h1>
+    <p class="lede lede--on-dark" style="font-size:calc(34px * var(--ts, 1));max-width:1300px">{{One sentence: what the plan does, in how many steps, and what it leaves untouched. Under 40 words.}}</p>
+  </div>
+  <div class="title-footer">
+    <div style="display:flex;flex-direction:column;gap:10px">
+      <div class="primary">{{Prepared for: the audience, e.g. "Sprint planning, 14 October"}}</div>
+      <div class="secondary">{{Author or team}} · nothing in the code has changed</div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:10px;text-align:right">
+      <div class="secondary mono">{{repo}} @ {{short hash}} · history {{window from}} to {{window to}}</div>
+      <div class="secondary">Every number on this page is in <span class="mono">docs/refactoring/{{module-slug}}-plan.md</span></div>
+    </div>
+  </div>
+</section>
+</div>
+
+<!-- ═════════════════════════════════════════════════════════════════════════
+     COMPONENT CATALOGUE · delete every section with data-catalogue before
+     filling. These slides exist so the scaffold can be opened and checked;
+     they are not a slide list and the copy on them is not a model for the
+     page's copy.
+     ═════════════════════════════════════════════════════════════════════════ -->
+<div class="slide-frame" data-catalogue>
+<section class="slide" aria-label="Catalogue: argument components">
+  <div class="slide-head">
+    <div class="kicker">Catalogue 1 of 5 · argument components</div>
+    <h2>The heading of a slide is its claim</h2>
+    <p class="lede">The lede grounds the claim in one sentence with a number from the plan. The statement below is for the one sentence the whole page turns on.</p>
+  </div>
+  <div class="statement"><p>Adding a provider touches seven files in four folders today. After the plan it touches one.</p></div>
+  <div class="grid-3">
+    <div class="card" style="gap:16px;justify-content:center">
+      <div class="stat stat--hero num--before">7<span class="stat-unit">files</span></div>
+      <p class="body"><strong>Today.</strong> Use .num--before for the number the plan changes.</p>
+    </div>
+    <div class="card card--tint" style="gap:16px;justify-content:center">
+      <div class="stat stat--hero num--accent">1<span class="stat-unit">file</span></div>
+      <p class="body"><strong>After the plan.</strong> Use .num--accent for the number the plan promises.</p>
+    </div>
+    <div class="card card--caution" style="gap:16px;justify-content:center">
+      <div class="kicker kicker--caution">Caution, used once</div>
+      <p class="body"><strong>R6 runs without a test.</strong> The caution tint marks a medium risk, a blind step or a gap that blocks a step, and nothing else.</p>
+    </div>
+  </div>
+  <div class="card" style="gap:20px">
+    <div class="kicker">The before/after pair · both bars share one scale</div>
+    <div class="pair" role="img" aria-label="Files touched to add a provider: 7 today, 1 after the plan. Longest function: 412 lines today, 60 after the plan.">
+      <div class="pair-row">
+        <div class="pair-label">Files touched to add a provider</div>
+        <div class="pair-bars">
+          <div class="pair-bar"><div class="pair-track"><div class="pair-fill pair-fill--before" style="width:100%"></div></div><div class="pair-value pair-value--before">7 files</div></div>
+          <div class="pair-bar"><div class="pair-track"><div class="pair-fill pair-fill--after" style="width:14.3%"></div></div><div class="pair-value pair-value--after">1 file</div></div>
+        </div>
+      </div>
+      <div class="pair-row">
+        <div class="pair-label">Longest function</div>
+        <div class="pair-bars">
+          <div class="pair-bar"><div class="pair-track"><div class="pair-fill pair-fill--before" style="width:100%"></div></div><div class="pair-value pair-value--before">412 lines</div></div>
+          <div class="pair-bar"><div class="pair-track"><div class="pair-fill pair-fill--after" style="width:14.6%"></div></div><div class="pair-value pair-value--after">60 lines</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="pair-legend"><span>Today</span><span class="after">After the plan</span></div>
+  </div>
+  <p class="footnote">A footnote carries the one idea that did not earn a slide: one sentence, no new number, no new exhibit.</p>
+</section>
+</div>
+
+<div class="slide-frame" data-catalogue>
+<section class="slide" aria-label="Catalogue: evidence components">
+  <div class="slide-head">
+    <div class="kicker">Catalogue 2 of 5 · evidence components</div>
+    <h2>Charts are for the two or three claims that carry the argument</h2>
+  </div>
+  <div class="grid-2">
+    <div class="card" style="gap:18px">
+      <div class="kicker">Commits per file, last 12 months · share of the busiest file</div>
+      <div style="display:flex;flex-direction:column;gap:12px" role="img" aria-label="Commits in the window: AssessmentService.ts 84, codes.ts 31, providers/snomed.ts 22, mapper.ts 9.">
+        <div class="hbar-row"><div class="hbar-name">AssessmentService.ts</div><div class="hbar-track"><div class="hbar-fill hbar-fill--accent" style="width:100%"></div></div><div class="hbar-value">84</div></div>
+        <div class="hbar-row"><div class="hbar-name">codes.ts</div><div class="hbar-track"><div class="hbar-fill hbar-fill--accent" style="width:36.9%"></div></div><div class="hbar-value">31</div></div>
+        <div class="hbar-row"><div class="hbar-name">providers/snomed.ts</div><div class="hbar-track"><div class="hbar-fill" style="width:26.2%"></div></div><div class="hbar-value">22</div></div>
+        <div class="hbar-row"><div class="hbar-name">mapper.ts</div><div class="hbar-track"><div class="hbar-fill" style="width:10.7%"></div></div><div class="hbar-value">9</div></div>
+      </div>
+      <p class="footnote--quiet footnote">Accent marks the files the plan targets. Grey marks the files it leaves alone. The widths are counts scaled to the largest bar.</p>
+    </div>
+    <div class="col-stack">
+      <div class="card" style="gap:16px;flex:1">
+        <div class="kicker">Lines in AssessmentService.ts by quarter</div>
+        <div class="col-chart" role="img" aria-label="Lines by quarter: 2,900, 3,300, 3,700, 4,100. Tallest column is 100 percent.">
+          <div class="col"><span class="col-value">2,900</span><div class="col-fill" style="height:70.7%"></div></div>
+          <div class="col"><span class="col-value">3,300</span><div class="col-fill" style="height:80.5%"></div></div>
+          <div class="col"><span class="col-value">3,700</span><div class="col-fill" style="height:90.2%"></div></div>
+          <div class="col"><span class="col-value num--accent">4,100</span><div class="col-fill col-fill--accent" style="height:100%"></div></div>
+        </div>
+        <div class="col-labels"><div>Q4</div><div>Q1</div><div>Q2</div><div>Q3</div></div>
+      </div>
+      <div class="card" style="gap:16px">
+        <div class="kicker">Lines the plan touches · share of the module</div>
+        <div class="stack-bar" role="img" aria-label="29 percent of the module's lines are in the plan, 71 percent are left alone.">
+          <div class="seg--accent" style="width:29%">29%</div>
+          <div class="seg--before" style="width:71%">71% left alone</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="card" style="gap:16px">
+    <div class="kicker">The problem statement's path · files a developer touches to add a provider</div>
+    <div class="path" role="img" aria-label="Today, adding a provider touches 7 files. After the plan it touches 1.">
+      <div class="path-row"><div class="path-when">Today · 7 files</div><div class="path-files"><span class="path-file">AssessmentService.ts</span><span class="path-file">codes.ts</span><span class="path-file">providers/index.ts</span><span class="path-file">providers/snomed.ts</span><span class="path-file">mapper.ts</span><span class="path-file">assessment.module.ts</span><span class="path-file">assessment.spec.ts</span></div></div>
+      <div class="path-row"><div class="path-when path-when--after">After · 1 file</div><div class="path-files"><span class="path-file path-file--after">providers/&lt;name&gt;.ts</span></div></div>
+    </div>
+  </div>
+</section>
+</div>
+
+<div class="slide-frame" data-catalogue>
+<section class="slide" aria-label="Catalogue: the step table and chips">
+  <div class="slide-head">
+    <div class="kicker">Catalogue 3 of 5 · the step table</div>
+    <h2>Every step is reachable on the page, whether or not it is on the first screen</h2>
+    <p class="lede">The slide version of the step table holds the steps the argument needs. The appendix holds all of them, each with its full text behind a disclosure.</p>
+  </div>
+  <div class="table table--steps" role="table" aria-label="Refactoring steps">
+    <div class="th" role="columnheader">Step</div><div class="th" role="columnheader">What changes</div><div class="th" role="columnheader">The catalogue name</div><div class="th" role="columnheader">Kind of step</div><div class="th" role="columnheader">Comes after</div><div class="th" role="columnheader">Risk</div><div class="th" role="columnheader">What catches a mistake</div>
+    <div class="td td-id">T1</div><div class="td"><span class="td-name">Pin provider lookup by golden output</span><span class="td-sub">Drives from the HTTP boundary</span></div><div class="td">Characterisation test</div><div class="td td--row"><span class="chip chip--test">test</span></div><div class="td">independent</div><div class="td td--row"><span class="chip">low</span></div><div class="td">n/a</div>
+    <div class="td td-id">R1</div><div class="td"><span class="td-name">Extract <span class="mono">parseCodes</span> from <span class="mono">AssessmentService</span></span><span class="td-sub">Lines 212 to 624</span></div><div class="td">Extract Function</div><div class="td td--row"><span class="chip chip--refactor">refactoring</span></div><div class="td">T1</div><div class="td td--row"><span class="chip">low</span></div><div class="td td--row"><span class="chip chip--accent">T1</span></div>
+    <div class="td td-id">R2</div><div class="td"><span class="td-name">Introduce the <span class="mono">CodeProvider</span> seam</span><span class="td-sub">Interface plus one adapter</span></div><div class="td">Extract Interface</div><div class="td td--row"><span class="chip chip--seam">seam</span></div><div class="td">R1</div><div class="td td--row"><span class="chip chip--risk-medium">medium</span></div><div class="td td--row"><span class="chip chip--blind">no test</span></div>
+    <div class="td td-id"><a class="step-link" href="#step-R3">R3</a></div><div class="td"><span class="td-name">Move the SNOMED adapter into <span class="mono">providers/</span></span><span class="td-sub">Public export unchanged</span></div><div class="td">Move Function</div><div class="td td--row"><span class="chip chip--surface">public surface</span></div><div class="td">R2</div><div class="td td--row"><span class="chip chip--risk-medium">medium</span></div><div class="td td--row"><span class="chip chip--accent">T1, T2</span></div>
+  </div>
+  <p class="footnote">Phase chips are monochrome. The caution tint is spent only on a medium risk and on a step with no test behind it, which is what the room needs to see first.</p>
+</section>
+</div>
+
+
+<div class="slide-frame" data-catalogue>
+<section class="slide" aria-label="Catalogue: the shape and the contract">
+  <div class="slide-head">
+    <div class="kicker">Catalogue 4 of 5 · the shape of the change and the contract</div>
+    <h2>The shape of the change is generated from a spec</h2>
+  </div>
+  <div class="shape">
+    <div class="shape-panel">
+      <div class="kicker">Today</div>
+      <svg viewBox="0 0 420 250" role="img" aria-labelledby="cat-today-title">
+        <title id="cat-today-title">Today: the service calls three collaborators directly, and seven other collaborators it does not change are collapsed into one box.</title>
+        <defs><marker id="cat-today-arrow-today" markerUnits="userSpaceOnUse" markerWidth="10" markerHeight="10" refX="10" refY="5" orient="auto"><path d="M0 0L10 5L0 10z" class="arrow"/></marker></defs>
+        <rect class="box" data-node="svc" x="0" y="68" width="190" height="42"/><text x="12" y="94">AssessmentService</text>
+        <rect class="box" data-node="snomed" x="230" y="0" width="190" height="42"/><text x="242" y="26">SnomedClient</text>
+        <rect class="box" data-node="loinc" x="230" y="68" width="190" height="42"/><text x="242" y="94">LoincClient</text>
+        <rect class="box" data-node="mapper" x="230" y="136" width="190" height="42"/><text x="242" y="162">CodeMapper</text>
+        <rect class="box box--group" data-node="others" data-files="src/assessment/audit.ts,src/assessment/cache.ts,src/assessment/clock.ts,src/assessment/clock-format.ts,src/assessment/config.ts,src/assessment/logger.ts,src/assessment/metrics.ts" x="230" y="204" width="190" height="42"/><text x="242" y="230">7 others, unchanged</text>
+        <path class="edge" data-from="svc" data-to="snomed" d="M190 74H196V21H230" marker-end="url(#cat-today-arrow-today)"/>
+        <path class="edge" data-from="svc" data-to="loinc" d="M190 89H230" marker-end="url(#cat-today-arrow-today)"/>
+        <path class="edge" data-from="svc" data-to="mapper" d="M190 94H209.3V157H230" marker-end="url(#cat-today-arrow-today)"/>
+        <path class="edge" data-from="svc" data-to="others" d="M190 104H216V225H230" marker-end="url(#cat-today-arrow-today)"/>
+      </svg>
+    </div>
+    <div class="shape-panel">
+      <div class="kicker kicker--after">After the plan</div>
+      <svg viewBox="0 0 650 250" role="img" aria-labelledby="cat-after-title">
+        <title id="cat-after-title">After: the service depends on one CodeProvider interface, and each provider implements it. The seven unchanged collaborators are untouched.</title>
+        <defs><marker id="cat-after-arrow-after" markerUnits="userSpaceOnUse" markerWidth="10" markerHeight="10" refX="10" refY="5" orient="auto"><path d="M0 0L10 5L0 10z" class="arrow arrow--after"/></marker><marker id="cat-after-arrow-today" markerUnits="userSpaceOnUse" markerWidth="10" markerHeight="10" refX="10" refY="5" orient="auto"><path d="M0 0L10 5L0 10z" class="arrow"/></marker></defs>
+        <rect class="box" data-node="svc" x="0" y="68" width="190" height="42"/><text x="12" y="94">AssessmentService</text>
+        <rect class="box box--after" data-node="iface" x="230" y="68" width="190" height="42"/><text x="242" y="94">CodeProvider</text>
+        <rect class="box box--after" data-node="snomed" x="460" y="0" width="190" height="42"/><text x="472" y="26">SnomedProvider</text>
+        <rect class="box box--after" data-node="loinc" x="460" y="68" width="190" height="42"/><text x="472" y="94">LoincProvider</text>
+        <rect class="box box--gone" data-node="next" x="460" y="136" width="190" height="42"/><text x="472" y="162">NextProvider</text>
+        <rect class="box box--group" data-node="others" data-files="src/assessment/audit.ts,src/assessment/cache.ts,src/assessment/clock.ts,src/assessment/clock-format.ts,src/assessment/config.ts,src/assessment/logger.ts,src/assessment/metrics.ts" x="230" y="204" width="190" height="42"/><text x="242" y="230">7 others, unchanged</text>
+        <path class="edge edge--after" data-from="svc" data-to="iface" d="M190 89H230" marker-end="url(#cat-after-arrow-after)"/>
+        <path class="edge" data-from="svc" data-to="others" d="M190 94H216V225H230" marker-end="url(#cat-after-arrow-today)"/>
+        <path class="edge edge--after" data-from="iface" data-to="snomed" d="M420 79H426V21H460" marker-end="url(#cat-after-arrow-after)"/>
+        <path class="edge edge--after" data-from="iface" data-to="loinc" d="M420 89H460" marker-end="url(#cat-after-arrow-after)"/>
+        <path class="edge edge--after" data-from="iface" data-to="next" d="M420 99H446V157H460" marker-end="url(#cat-after-arrow-after)"/>
+      </svg>
+    </div>
+  </div>
+  <ol class="shape-legend" aria-label="What each box stands for">
+    <li><span class="mono">AssessmentService</span> <a class="src-link" data-path="src/assessment/assessment.service.ts" href="#">src/assessment/assessment.service.ts</a></li>
+    <li><span class="mono">7 others, unchanged</span> <a class="src-link" data-path="src/assessment/audit.ts" href="#">src/assessment/audit.ts</a>, <a class="src-link" data-path="src/assessment/cache.ts" href="#">src/assessment/cache.ts</a>, <a class="src-link" data-path="src/assessment/clock.ts" href="#">src/assessment/clock.ts</a>, <a class="src-link" data-path="src/assessment/clock-format.ts" href="#">src/assessment/clock-format.ts</a>, <a class="src-link" data-path="src/assessment/config.ts" href="#">src/assessment/config.ts</a>, <a class="src-link" data-path="src/assessment/logger.ts" href="#">src/assessment/logger.ts</a>, <a class="src-link" data-path="src/assessment/metrics.ts" href="#">src/assessment/metrics.ts</a></li>
+    <li><span class="mono">CodeProvider</span> <span class="mono">src/assessment/providers/code-provider.ts</span> <span class="shape-legend-note">new</span></li>
+  </ol>
+  <p class="footnote">Both panels come from <span class="mono">draw-shape.mjs</span>, so no boxes collide and every arrow is the same shape. Untouched collaborators collapse into one counted box, and the legend under the panel names every file behind it. The verifier agent checks every edge against the code.</p>
+  <div class="tiles">
+    <div class="tile"><span class="tile-num">14</span><span class="tile-label">exports</span><span class="tile-sub">Unchanged by every step</span></div>
+    <div class="tile"><span class="tile-num">9</span><span class="tile-label">callers outside the module</span><span class="tile-sub">Found by import search, none edited</span></div>
+    <div class="tile"><span class="tile-num">3</span><span class="tile-label">non-code entry points</span><span class="tile-sub">Two routes and one module registration, unchanged</span></div>
+  </div>
+  <p class="footnote">Redraw the plan's Mermaid diagram as two SVG panels. Grey boxes exist today. Accent boxes are what the plan creates or moves. A dashed box is one the plan removes.</p>
+</section>
+</div>
+
+<div class="slide-frame" data-catalogue>
+<section class="slide" aria-label="Catalogue: one step on one screen, and the asks">
+  <div class="slide-head">
+    <div class="kicker">Catalogue 5 of 5 · the riskiest step, and the decisions</div>
+    <h2>The riskiest step gets one screen</h2>
+  </div>
+  <div class="grid-2">
+    <div class="step-card">
+      <div class="step-card-head"><span class="step-card-id">R2</span><span class="step-card-title">Introduce the CodeProvider seam</span><span class="step-card-cat">Extract Interface</span></div>
+      <div class="step-fields">
+        <div class="step-field"><div class="kicker">What</div><p>Name the three methods AssessmentService calls on the SNOMED client as an interface, and make the client implement it.</p></div>
+        <div class="step-field"><div class="kicker">Why</div><p>The problem statement's path runs through this call. Every provider added today means a new branch here.</p></div>
+        <div class="step-field"><div class="kicker">Check</div><p>Type check and build. The export list diffs clean. T1 stays green.</p></div>
+        <div class="step-field"><div class="kicker">Undo</div><p>Revert the commit. Nothing else depends on it until R3.</p></div>
+        <div class="step-field step-field--wide step-field--caution"><div class="kicker">Risk · medium, runs blind</div><p>No test drives this call directly until T2 lands in the next step. The move is mechanical and compiler-checked, which is why it is allowed to go first.</p></div>
+      </div>
+    </div>
+    <div class="card" style="gap:20px">
+      <div class="kicker">The decisions this room can make</div>
+      <div class="asks">
+        <div class="ask"><p><strong>Is the LOINC export public?</strong> It may be used outside this repository. If not, R7 can rename it. If so, R7 moves to the leave-alone list.</p></div>
+        <div class="ask"><p><strong>Who reviews the mapper?</strong> Its last author left in March. The plan names no reviewer for it yet.</p></div>
+        <div class="ask"><p><strong>Go on R1 this sprint?</strong> One commit, independent, and the step every later one depends on.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+</div>
+
+<!-- ═════════════════════════════════════════════════════════════════════════
+     Appendix divider. The last slide: an oversized "Appendix", one plain
+     sentence on what follows, two pills that jump into it, and the hash.
+     Keep and fill.
+     ═════════════════════════════════════════════════════════════════════════ -->
+<div class="slide-frame">
+<section class="slide" aria-label="Appendix divider" style="justify-content:space-between">
+  <div class="kicker kicker--wide">Refactoring plan · {{module path}}</div>
+  <div style="display:flex;flex-direction:column;gap:36px;max-width:1560px">
+    <h2 style="font-size:calc(120px * var(--ts, 1));letter-spacing:-0.03em;line-height:1">Appendix</h2>
+    <p class="lede" style="font-size:calc(32px * var(--ts, 1));max-width:1280px">{{What follows, in plain words: every step in full, the tables, the trace, the contract, the measures. Under 40 words.}}</p>
+    <div style="display:flex;gap:18px;flex-wrap:wrap">
+      <a class="pill-link" href="#ax-steps">↓&nbsp; Every step</a>
+      <a class="pill-link" href="#{{first evidence sheet id}}">↓&nbsp; The evidence</a>
+      <a class="pill-link" href="#ax-provenance">↓&nbsp; How the numbers were made</a>
+    </div>
+  </div>
+  <div style="display:flex;flex-direction:column;gap:16px">
+    <div class="mono" style="font-size:calc(22px * var(--ts, 1));color:var(--muted)">{{repo}} @ {{short hash}} · history {{from}} to {{to}} · {{n}} commits in the window, {{m}} excluded as noise</div>
+    <p class="footnote--quiet footnote" style="max-width:1420px"><strong>Counts, not grades.</strong> {{The counts line whenever the appendix counts people, e.g. "Author counts and shares appear where the history carries them. They say how concentrated the knowledge is, so the team knows to ask. No person is named here and nothing here evaluates a person."}}</p>
+  </div>
+</section>
+</div>
+
+<section class="appendix" id="appendix" aria-label="Evidence appendix">
+
+  <!-- ═══════════════════════════════════════════════════════════════════════
+       Sheet: every step. One card, one row per T and R step, in plan order,
+       each with its full text behind a disclosure. This card is exhaustive:
+       a step in the markdown that is missing here is a fill error.
+       ═══════════════════════════════════════════════════════════════════════ -->
+  <div class="ax-sheet" id="ax-steps">
+    <div class="ax-head">
+      <div class="kicker">Every step</div>
+      <h3 class="ax-claim">{{The claim, e.g. "Eleven steps, in this order"}}</h3>
+      <p class="ax-lede">{{One or two sentences: how many characterisation tests, how many refactorings, how many run without a net, and the stop rule.}}</p>
+    </div>
+    <div class="ax-card">
+      <div class="ax-card-head"><span class="ax-card-title">Steps in execution order</span><span class="ax-card-src"><a href="{{module-slug}}-plan.md#every-step-at-a-glance">plan.md § Every step at a glance</a> · {{n}} steps</span></div>
+      <div class="ax-scroll">
+      <table>
+        <thead><tr><th>Step</th><th>What changes</th><th>Kind of step</th><th>Comes after</th><th>Risk</th><th>What catches a mistake</th></tr></thead>
+        <tbody>
+          <!-- REPEAT: one row per step, in plan order -->
+          <tr>
+            <td class="id">{{R3}}</td>
+            <td>{{Step title}}<span class="sub">{{Where: <a href="{{file link at hash}}">{{path}}</a> lines {{from}} to {{to}}}}</span></td>
+            <td>{{Catalogue name}}</td>
+            <td>{{seam | characterisation test | refactoring | public surface}}</td>
+            <td>{{R1, R2 | independent}}</td>
+            <td>{{low | medium}}{{OPTIONAL: <span class="ax-flag">blind</span>}}</td>
+            <td>{{The tests and diffs that prove nothing changed}}</td>
+          </tr>
+          <!-- /REPEAT -->
+        </tbody>
+      </table>
+      </div>
+      <!-- REPEAT: one disclosure per step, in the same order -->
+      <details class="ax-details" id="step-R3">
+        <summary>R3 · {{Step title}} · {{Catalogue name}}</summary>
+        <div class="ax-details-body">
+          <p><span class="ax-label">What</span> {{Two or three sentences from the plan, each a complete sentence with a subject and a verb.}}</p>
+          <p><span class="ax-label">Why</span> {{The smell, the evidence row, and how it shortens the path.}}</p>
+          <!-- OPTIONAL: only when the plan splits the step. Never list sub-steps in a paragraph. -->
+          <p><span class="ax-label">Sub-steps</span> One commit each, in this order.</p>
+          <ol class="ax-substeps">
+            <!-- REPEAT: one item per sub-step, id="step-<sub-step id>" -->
+            <li id="step-R3.1"><span class="ax-substep-id">R3.1</span><div><p class="ax-substep-title">{{What moves, in a few words}}</p><p>{{One or two complete sentences of what this commit does.}}</p><p class="ax-substep-check"><span class="ax-label">Check</span> {{The tests it leans on.}} <span class="chip chip--blind">no test</span></p></div></li>
+            <!-- /REPEAT -->
+          </ol>
+          <p><span class="ax-label">Check</span> {{Tests and diffs after the whole step.}}</p>
+          <p><span class="ax-label">Commit</span> <span class="mono">{{suggested message}}</span></p>
+        </div>
+      </details>
+      <!-- /REPEAT -->
+      <div class="ax-caveat">{{The honesty row: which steps run blind and why, which step touches the public surface, or the rule that a step bigger than one commit is split. Never leave a card without one.}}</div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════════════════════
+       Evidence sheets. One sheet per kind of evidence the argument used:
+       hotspots, change coupling, the problem statement's trace, the
+       contract, the safety net, the measures. 1 to 3 cards each. A sheet
+       the argument never leaned on is still worth a card when the plan has
+       the table; a reader who asks "what about coupling?" should find it.
+       ═══════════════════════════════════════════════════════════════════════ -->
+  <div class="ax-sheet" id="{{ax-hotspots, one id per sheet}}">
+    <div class="ax-head">
+      <div class="kicker">{{Evidence · Hotspots}}</div>
+      <h3 class="ax-claim">{{The sheet's claim, e.g. "Two files take 71% of the module's commits"}}</h3>
+      <p class="ax-lede">{{Context with the headline counts.}}</p>
+    </div>
+    <div class="ax-card">
+      <div class="ax-card-head"><span class="ax-card-title">{{Table title}}</span><span class="ax-card-src"><a href="{{module-slug}}-plan.md#hotspots">plan.md § Hotspots</a> · {{N files, window from to to}}</span></div>
+      <div class="ax-scroll">
+      <table>
+        <thead><tr><th>File</th><th class="num">Commits in window</th><th class="num">Lines of code</th><th class="num">Deeply nested lines</th><th>Touched by the plan</th></tr></thead>
+        <tbody>
+          <!-- REPEAT: one row per file in the plan's table -->
+          <tr>
+            <td class="id"><a href="{{file link at hash}}">{{path}}</a></td>
+            <td class="num"><span class="ax-mag ax-mag--accent">{{84}}</span></td>
+            <td class="num">{{4,112}}</td>
+            <td class="num">{{610}}</td>
+            <td>{{R1, R2, R5 | left alone}}</td>
+          </tr>
+          <!-- /REPEAT -->
+          <tr class="total"><td>All {{N}} files in the module</td><td class="num">{{total}}</td><td class="num">{{total}}</td><td class="num">{{total}}</td><td>{{k}} in plan, {{N - k}} left alone</td></tr>
+        </tbody>
+      </table>
+      </div>
+      <div class="ax-caveat">{{Provenance of the count: the window, renames followed, and the noise commits excluded by hash. If it needs more than two sentences, write one bold-led &lt;div&gt; per fact and the stylesheet stacks them.}}</div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════════════════════
+       Provenance sheet. Stat tiles for the run, three fine-print columns
+       (what was held fixed, what could not be measured, what was left
+       alone), then the footer and the way back up.
+       ═══════════════════════════════════════════════════════════════════════ -->
+  <div class="ax-sheet" id="ax-provenance">
+    <div class="ax-head">
+      <div class="kicker">How the numbers were made</div>
+      <h3 class="ax-claim">{{The frame, e.g. "One commit and one 12-month window"}}</h3>
+    </div>
+    <div class="ax-stats">
+      <div><span class="ax-stat-num">{{412}}</span><span class="ax-stat-label">Commits in the window</span><span class="ax-stat-sub">{{from}} to {{to}}, renames followed, {{m}} formatting and merge commits excluded by hash.</span></div>
+      <div><span class="ax-stat-num">{{38}}</span><span class="ax-stat-label">Files in the module</span><span class="ax-stat-sub">{{k}} in the plan, {{N - k}} left alone with a reason each.</span></div>
+      <div><span class="ax-stat-num">{{27}}</span><span class="ax-stat-label">Tests today</span><span class="ax-stat-sub">{{Baseline: green in N s, or "never run green" as a blocking gap.}} {{t}} characterisation tests to add.</span></div>
+    </div>
+    <div class="ax-facts">
+      <div>
+        <div class="kicker">Held fixed</div>
+        <ul>
+          <li>every export, route and registration in the contract</li>
+          <li>serialised shapes and the schema</li>
+          <li>{{fragment}}</li>
+        </ul>
+      </div>
+      <div>
+        <div class="kicker kicker--caution">Not measured</div>
+        <ul>
+          <li>{{fragment per gap, e.g. "callers outside this repository"}}</li>
+          <li>{{fragment}}</li>
+        </ul>
+      </div>
+      <div>
+        <div class="kicker">Left alone</div>
+        <ul>
+          <li>{{file or area · one-word reason, e.g. "cold since 2024"}}</li>
+          <li>{{fragment}}</li>
+        </ul>
+      </div>
+    </div>
+    <footer class="ax-footer">
+      <ul>
+        <li>Source: <a class="src-link" href="{{module-slug}}-plan.md">docs/refactoring/{{module-slug}}-plan.md</a>, written at <a class="src-link" href="{{commit link}}">{{repo}} @ {{short hash}}</a>, window {{from}} to {{to}}.</li>
+        <li>Method: hotspots and change coupling after <strong>Tornhill</strong>, smells and refactorings after <strong>Fowler</strong>, seams and characterisation tests after <strong>Feathers</strong>.</li>
+        <li>Links open the repository at this commit and need access to {{host}}.</li>
+        <li>Nothing in the code has changed.</li>
+      </ul>
+    </footer>
+    <a class="backlink" href="#">↑ Back to the top</a>
+  </div>
+
+</section>
+
+</main>
+<script>
+  (function () {
+    const DESIGN_WIDTH = 1920;
+    const DESIGN_HEIGHT = 1080;
+    const REFLOW_MAX_WIDTH = 760;
+    const frames = Array.from(document.querySelectorAll('.slide-frame'));
+
+    function wrapInCrop(frame) {
+      const slide = frame.querySelector('.slide');
+      const crop = document.createElement('div');
+      crop.className = 'slide-crop';
+      frame.insertBefore(crop, slide);
+      crop.appendChild(slide);
+    }
+
+    function releaseFrame(frame) {
+      const crop = frame.querySelector('.slide-crop');
+      crop.style.width = '';
+      crop.style.height = '';
+      frame.querySelector('.slide').style.transform = '';
+    }
+
+    function scaleFrame(frame) {
+      const crop = frame.querySelector('.slide-crop');
+      const slide = frame.querySelector('.slide');
+      const scale = frame.clientWidth / DESIGN_WIDTH;
+      const height = Math.max(DESIGN_HEIGHT, slide.offsetHeight);
+      crop.style.width = (DESIGN_WIDTH * scale) + 'px';
+      crop.style.height = (height * scale) + 'px';
+      slide.style.transform = 'scale(' + scale + ')';
+    }
+
+    function fitSlides() {
+      const fit = window.innerWidth <= REFLOW_MAX_WIDTH ? releaseFrame : scaleFrame;
+      frames.forEach(fit);
+    }
+
+    function watchForResize() {
+      if (!window.ResizeObserver) {
+        window.addEventListener('resize', fitSlides);
+        return;
+      }
+      const observer = new ResizeObserver(fitSlides);
+      observer.observe(document.body);
+      document.querySelectorAll('.slide').forEach(slide => observer.observe(slide));
+    }
+
+    const stops = Array.from(document.querySelectorAll('.slide-frame, .appendix'));
+    const lastStop = stops.length - 1;
+    const stepBack = index => Math.max(index - 1, 0);
+    const stepForward = index => Math.min(index + 1, lastStop);
+    const KEY_TARGETS = {
+      Home: () => 0,
+      End: () => lastStop,
+      ArrowUp: stepBack,
+      PageUp: stepBack,
+      ArrowDown: stepForward,
+      PageDown: stepForward
+    };
+    const scrollBehavior = window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth';
+
+    function currentStop() {
+      return stops.findIndex(stop => stop.getBoundingClientRect().bottom > window.innerHeight / 2);
+    }
+
+    function stepOnKey(event) {
+      const target = KEY_TARGETS[event.key];
+      if (!target) return;
+      event.preventDefault();
+      stops[target(currentStop())].scrollIntoView({ behavior: scrollBehavior, block: 'start' });
+    }
+
+    frames.forEach(wrapInCrop);
+    watchForResize();
+    fitSlides();
+    window.addEventListener('keydown', stepOnKey);
+    function openTargetedStep() {
+      var target = location.hash && document.querySelector(location.hash);
+      if (!target) return;
+      var details = target.closest('details');
+      if (details) details.open = true;
+    }
+    openTargetedStep();
+    window.addEventListener('hashchange', openTargetedStep);
+  })();
+</script>
+</body>
+</html>
