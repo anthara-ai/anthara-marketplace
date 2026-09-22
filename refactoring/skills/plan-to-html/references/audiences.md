@@ -13,14 +13,15 @@ The developers who will do the work. The codebase is familiar, so there is no or
 Questions, in order:
 
 1. **What does it look like afterwards?** The plan's before-and-after dependency shape, drawn on the grid. This is the one audience for whom the diagram leads. When the plan changes no dependency between modules, this slot is the X-ray of the hot file instead, functions by churn and depth, today and after.
-2. **Where will I break something?** The steps rated medium, the steps that run blind, and what pins each one. The riskiest step gets one screen with its what, why, check and undo.
-3. **What do I do first, and what can we take in parallel?** The step table, all of it, with phase, dependency, risk and net. Independent steps called out, since two developers can take two at once.
-4. **What are we deliberately not touching, and why?** The leave-alone list, because a developer who sees ugly code nearby will otherwise fix it "while they are here".
-5. **What do we need to settle before the first commit?** The plan's questions for the team that a developer can answer: names, whether an export is used elsewhere, who reviews a file whose author has left.
+2. **What does leaving it cost us?** The pain this room already feels, in its own units: the files a routine change touches today, from the plan's trace, with the commits that last made that change, and the hotspot trend for the file the plan targets. When a cleanup was undone, say how quickly, since the same team will face that again. The cost is stated in files, commits and months, never in delivery terms, because a developer knows the file hurts and wants the number that says how much.
+3. **Where will I break something?** The steps rated medium, the steps that run blind, and what pins each one. The riskiest step gets one screen with its what, why, check and undo.
+4. **What do I do first, and what can we take in parallel?** The step table, all of it, with phase, dependency, risk and net. Independent steps called out, since two developers can take two at once.
+5. **What are we deliberately not touching, and why?** The leave-alone list, because a developer who sees ugly code nearby will otherwise fix it "while they are here".
+6. **What do we need to settle before the first commit?** The plan's questions for the team that a developer can answer: names, whether an export is used elsewhere, who reviews a file whose author has left.
 
-Leads with the after-shape. Vocabulary is fully technical: file names, function names, catalogue names, test ids. Every box in the shape diagram stands for a path this room can open with a click, a group box lists every file behind it on hover, and a set of files in prose is always written out in full, never "and two others". The hotspot trend and the business cost are appendix material, since this room already knows the file is painful. Closing decision: who takes which independent step this sprint, and agreement on the names the plan proposes.
+Leads with the after-shape, and the cost of leaving it comes second, so the room sees the destination before it is asked why the trip is worth it. Vocabulary is fully technical: file names, function names, catalogue names, test ids. Every box in the shape diagram stands for a path this room can open with a click, a group box lists every file behind it on hover, and a set of files in prose is always written out in full, never "and two others". The business cost in delivery terms is appendix material, since this room measures pain in files and commits rather than in roadmap weeks. Closing decision: who takes which independent step this sprint, and agreement on the names the plan proposes.
 
-Usually five or six slides.
+Usually six slides.
 
 ## Tech lead or engineering manager
 
