@@ -530,7 +530,7 @@
 
   @media (min-width: 761px) {
     html.js .slide-frame { overflow: hidden; }
-    html.js .slide-crop { overflow: hidden; margin-inline: auto; }
+    html.js .slide-crop { overflow: hidden; }
     html.js .slide { width: 1920px; min-height: 1080px; padding: 52px 76px; gap: 24px; transform-origin: top left; }
     html.js .slide--dark { padding: 96px; justify-content: space-between; gap: 0; }
   }
@@ -1289,7 +1289,6 @@
     const DESIGN_WIDTH = 1920;
     const DESIGN_HEIGHT = 1080;
     const REFLOW_MAX_WIDTH = 760;
-    const VIEWPORT_GUTTER = 24;
     const frames = Array.from(document.querySelectorAll('.slide-frame'));
 
     function wrapInCrop(frame) {
@@ -1310,9 +1309,8 @@
     function scaleFrame(frame) {
       const crop = frame.querySelector('.slide-crop');
       const slide = frame.querySelector('.slide');
+      const scale = frame.clientWidth / DESIGN_WIDTH;
       const height = Math.max(DESIGN_HEIGHT, slide.offsetHeight);
-      const room = window.innerHeight - VIEWPORT_GUTTER;
-      const scale = Math.min(frame.clientWidth / DESIGN_WIDTH, room / height);
       crop.style.width = (DESIGN_WIDTH * scale) + 'px';
       crop.style.height = (height * scale) + 'px';
       slide.style.transform = 'scale(' + scale + ')';
@@ -1324,8 +1322,10 @@
     }
 
     function watchForResize() {
-      window.addEventListener('resize', fitSlides);
-      if (!window.ResizeObserver) return;
+      if (!window.ResizeObserver) {
+        window.addEventListener('resize', fitSlides);
+        return;
+      }
       const observer = new ResizeObserver(fitSlides);
       observer.observe(document.body);
       document.querySelectorAll('.slide').forEach(slide => observer.observe(slide));
