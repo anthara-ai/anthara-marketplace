@@ -14,7 +14,11 @@ The method is borrowed and named, so the team can look it up. Hotspots, change c
 
 ## The voice
 
-Before writing the plan file, invoke `refactoring:incubyte-writing-voice` and write the plan in that voice. It governs how sentences are built. Where it and anything here disagree on that, it wins. Invoke it once per session, and its rules stay in context for everything written afterwards.
+Invoke `refactoring:incubyte-writing-voice` through the Skill tool immediately before writing the plan file, once the investigation is done, so its rules are in context while the sentences are being built. The skill's rules are in `"${CLAUDE_PLUGIN_ROOT}/skills/incubyte-writing-voice/SKILL.md"`, so when the invocation does not resolve, read that file instead. Write every sentence of the plan in that voice. It governs how sentences are built, and where it and anything here disagree on that, it wins. Invoke it once per session.
+
+Headings are clear and direct. A heading says the one thing its section is about, in plain words a reader outside the team understands, and stops. "What we leave alone" is a heading. "The leave-alone list, with reasons, and what reflection reaches" is a heading with a lede fused onto it, and it costs the reader a second read. A step heading is named for what moves, such as "R3. Extract `parseCodes` from `AssessmentService`", and carries no second clause.
+
+After the plan file is written and before the link tool runs, read the whole file once against the voice skill's "Check before publishing" list: two claims in one sentence, a parenthesis or semicolon standing in for a second sentence, a bare noun or pronoun leaning on the previous sentence, a metaphor doing an explanation's job, a heading that says two things. Fix what fails and read the fixed passage again. This pass is part of writing the plan, not an optional polish.
 
 ## Reading the arguments
 
@@ -88,7 +92,7 @@ The second run must be silent. A repository with no origin remote gets no links,
 
 ## Done when
 
-The plan file exists. Every refactoring has what, why, catalogue name, where, check, dependencies and risk; every one bigger than a commit has sub-steps; every one points at a piece of evidence. The characterisation tests come before the refactorings that need them, and the seam-creating steps before the tests. The leave-alone list gives a reason per item. The summary's numbers can be reproduced from the stated hash. Every file mention that exists at that hash is a link to it, and `check-links.mjs` is silent. A developer who has never opened the module could pick R1, know what to do, and know how to tell that they did it without changing anything.
+The plan file exists. Every refactoring has what, why, catalogue name, where, check, dependencies and risk; every one bigger than a commit has sub-steps; every one points at a piece of evidence. The characterisation tests come before the refactorings that need them, and the seam-creating steps before the tests. The leave-alone list gives a reason per item. The summary's numbers can be reproduced from the stated hash. The whole file reads in the writing voice, and every heading is one clear, direct statement. Every file mention that exists at that hash is a link to it, and `check-links.mjs` is silent. A developer who has never opened the module could pick R1, know what to do, and know how to tell that they did it without changing anything.
 
 ## Then
 

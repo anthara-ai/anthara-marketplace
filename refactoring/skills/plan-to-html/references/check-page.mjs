@@ -1,28 +1,4 @@
 #!/usr/bin/env node
-// Checks a filled refactoring pitch page. Node 18+, no dependencies.
-//
-//   node check-page.mjs docs/refactoring/<module-slug>-plan.for-<audience>.html
-//
-// Everything here is computable from the markup alone, which is why it can be
-// a script rather than a judgement call. It covers three kinds of defect that
-// are invisible when reading the markup: leftovers from the scaffold, prose
-// that breaks the writing rules (headings that join two claims, one-word
-// column headers, semicolons, parentheses carrying a second sentence), and
-// the diagram's geometry (boxes that collide, labels that overrun, edges that
-// run through a box they do not connect, edges naming a box that is not
-// drawn).
-//
-// The diagram's specificity is checked here too: a group box carries the
-// files it stands for, a box wrapped in a link has its href, on a page for
-// the team or the tech lead every box names a path, and a legend, when one
-// is drawn, covers every box, since "legacy routers" tells a developer
-// nothing until the box opens the routers.
-//
-// Repository links are checked by the plan skill's check-links.mjs against a
-// local clone, and the diagram's accuracy against the code is checked by the
-// dependency-graph-verifier agent. Checks needing a rendered page (slide
-// height, wrapped text, contrast) are listed at the end as a reminder.
-
 import { readFile } from 'node:fs/promises'
 import { readFileSync } from 'node:fs'
 import { dirname, join } from 'node:path'
@@ -36,9 +12,6 @@ const TEXT_CHECKS = [
   { name: 'em dash', re: /—/g, hint: 'use a colon, a comma, parentheses, or a new sentence' },
   { name: 'fill-guidance comment left in', re: /HOW TO USE IT/g, hint: 'replace it with the page\'s own provenance' },
   { name: 'external resource', re: /(?:src|href)="https?:\/\/(?!dev\.azure\.com|github\.com|gitlab\.com|bitbucket\.org)|@import/g, hint: 'the page must load nothing; repository links are fine' },
-  // Only inline styles: that is where a filler writes type sizes. The
-  // stylesheet's own `.shape svg` sizes are inside an SVG viewBox and scale
-  // with the diagram, so they must NOT go through --ts.
   { name: 'stray closing anchor', re: /<\/a>\s*<\/a>/g, hint: 'an </a> with no opening tag; the browser drops it, but the markup is wrong and a later tool may not' },
   { name: 'bold lead-in glued to the next word', re: /<\/strong>[A-Za-z]/g, hint: 'put a space after </strong>, or the two sentences render as one word' },
   { name: 'bare font-size in an inline style', re: /style="[^"]*font-size:\s*\d+px/g, hint: 'use calc(<n>px * var(--ts, 1)), and follow the same rule for any CSS you add' },

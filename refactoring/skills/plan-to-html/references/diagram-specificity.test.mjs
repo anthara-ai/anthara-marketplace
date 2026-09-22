@@ -14,9 +14,9 @@ const CHECK_LINKS = join(here, '..', '..', 'plan', 'references', 'check-links.mj
 const run = (script, ...args) => spawnSync('node', [script, ...args], { encoding: 'utf8' })
 const scratch = () => mkdtempSync(join(tmpdir(), 'refactoring-plugin-'))
 
-function cloneWithLegacyRouters() {
+function cloneWithLegacyRouters(author = 't') {
   const repo = scratch()
-  const git = (...a) => execFileSync('git', ['-C', repo, '-c', 'user.name=t', '-c', 'user.email=t@t', ...a], { encoding: 'utf8' }).trim()
+  const git = (...a) => execFileSync('git', ['-C', repo, '-c', `user.name=${author}`, '-c', 'user.email=t@t', ...a], { encoding: 'utf8' }).trim()
   git('init', '-q')
   mkdirSync(join(repo, 'src', 'routers'), { recursive: true })
   for (const file of ['src/routers/legacy-router.ts', 'src/routers/billing-router.ts', 'src/app.module.ts']) writeFileSync(join(repo, file), 'export {}\n')
@@ -125,6 +125,29 @@ test('a file named without its extension passes once the page links that file', 
   const page = pageAround('<p class="lede">The legacy-router carries every route, see src/routers/legacy-router.ts.</p>', 'team')
   run(CHECK_LINKS, page, '--repo', repo, '--hash', hash, '--fix')
   const { status, stdout } = run(CHECK_LINKS, page, '--repo', repo, '--hash', hash)
+  assert.equal(status, 0, stdout)
+})
+
+test('a page that names a developer from the history is refused', () => {
+  const { repo, hash } = cloneWithLegacyRouters('Priya Raman')
+  const page = pageAround('<p class="lede">Priya Raman wrote 84 percent of the commits in this folder.</p>', 'leadership')
+  const { stdout, status } = run(CHECK_LINKS, page, '--repo', repo, '--hash', hash)
+  assert.equal(status, 1)
+  assert.match(stdout, /person named: Priya Raman\n\s+the page names nobody/)
+})
+
+test('a page that gives the role and the share instead of the name passes', () => {
+  const { repo, hash } = cloneWithLegacyRouters('Priya Raman')
+  const page = pageAround('<p class="lede">One author wrote 84 percent of the commits in this folder.</p>', 'leadership')
+  const { stdout, status } = run(CHECK_LINKS, page, '--repo', repo, '--hash', hash)
+  assert.equal(status, 0, stdout)
+})
+
+test('the markdown plan may still carry author names', () => {
+  const { repo, hash } = cloneWithLegacyRouters('Priya Raman')
+  const plan = join(scratch(), 'shop-plan.md')
+  writeFileSync(plan, '| author | commits |\n| Priya Raman | 84 |\n')
+  const { stdout, status } = run(CHECK_LINKS, plan, '--repo', repo, '--hash', hash)
   assert.equal(status, 0, stdout)
 })
 

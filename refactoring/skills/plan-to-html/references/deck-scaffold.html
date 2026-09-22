@@ -26,6 +26,13 @@
     marked OPTIONAL are deleted when the plan does not support them.
   - Before shipping, grep the file for `{{`, for `data-catalogue`, and for the
     em dash (U+2014). All three must return nothing.
+  - Every sentence on the page, slides and appendix alike, is written in the
+    incubyte writing voice, whose rules are in the skill at
+    "${CLAUDE_PLUGIN_ROOT}/skills/incubyte-writing-voice/SKILL.md". Every
+    heading is clear and direct: one claim, in the room's words, and stop.
+    check-page.mjs enforces the mechanical part of the voice (em dashes,
+    semicolons, long parentheses, two-claim headings, long bold); the rest
+    is read for by hand before the hand-over.
 
   THE PAGE'S TWO HALVES
   - Slides carry the argument. Each slide is a 1920x1080 canvas scaled to the
@@ -1122,7 +1129,7 @@
   </div>
   <div style="display:flex;flex-direction:column;gap:16px">
     <div class="mono" style="font-size:calc(22px * var(--ts, 1));color:var(--muted)">{{repo}} @ {{short hash}} · history {{from}} to {{to}} · {{n}} commits in the window, {{m}} excluded as noise</div>
-    <p class="footnote--quiet footnote" style="max-width:1420px"><strong>Counts, not grades.</strong> {{The fairness line whenever the appendix names people, e.g. "Author names appear where the history carries them. They locate knowledge, so the team knows who to ask. Nothing here evaluates a person."}}</p>
+    <p class="footnote--quiet footnote" style="max-width:1420px"><strong>Counts, not grades.</strong> {{The counts line whenever the appendix counts people, e.g. "Author counts and shares appear where the history carries them. They say how concentrated the knowledge is, so the team knows to ask. No person is named here and nothing here evaluates a person."}}</p>
   </div>
 </section>
 </div>
