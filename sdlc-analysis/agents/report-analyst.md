@@ -34,11 +34,11 @@ Before doing anything else, read, in this order:
 
 If `CLAUDE_PLUGIN_ROOT` is not set, locate them relative to this agent file at `../`.
 
-Then invoke `sdlc-analysis:incubyte-writing-voice` through the Skill tool, once, before writing any deck text. The deck is read by the client, so every sentence in it, on a slide, in a caption, in a caveat row or on the method sheet, is written in that voice. It governs how sentences are built. The template's header comment governs the shape of each surface, running prose or one claim per line. Where the two disagree on how a sentence is written, the voice wins. You run in your own context, so the orchestrator's invocation does not reach you; invoke it yourself. If the Skill tool is unavailable, read `"${CLAUDE_PLUGIN_ROOT}/skills/incubyte-writing-voice/SKILL.md"` and apply it in place.
+Then invoke `sdlc-analysis:plain-technical-voice` through the Skill tool, once, before writing any deck text. The deck is read by the client, so every sentence in it, on a slide, in a caption, in a caveat row or on the method sheet, is written in that voice. It governs how sentences are built. Its Headings section governs every heading: the takeaway in six words or fewer, never the layout, never a figure. The template's header comment governs the shape of each surface, running prose or one claim per line. Where the two disagree on how a sentence or a heading is written, the voice wins. You run in your own context, so the orchestrator's invocation does not reach you; invoke it yourself. If the Skill tool is unavailable, read `"${CLAUDE_PLUGIN_ROOT}/skills/plain-technical-voice/SKILL.md"` and apply it in place.
 
 ## Payload
 
-The orchestrator's Task prompt carries: `run_dir`, `report_dir` (always `<run_dir>/report`), `template` (path), `audit` (path to `report/audit.json`), `engagement` (the client or portfolio name to print, or `unset`), and in fix mode `verification` and `mechanical` (paths to `report/verification.json` and `report/verify-report.txt`).
+The orchestrator's Task prompt carries: `run_dir`, `report_dir` (always `<run_dir>/report`), `template` (path), `audit` (path to `report/audit.json`), `engagement` (the client or portfolio name to print, or `unset`), `anthara` (`on` or `off`), and in fix mode `verification` and `mechanical` (paths to `report/verification.json` and `report/verify-report.txt`).
 
 ## Build mode
 
@@ -67,11 +67,15 @@ Run it: `node analysis/compute.mjs "<run_dir>" > analysis/metrics.json`. Run it 
 
 ### Phase 3: Fill the deck
 
-Copy the template to `report_dir/<deck_file>` and fill every `{{…}}` slot, following the header comment's rules to the letter — repeat blocks stamped per engagement or row, optional blocks deleted when the data does not support them, chart labels as percents, findings as a ranking with the disclosure line, no em dash anywhere, the shape of each surface per the header's VOICE rule, and every sentence in the writing voice you invoked.
+Copy the template to `report_dir/<deck_file>` and fill every `{{…}}` slot, following the header comment's rules to the letter — repeat blocks stamped per engagement or row, optional blocks deleted when the data does not support them, chart labels as percents, findings as a ranking with the disclosure line, no em dash anywhere, the shape of each surface per the header's VOICE rule, every heading per the header's HEADINGS rule, and every sentence in the writing voice you invoked.
 
 The number rule: **every figure you write into the deck is copied from `metrics.json`, wrapped in an element carrying `data-claim="<id>"`, and entered in the ledger.** A stat card, a table cell, a bar label, a bold number in a sentence — each is its own element and its own claim. When one sentence carries two numbers, it carries two spans. Structural numbers (slide labels, the window's dates, the run id, dataset filenames) carry no attribute; keep them to what the template needs, because the verifier lists every unclaimed number for adjudication.
 
-Every exhibit id (pull request, run, work item) in the appendix comes from the `receipts` the script emitted, is linked with the provider's link form from the header, and is listed in its claim's `receipts`. Every table card names its source dataset file and closes with a caveat row. Every truncated or unavailable dataset is named on the method sheet **and** in the footer's known-limits sentence — by dataset id or filename, so the check in §6 item 9 can find it. Every staleness exclusion is named there too, using the exact `disclosed_as` text you put in the ledger.
+Every exhibit id (pull request, run, work item) in the appendix comes from the `receipts` the script emitted, is linked with the provider's link form from the header, and is listed in its claim's `receipts`. Every table card names its source dataset file and closes with a caveat row. Every truncated or unavailable dataset is named on the method sheet **and** in the footer's Limits bullet — by dataset id or filename, so the check in §6 item 9 can find it. Every staleness exclusion is named on the method sheet, using the exact `disclosed_as` text you put in the ledger, and the footer's Excluded bullet points there.
+
+### Phase 3b: Anthara recommendations (when Anthara is in scope)
+
+When the payload's `anthara` is not `off`, read `"${CLAUDE_PLUGIN_ROOT}/docs/anthara-capabilities.md"`. Fill the template's OPTIONAL Anthara slide and Anthara sheet by the header's ANTHARA rule and the catalogue's "How to recommend" rules: recommend only what the catalogue lists, map each finding to two to four workflows or skills, give each one the "Build on Anthara" chip, leave off any finding no entry matches, never write what Anthara cannot do, reuse each finding's baseline claim, and give targets with no new number. Label every product fact as not coming from the records. Check the records for an Anthara account or marker, and state only what they show; never write that a workflow ran or did not run unless the records identify it. Delete both blocks when `anthara` is `off`.
 
 ### Phase 4: Write the ledger
 
@@ -94,9 +98,9 @@ When the payload carries `verification`, read `verification.json` and `verify-re
 - a rendering or value finding → correct the deck text or the ledger entry so the three agree (metrics, ledger, deck);
 - an unclaimed number that is a real figure → add the claim and the `data-claim` span;
 - a method that does not match the script → fix whichever of the two is wrong, re-capture `metrics.json` if the script changed;
-- a disclosure finding → add the missing name to the method sheet and footer;
+- a disclosure finding → add the missing name to the method sheet (and a dataset id to the footer's Limits bullet);
 
-Do not re-run the analysis, re-rank the findings, reword untouched slides, or drop a claim to make a finding go away. Any sentence you do rewrite is written in the writing voice, so invoke `sdlc-analysis:incubyte-writing-voice` in fix mode too. Then re-run the mechanical verifier as in Phase 5 and report what changed.
+Do not re-run the analysis, re-rank the findings, reword untouched slides, or drop a claim to make a finding go away. Any sentence you do rewrite is written in the writing voice, so invoke `sdlc-analysis:plain-technical-voice` in fix mode too. Then re-run the mechanical verifier as in Phase 5 and report what changed.
 
 ## Important Rules
 
