@@ -1,6 +1,6 @@
 ---
 description: Extract raw SDLC records, audit the run and say tersely what is missing and why, build the Portfolio Delivery Diagnostic deck from the records, then verify every number in it against the records before handing it over
-argument-hint: "[--domain a,b,c,d] [--window 6m] [--scope full|curated] [--out <dir>] [--from <run-dir>] [--engagement <name>] [--on-degraded resume|proceed|stop]"
+argument-hint: "[--domain a,b,c,d] [--window 6m] [--scope full|curated] [--out <dir>] [--from <run-dir>] [--engagement <name>] [--anthara on|off] [--anthara-config <dir>] [--on-degraded resume|proceed|stop]"
 allowed-tools: ["Read", "Write", "Bash", "Glob", "Grep", "Task", "Skill", "AskUserQuestion"]
 ---
 
@@ -31,6 +31,8 @@ Validate every argument here, before anything runs. An invalid argument stops th
 | `--out <dir>` | `./sdlc-analysis-runs/<UTC-compact>/` | Resolve it **here**, with `date -u +%Y%m%dT%H%M%SZ`, and pass it to the extract command explicitly — every later phase needs to know the run directory, so it is never left to a default you did not see. Not allowed together with `--from`. |
 | `--from <run-dir>` | none | Skip Phase 1 and start at Phase 2 on an existing run directory. The directory must exist and contain at least one `*.meta.json`; otherwise stop with the usage line. |
 | `--engagement <name>` | unset | The client or portfolio name printed on the deck. When unset the analyst derives it from the run's scope identifiers and says so in `notes`. |
+| `--anthara on\|off` | `on` | Adds the OPTIONAL Anthara slide and sheet that map each finding to Anthara workflows (see the template header's ANTHARA rule). `off` deletes both. |
+| `--anthara-config <dir>` | unset | A folder of the client's Anthara workflow YAML files. Workflows found there may be marked Now, labelled as configuration facts. |
 | `--on-degraded resume\|proceed\|stop` | unset | Pre-answers Phase 2's question when the audit verdict is `DEGRADED`. Any other token → stop with the usage line. `resume` on a run with nothing resumable behaves as `proceed`, and says so. |
 
 Also resolve: **`run_dir`** (`--from`, else `--out`), **`report_dir`** = `<run_dir>/report`, and **`template`** = `"${CLAUDE_PLUGIN_ROOT}/templates/portfolio-delivery-diagnostic.html"`.
@@ -90,7 +92,7 @@ Spawn the analyst and wait:
 ```
 Task({
   subagent_type: "sdlc-analysis:report-analyst",
-  prompt: "Build the report and return only your marker block — the REPORT_ANALYST block in the exact output format specified in your instructions.\n\nrun_dir: <run_dir>\nreport_dir: <report_dir>\ntemplate: <template>\naudit: <report_dir>/audit.json\nengagement: <name or unset>"
+  prompt: "Build the report and return only your marker block — the REPORT_ANALYST block in the exact output format specified in your instructions.\n\nrun_dir: <run_dir>\nreport_dir: <report_dir>\ntemplate: <template>\naudit: <report_dir>/audit.json\nengagement: <name or unset>\nanthara: <on|off>[, config: <dir>]"
 })
 ```
 

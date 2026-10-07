@@ -44,7 +44,8 @@
     room does.
   - LOW COGNITIVE LOAD: the slides run title -> summary -> scorecard ->
     findings -> receipt -> recommendations -> roadmap -> closing -> the
-    appendix divider, with NOTHING in between. There is no method slide, no synthesis slide, no
+    appendix divider, with NOTHING in between except the OPTIONAL Anthara
+    slide (see ANTHARA below). There is no method slide, no synthesis slide, no
     operating-philosophy slide, no measurement-guardrails slide - the
     methodology and the limits live in the appendix, and the other ideas
     carried real weight at too high a reading cost. When one of those
@@ -61,6 +62,13 @@
     (cards, tiles, cells) is one claim per line as a bullet, three or
     four per card, with no connectors between bullets. Never fill a card
     slot with a multi-sentence paragraph.
+  - HEADINGS: every heading (the title, each slide heading, each appendix
+    sheet heading) states the takeaway, not the layout. It names the core
+    topic or the action in six words or fewer, with sharp, active verbs.
+    It never describes the slide structure and never counts its items
+    ("Three moves for three constraints" is refused). It carries no
+    figure: numbers go in the lede, inside their data-claim spans. The
+    plain-technical-voice skill's Headings section is the full rule.
   - TOTALS: a table that enumerates a full population closes with a
     totals row. A top-N sample table instead closes with a portfolio row
     labeled as such (e.g. "All N active repos"), so the sample reads
@@ -71,6 +79,19 @@
     the appendix. Use a colon, a comma, parentheses, or a new sentence
     instead. Grep for the em dash before shipping, exactly as you grep
     for `{{`.
+  - ANTHARA (OPTIONAL): when the engagement uses Anthara, the deck may
+    add ONE light slide after the closing slide and before the appendix
+    divider (the only slide allowed outside the fixed order), plus one
+    appendix sheet before the footer. Both map each finding to Anthara
+    workflows or skills from docs/anthara-capabilities.md. Rules:
+    product and configuration facts are labelled as not coming from the
+    records; never state that a workflow ran or did not run unless the
+    records identify it; every status is a chip that carries its word
+    (Now = available in Anthara today, Build = a new workflow file on
+    the current engine, Not in Anthara = not available); the baseline is
+    a reused data-claim span and targets carry no new number; the slide
+    stays within 90 words and the sheet within 250. Delete both blocks
+    when Anthara is out of scope.
   - Stale scopes never pool with live ones. Apply the staleness filter
     below before computing anything, and disclose every exclusion.
 
@@ -90,11 +111,12 @@
     with a little activity that is clearly winding down stays IN - only
     fully inactive scopes are excluded; describe a wind-down in prose
     instead of dropping its data.
-  - Exclusion is never silent. Every excluded scope is disclosed twice:
-    in the OPTIONAL "Excluded from this report" rows on the appendix's
-    method sheet (name + last recorded activity + what was dropped
-    with it), and in the evidence appendix's provenance footer. When
-    nothing was excluded, delete the rows and the footer clause - never
+  - Exclusion is never silent. Every excluded scope is disclosed in the
+    OPTIONAL "Excluded from this report" rows on the appendix's method
+    sheet (name + last recorded activity + what was dropped with it),
+    and the provenance footer's Excluded bullet points to those rows.
+    A fact is stated once, so the footer never repeats the list. When
+    nothing was excluded, delete the rows and the footer bullet - never
     fabricate one.
   - This test is deliberately time-and-activity based (last event versus
     the window, changelog included). Richer staleness signals - changelog
@@ -427,7 +449,8 @@
   .ax-stat-sub { font-size: max(12.5px, 1.1vw); line-height: 1.5; color: var(--muted); }
   /* Method facts: three columns of short fragments under the tiles - one
      line each, no prose, no explanations. The full versions (counts,
-     dates, counting decisions) live in the appendix footer. */
+     dates, counting decisions) live in these columns, once; the footer
+     only points here. */
   .ax-facts { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr)); gap: max(20px, 1.87vw); align-items: start; }
   .ax-facts > div { display: flex; flex-direction: column; gap: max(12px, 1.1vw); }
   .ax-facts ul { margin: 0; padding-left: 1.15em; display: flex; flex-direction: column; gap: max(8px, 0.7vw); font-size: max(13px, 1.15vw); line-height: 1.45; color: var(--body-soft); }
@@ -457,6 +480,13 @@
   .pillrow { display: flex; flex-wrap: wrap; gap: 8px; }
   .runpill { font-family: var(--mono); font-size: max(12.5px, 1.05vw); background: var(--red-tint); border: 1px solid var(--red-tint-line); color: var(--red-ink); border-radius: 8px; padding: 3px 10px; }
   .runpill a { color: inherit; }
+  /* Status chips for the OPTIONAL Anthara slide and sheet. The word always
+     sits inside the chip, so color is never the only signal. */
+  .chip { display: inline-flex; align-items: center; white-space: nowrap; font-weight: 700; border-radius: 999px; padding: 0.15em 0.75em; line-height: 1.3; border: 1px solid; }
+  .chip--now { background: var(--green-tint); color: var(--green-deep); border-color: var(--green-tint-line); }
+  .chip--build { background: var(--amber-tint); color: var(--amber-ink); border-color: var(--amber-tint-line); }
+  .chip--not { background: var(--red-tint); color: var(--red-ink); border-color: var(--red-tint-line); }
+  .chip-trigger { color: var(--muted); }
   .ax-caveat { padding: max(12px, 1.1vw) max(16px, 1.46vw); background: var(--paper); border-top: 1px solid var(--line); font-size: max(14px, 1.2vw); line-height: 1.45; color: var(--body-soft); }
   /* Multi-fact caveat, applied AUTOMATICALLY from structure: a caveat
      written as one paragraph renders as prose, but the moment it is written
@@ -470,7 +500,9 @@
   .ax-caveat > div { padding-bottom: max(10px, 0.9vw); border-bottom: 1px solid var(--line); }
   .ax-caveat > div:last-child { padding-bottom: 0; border-bottom: none; }
   .ax-caveat > div strong { color: var(--ink); }
-  .ax-footer { font-size: max(13.5px, 1.25vw); color: var(--muted); line-height: 1.55; }
+  .ax-footer { font-size: max(13.5px, 1.25vw); color: var(--body-soft); line-height: 1.55; background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: max(16px, 1.5vw) max(20px, 1.9vw); }
+  .ax-footer ul { margin: 0; padding-left: 1.2em; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 600px), 1fr)); gap: max(8px, 0.7vw) max(24px, 2.2vw); }
+  .ax-footer li::marker { color: var(--muted); }
 
 
   /* ==========================================================================
@@ -573,7 +605,7 @@
   </div>
   <div style="display:flex;flex-direction:column;gap:36px;max-width:1440px">
     <div class="kicker kicker--wide kicker--on-dark">Delivery diagnostic · {{Engagement code}}</div>
-    <h1>{{Where delivery time goes on [the engagements measured]: the question the deck answers, as a statement}}</h1>
+    <h1>{{The deck's answer in six words or fewer, e.g. "Delivery waits on review, not code"}}</h1>
     <p style="font-size:calc(34px * var(--ts, 1));line-height:1.45;color:rgba(255,255,255,0.78);max-width:1240px;text-wrap:pretty">{{One sentence: what was measured, over what window, and what the deck answers, e.g. "We measured flow across X for six months, and this deck answers where each one actually loses time and what to change first."}}</p>
   </div>
   <div class="title-footer">
@@ -604,7 +636,7 @@
 <section class="slide" data-label="Executive summary" data-screen-label="02">
   <div class="slide-head">
     <div class="kicker">Executive summary</div>
-    <h2>{{Headline naming each engagement's constraint in one clause, e.g. "A waits on review, B on its release gate, C on unplanned work"}}</h2>
+    <h2>{{The main constraint as a takeaway, six words or fewer, e.g. "Reviews and releases slow delivery"}}</h2>
   </div>
   <div class="statement">
     <p>{{The cross-portfolio insight: why a single shared fix would not work, e.g. "The engagements fail in different places, so a single platform initiative would speed up one and leave the others exactly where they are."}}</p>
@@ -664,7 +696,7 @@
 <section class="slide" data-label="Scorecard" data-screen-label="03">
   <div class="slide-head">
     <div class="kicker">Portfolio scorecard</div>
-    <h2>{{The grid's one takeaway, e.g. "[Engagement] leads all four of the standard metrics"}}</h2>
+    <h2>{{The grid's takeaway, six words or fewer, e.g. "Speed looks healthy, failures unseen"}}</h2>
   </div>
   <div class="table table--scorecard">
     <div class="th">Engagement</div>
@@ -710,7 +742,7 @@
 <section class="slide" data-label="Finding 1 · {{Engagement}}" data-screen-label="04">
   <div class="slide-head">
     <div class="kicker">Finding 1 · {{Engagement}}</div>
-    <h2>{{The constraint as a sentence, e.g. "Review is the slowest step in [engagement] delivery"}}</h2>
+    <h2>{{The constraint as a takeaway, six words or fewer, e.g. "Review is the slowest step"}}</h2>
     <p class="lede" style="max-width:1380px">{{Median lead time and the split in one line, e.g. "Median lead time is X days. Writing the change accounts for a day of that, and the rest is queue."}}</p>
   </div>
   <div class="card" style="padding:28px 34px;gap:24px">
@@ -760,7 +792,7 @@
 <section class="slide" data-label="Finding 2 · {{Engagement}}" data-screen-label="05">
   <div class="slide-head">
     <div class="kicker">Finding 2 · {{Engagement}}</div>
-    <h2>{{The relationship as a sentence, e.g. "Release size predicts whether a release fails"}}</h2>
+    <h2>{{The relationship, six words or fewer, e.g. "Large releases fail more often"}}</h2>
   </div>
   <div style="display:grid;grid-template-columns:1.25fr 1fr;gap:20px;flex:1;min-height:0">
     <div class="card">
@@ -817,7 +849,7 @@
 <section class="slide" data-label="Finding 3 · {{Engagement}}" data-screen-label="06">
   <div class="slide-head">
     <div class="kicker">Finding 3 · {{Engagement}}</div>
-    <h2>{{The reveal, e.g. "[Engagement]'s metrics pass because N people are absorbing the strain"}}</h2>
+    <h2>{{The reveal, six words or fewer, no figure, e.g. "A few people absorb the strain"}}</h2>
     <p class="lede" style="max-width:1420px">{{One line grounding it in telemetry, e.g. "Every signal below is a count from the same event history, and each one runs the other way from the scorecard."}}</p>
   </div>
   <div class="grid-3">
@@ -898,7 +930,7 @@
 <section class="slide" data-label="Finding 3 · Receipt" data-screen-label="07">
   <div class="slide-head">
     <div class="kicker">Finding 3, continued</div>
-    <h2>{{The concentration fact, e.g. "Five records show what the missing gates let through"}}</h2>
+    <h2>{{What the receipts prove, six words or fewer, e.g. "Missing gates let risky changes through"}}</h2>
     <p class="lede" style="max-width:1420px">These are the worst individual cases in the window, pulled straight from the {{record kinds cited, e.g. "pull-request, CI, and issue"}} records so you can inspect them yourself.</p>
   </div>
   <div class="table table--receipt">
@@ -950,7 +982,7 @@
 <section class="slide" data-label="Recommendations" data-screen-label="08">
   <div class="slide-head">
     <div class="kicker">Recommendations</div>
-    <h2>{{The shape of the plan, e.g. "Three moves address the three constraints and a fourth makes the gains compound"}}</h2>
+    <h2>{{The plan as an action, six words or fewer, never a count, e.g. "Gate review, cap size, measure monthly"}}</h2>
   </div>
   <div class="grid-3" style="gap:18px">
     <!-- REPEAT: one card per constraint -->
@@ -1026,7 +1058,7 @@
 <section class="slide" data-label="Roadmap" data-screen-label="09">
   <div class="slide-head">
     <div class="kicker">Roadmap · {{16 weeks}}</div>
-    <h2>{{Why the ordering, e.g. "[Engagement] goes first because it's the cheapest place to prove the diagnosis"}}</h2>
+    <h2>{{The first move and why, six words or fewer, e.g. "Start with review: fastest proof"}}</h2>
   </div>
   <div class="roadmap">
     <div></div>
@@ -1079,7 +1111,7 @@
 <section class="slide slide--dark" data-label="Closing" data-screen-label="10">
   <div style="display:flex;flex-direction:column;gap:34px;max-width:1500px">
     <div class="kicker kicker--wide kicker--on-dark">Closing</div>
-    <h2 style="font-size:calc(64px * var(--ts, 1));letter-spacing:-0.025em;line-height:1.12">{{The thesis in one quotable line, e.g. "Fix the constraint each engagement has, and the metrics follow"}}</h2>
+    <h2 style="font-size:calc(64px * var(--ts, 1));letter-spacing:-0.025em;line-height:1.12">{{The thesis, six words or fewer, e.g. "Fix the constraint, metrics follow"}}</h2>
     <p style="font-size:calc(32px * var(--ts, 1));line-height:1.45;color:rgba(255,255,255,0.78);max-width:1300px">{{One sentence per engagement's need, and what the moves share.}}</p>
   </div>
   <div style="display:flex;flex-direction:column;gap:24px">
@@ -1124,6 +1156,36 @@
      lives on the method sheet that follows. The fairness line is not
      optional - it is the contract for a section that names people.
      ═════════════════════════════════════════════════════════════════════════ -->
+<!-- OPTIONAL: Anthara slide. Keep only when the engagement uses Anthara.
+     One lane per finding: today's baseline (reused data-claim span),
+     the workflow with its status chip and trigger, and a target with no
+     new number. Within 90 words. REPEAT the three lane cells per finding. -->
+<div class="slide-frame">
+<section class="slide" id="s-anthara" data-label="Anthara workflows" data-screen-label="{{NN}}">
+  <div class="slide-head">
+    <div class="kicker">Anthara workflows</div>
+    <h2>{{The takeaway, six words or fewer, e.g. "Automate each follow-up"}}</h2>
+  </div>
+  <div class="card" style="flex:1;min-height:0;padding:22px 34px 8px;gap:0">
+    <div style="display:grid;grid-template-columns:1fr 1.35fr 1fr;grid-template-rows:auto repeat({{N findings}},1fr);flex:1;min-height:0">
+      <div class="kicker" style="padding-bottom:14px;border-bottom:1px solid var(--line)">Today, share of {{base}}</div>
+      <div class="kicker" style="padding:0 0 14px 32px;border-bottom:1px solid var(--line)">Anthara workflow</div>
+      <div class="kicker" style="padding:0 0 14px 32px;border-bottom:1px solid var(--line)">Target</div>
+      <!-- REPEAT lane -->
+      <div style="border-bottom:1px solid var(--line);padding:24px 0;display:flex;flex-direction:column;justify-content:center;gap:10px"><div class="stat stat--hero num--bad">{{<span data-claim="…">baseline</span>}}</div><div style="font-size:calc(23px * var(--ts, 1));line-height:1.35;color:var(--body-soft)">{{short base label}}</div></div>
+      <div style="border-bottom:1px solid var(--line);padding:24px 0 24px 32px;border-left:1px solid var(--line);display:flex;flex-direction:column;justify-content:center;gap:12px"><div style="display:flex;align-items:center;gap:14px"><span style="font-family:var(--display);font-size:calc(34px * var(--ts, 1));font-weight:600;line-height:1.2">{{Workflow name}}</span><span class="chip chip--build" style="font-size:calc(20px * var(--ts, 1))">{{Build|Now}}</span></div><div style="font-size:calc(24px * var(--ts, 1));line-height:1.35;color:var(--body-soft)">{{What it does, five words or fewer}}</div><span class="chip" style="align-self:flex-start;border-color:var(--line);background:var(--paper);color:var(--body-soft);font-weight:600;font-size:calc(20px * var(--ts, 1))">{{trigger}}</span></div>
+      <div style="border-bottom:1px solid var(--line);padding:24px 0 24px 32px;border-left:1px solid var(--line);display:flex;align-items:center"><div style="font-family:var(--display);font-size:calc(30px * var(--ts, 1));font-weight:600;line-height:1.3;color:var(--green-deep)">{{Target, no new number}}</div></div>
+      <!-- /REPEAT lane -->
+    </div>
+  </div>
+  <div class="strip card--tint" style="border:1px solid var(--green-tint-line);display:flex;flex-direction:column;gap:8px">
+    <p style="font-size:calc(25px * var(--ts, 1))"><span class="chip chip--now" style="font-size:calc(20px * var(--ts, 1))">Available now</span> {{workflows or skills available today}}</p>
+    <p style="font-size:calc(25px * var(--ts, 1))"><span class="chip chip--not" style="font-size:calc(20px * var(--ts, 1))">Not in Anthara</span> {{what Anthara cannot do today}}</p>
+  </div>
+  <p class="footnote">Build = a new workflow file. Full list: <a href="#ax-anthara">the appendix</a>.</p>
+</section>
+</div>
+
 <div class="slide-frame">
 <section class="slide" data-label="Appendix" data-screen-label="11" style="justify-content:space-between">
   <div class="kicker kicker--wide">Delivery diagnostic · {{Engagement code}}</div>
@@ -1167,16 +1229,16 @@
        to, invisible in this data (from gaps.md plus the telemetry
        boundary), and the OPTIONAL exclusions column (delete when nothing
        was excluded) - each a list of BARE FRAGMENTS, a few words per row,
-       no explanations. The FULL versions (counts, dates, counting
-       decisions) live in the appendix footer, and the fine-print line
-       links there. Do NOT list what the
+       no explanations. This sheet is the one home of the counting
+       rules and the full exclusion list; the footer points here and
+       never repeats them. Do NOT list what the
        data is strong at - the stat tiles already say it. The closing
        fine-print line prices the missing instrument into a recommendation
        and states what access the links require. -->
   <div class="ax-sheet" id="ax-method">
     <div class="ax-head">
       <div class="kicker">Method</div>
-      <h3 class="ax-claim">{{The frame, e.g. "Where the numbers come from, and what they cannot see"}}</h3>
+      <h3 class="ax-claim">{{The method's takeaway, six words or fewer, e.g. "How we measured, and the limits"}}</h3>
       <p class="ax-lede">{{One line: providers, window (`window.from` → `window.to`), and the join, e.g. "GitHub and Jira event history, X to Y, joined on pull-request ids and issue keys."}}</p>
     </div>
     <div class="ax-stats">
@@ -1214,7 +1276,7 @@
       </div>
       <!-- /OPTIONAL -->
     </div>
-    <p class="ax-fine">Full versions of all three lists, with counts and dates: <a href="#ax-footer">the appendix footer</a>. <strong>{{Closing the gaps is Recommendation N:}}</strong> {{instrument, schedule in one clause.}} Links require access to {{provider host(s)}}.</p>
+    <p class="ax-fine"><strong>{{Closing the gaps is Recommendation N:}}</strong> {{instrument, schedule in one clause.}} Links require access to {{provider host(s)}}.</p>
   </div>
 
   <!-- REPEAT: one SHEET per finding (3–5 sheets). Each sheet holds 1–3
@@ -1223,7 +1285,7 @@
   <div class="ax-sheet" id="{{ax-f1, matching its chapter card on the divider slide}}">
     <div class="ax-head">
       <div class="kicker">{{Finding 1 · Name}}</div>
-      <h3 class="ax-claim">{{The sheet's claim, e.g. "The largest batches, and where they come from"}}</h3>
+      <h3 class="ax-claim">{{The sheet's takeaway, six words or fewer, e.g. "Large batches come from two repos"}}</h3>
       <!-- OPTIONAL: a lede when the sheet needs framing beyond the heading -->
       <p class="ax-lede">{{One or two sentences of context with the headline counts.}}</p>
     </div>
@@ -1279,12 +1341,45 @@
   </div>
   <!-- /REPEAT sheet -->
 
-  <!-- Footer sheet - run provenance and the known limits carried verbatim
-       from the extraction contract, so the appendix travels with its own
-       caveats. -->
+  <!-- OPTIONAL: Anthara sheet. One table card, one group row per finding
+       with its baseline, at most four rows per finding, one caveat box.
+       Within 250 words. Delete when Anthara is out of scope. -->
+  <div class="ax-sheet" id="ax-anthara">
+    <div class="ax-head">
+      <div class="kicker">Anthara workflows</div>
+      <h3 class="ax-claim">{{The takeaway, six words or fewer, e.g. "Map each move to a workflow"}}</h3>
+      <p class="ax-lede">This sheet holds Anthara product facts, not run records. {{One line on what the records show about Anthara, only if they identify it.}}</p>
+    </div>
+    <div class="ax-card">
+      <div class="ax-card-head"><span class="ax-card-title">Workflows</span><span class="ax-card-src">product facts · {{client}} configuration</span></div>
+      <div class="ax-scroll">
+      <table>
+        <thead><tr><th>Workflow</th><th>What it does</th><th>Status</th></tr></thead>
+        <tbody>
+          <!-- REPEAT per finding -->
+          <tr><td colspan="3"><strong>Watch (share of {{base}}): {{<span data-claim="…">baseline</span>}}</strong></td></tr>
+          <!-- REPEAT row, at most four per finding -->
+          <tr><td>{{Workflow}}{{OPTIONAL <br><span class="chip-trigger">according to the Anthara workflow configuration</span>}}</td><td>{{What it does, eight words or fewer}}</td><td><span class="chip chip--build">{{Now|Build|Not in Anthara}}</span> <span class="chip-trigger">· {{trigger}}</span></td></tr>
+          <!-- /REPEAT row --><!-- /REPEAT per finding -->
+        </tbody>
+      </table>
+      </div>
+      <div class="ax-caveat"><div><span class="chip chip--now">Now</span> = available today · <span class="chip chip--build">Build</span> = a new workflow file · <span class="chip chip--not">Not in Anthara</span> = not available</div><div>{{At most two more short caveats, e.g. merge blocking, chat channel.}}</div></div>
+    </div>
+  </div>
+
+  <!-- Footer sheet - run provenance as four or five terse bullets in a
+       card. It never repeats the counting rules or the exclusion list:
+       those live once on the method sheet, and the footer points there. -->
   <div class="ax-sheet" id="ax-footer">
     <footer class="ax-footer">
-      Generated from extraction run <span style="font-family:var(--mono)">{{run_id}}</span> (window {{from}} → {{to}}, {{resolved providers}}). How we counted: {{the full counting rules the method sheet summarizes: percentiles policy, the record populations with their counts, duplicates removed and boundary records kept, and what the key term ('unreviewed') literally means}}. Known limits carried from the extraction contract: elapsed time is calendar time, never engineer-days; {{the run's own gaps that bear on these tables, from gaps.md: truncations, missing providers, unobservable surfaces}}. {{OPTIONAL, only when the staleness filter excluded scopes - mirror the methodology sheet's exclusions rows, e.g. "Excluded as stale: board 'Example Board 1', no recorded activity since [date]; none of its records appear in this deck."}} Confidential; prepared for {{client}} leadership.
+      <ul>
+        <li>Source: run <span style="font-family:var(--mono)">{{run_id}}</span> · window {{from}} → {{to}} · {{resolved providers}}.</li>
+        <li>Method: nearest-rank p50 and p85 of calendar time. The counting rules are on <a href="#ax-method">the method sheet</a>.</li>
+        <li>Limits: {{the run's own gaps that bear on these tables, as dataset ids: missing providers, truncations, unreported field gaps}}.</li>
+        <li>{{OPTIONAL, only when scopes were excluded: "Excluded: the stale units and deselected scopes. <a href="#ax-method">The method sheet</a> lists them."}}</li>
+        <li>Confidential. Prepared for {{client}} leadership.</li>
+      </ul>
     </footer>
     <a class="backlink" href="#">↑ Back to the top of the deck</a>
   </div>

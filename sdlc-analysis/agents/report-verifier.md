@@ -72,9 +72,11 @@ Read the whole deck once as the client would. Hold it to the template header's r
 - calendar time never effort — "engineer-days", "effort" or "took the team" over an elapsed-time metric is `high`;
 - every `lower_bound` claim reads as a floor in the deck text, and the method sheet names the truncation with its cut-off — a floor presented as a total is `high`;
 - every `unavailable` dataset in the audit is a named blind spot on the method sheet, and the scorecard never fills a cell those datasets would have fed — `high`;
-- every `scope_selection.deselected` unit and every staleness exclusion is disclosed twice (method sheet, footer) — `high`;
+- every `scope_selection.deselected` unit and every staleness exclusion is disclosed on the method sheet, and the footer's Excluded bullet points there — `high`;
 - the executive summary carries the ranking disclosure; the findings never imply exhaustiveness — `medium`;
 - chart labels are percents where they draw a share or rate — `medium`;
+- the OPTIONAL Anthara slide and sheet follow the header's ANTHARA rule: product and configuration facts are labelled as not from the records, no sentence says a workflow ran or did not run unless the records identify it, every status chip carries its word, targets carry no new number — a ran/did-not-run claim the records do not support is `high`;
+- every heading (title, slide `h1`/`h2`, appendix `h3`) follows the template's HEADINGS rule: six words or fewer, states the takeaway, never describes the layout or counts items, carries no figure — `medium`;
 - every table card has a source dataset in its header and a caveat row — `medium`;
 - prose around a claim does not overstate it: a 62% is not "most", a p50 of 4.2 days is not "nearly a week" — `medium`;
 - no survey, interview or morale claim from telemetry — `high`;

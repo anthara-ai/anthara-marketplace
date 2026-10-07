@@ -17,7 +17,7 @@ const TEXT_CHECKS = [
   { name: 'bare font-size in an inline style', re: /style="[^"]*font-size:\s*\d+px/g, hint: 'use calc(<n>px * var(--ts, 1)), and follow the same rule for any CSS you add' },
 ]
 
-const HEADING_WORDS = 16
+const HEADING_WORDS = 6
 const HEADER_WORDS = 6
 const PARENTHESIS_WORDS = 4
 const ONE_WORD_HEADERS = new Set(['#', 'file', 'step', 'phase', 'risk', 'measure', 'bug', 'folder', 'today', 'commit', 'commits', 'lines', 'where', 'why', 'what', 'test', 'function'])
@@ -47,6 +47,8 @@ function checkHeadings(html) {
     const words = wordCount(text)
     if (words > HEADING_WORDS) report('headings', `"${text.slice(0, 70)}" runs to ${words} words`, 'a heading is one short claim; the rest belongs in the lede')
     if (/,\s+(and|but|so|which|because|while|then)\b|;/.test(text)) report('headings', `"${text.slice(0, 70)}" joins two claims`, 'say one thing in the heading and the second in the lede')
+    if (/\d/.test(text)) report('headings', `"${text.slice(0, 70)}" carries a figure`, 'state the takeaway in the heading; the figure belongs in the lede')
+    if (/^(two|three|four|five|six|seven|eight|nine|ten|eleven|twelve)\s+\w+/i.test(text) && /\b(moves|steps|slides|sections|findings|constraints|things|ways|reasons|parts|points|records|workflows)\b/i.test(text)) report('headings', `"${text.slice(0, 70)}" counts items`, 'state the takeaway, not the layout')
   }
 }
 
