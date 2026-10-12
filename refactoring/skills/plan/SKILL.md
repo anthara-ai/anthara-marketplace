@@ -14,7 +14,7 @@ The method is borrowed and named, so the team can look it up. Hotspots, change c
 
 ## The voice
 
-Invoke `refactoring:incubyte-writing-voice` through the Skill tool immediately before writing the plan file, once the investigation is done, so its rules are in context while the sentences are being built. The skill's rules are in `"${CLAUDE_PLUGIN_ROOT}/skills/incubyte-writing-voice/SKILL.md"`, so when the invocation does not resolve, read that file instead. Write every sentence of the plan in that voice. It governs how sentences are built, and where it and anything here disagree on that, it wins. Invoke it once per session.
+Invoke `refactoring:plain-technical-voice` through the Skill tool immediately before writing the plan file, once the investigation is done, so its rules are in context while the sentences are being built. The skill's rules are in `"${CLAUDE_PLUGIN_ROOT}/skills/plain-technical-voice/SKILL.md"`, so when the invocation does not resolve, read that file instead. Write every sentence of the plan in that voice. It governs how sentences are built, and where it and anything here disagree on that, it wins. Invoke it once per session.
 
 Headings are clear and direct. A heading says the one thing its section is about, in plain words a reader outside the team understands, and stops. "What we leave alone" is a heading. "The leave-alone list, with reasons, and what reflection reaches" is a heading with a lede fused onto it, and it costs the reader a second read. A step heading is named for what moves, such as "R3. Extract `parseCodes` from `AssessmentService`", and carries no second clause.
 

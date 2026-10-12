@@ -27,9 +27,10 @@
   - Before shipping, grep the file for `{{`, for `data-catalogue`, and for the
     em dash (U+2014). All three must return nothing.
   - Every sentence on the page, slides and appendix alike, is written in the
-    incubyte writing voice, whose rules are in the skill at
-    "${CLAUDE_PLUGIN_ROOT}/skills/incubyte-writing-voice/SKILL.md". Every
-    heading is clear and direct: one claim, in the room's words, and stop.
+    plain technical writing voice, whose rules are in the skill at
+    "${CLAUDE_PLUGIN_ROOT}/skills/plain-technical-voice/SKILL.md". Every heading
+    states the takeaway, not the layout, in six words or fewer, with no
+    figure and no count of the slide's items.
     check-page.mjs enforces the mechanical part of the voice (em dashes,
     semicolons, long parentheses, two-claim headings, long bold); the rest
     is read for by hand before the hand-over.
@@ -896,7 +897,7 @@
       </svg><span>{{repository name}}</span></div>
   <div style="display:flex;flex-direction:column;gap:36px;max-width:1500px">
     <div class="kicker kicker--wide kicker--on-dark">Refactoring plan · {{module path}}</div>
-    <h1>{{The ask as a statement, e.g. "Make adding a code provider a one-file change"}}</h1>
+    <h1>{{The ask, six words or fewer, e.g. "Make providers a one-file change"}}</h1>
     <p class="lede lede--on-dark" style="font-size:calc(34px * var(--ts, 1));max-width:1300px">{{One sentence: what the plan does, in how many steps, and what it leaves untouched. Under 40 words.}}</p>
   </div>
   <div class="title-footer">
@@ -1150,7 +1151,7 @@
   <div class="ax-sheet" id="ax-steps">
     <div class="ax-head">
       <div class="kicker">Every step</div>
-      <h3 class="ax-claim">{{The claim, e.g. "Eleven steps, in this order"}}</h3>
+      <h3 class="ax-claim">{{The takeaway, six words or fewer, e.g. "Safety net first, then the split"}}</h3>
       <p class="ax-lede">{{One or two sentences: how many characterisation tests, how many refactorings, how many run without a net, and the stop rule.}}</p>
     </div>
     <div class="ax-card">
@@ -1205,7 +1206,7 @@
   <div class="ax-sheet" id="{{ax-hotspots, one id per sheet}}">
     <div class="ax-head">
       <div class="kicker">{{Evidence · Hotspots}}</div>
-      <h3 class="ax-claim">{{The sheet's claim, e.g. "Two files take 71% of the module's commits"}}</h3>
+      <h3 class="ax-claim">{{The sheet's takeaway, six words or fewer, e.g. "Two files carry most changes"}}</h3>
       <p class="ax-lede">{{Context with the headline counts.}}</p>
     </div>
     <div class="ax-card">
@@ -1239,7 +1240,7 @@
   <div class="ax-sheet" id="ax-provenance">
     <div class="ax-head">
       <div class="kicker">How the numbers were made</div>
-      <h3 class="ax-claim">{{The frame, e.g. "One commit and one 12-month window"}}</h3>
+      <h3 class="ax-claim">{{The method's takeaway, six words or fewer, e.g. "How we measured, and the limits"}}</h3>
     </div>
     <div class="ax-stats">
       <div><span class="ax-stat-num">{{412}}</span><span class="ax-stat-label">Commits in the window</span><span class="ax-stat-sub">{{from}} to {{to}}, renames followed, {{m}} formatting and merge commits excluded by hash.</span></div>
