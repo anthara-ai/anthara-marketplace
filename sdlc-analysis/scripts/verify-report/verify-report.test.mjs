@@ -308,6 +308,104 @@ describe("Deck hygiene rules from the template header", () => {
   });
 });
 
+describe("Links that leave the deck open in a new tab", () => {
+  test("a provider link without target=_blank is an error", () => {
+    const dir = copyOfPassingRun();
+    editDeck(dir, (html) => html.replace(' target="_blank"', ""));
+    assert.match(messagesOf(errors(verifyReport(dir))), /github\.com\/acme\/checkout\/pull\/103 must open in a new tab/);
+  });
+
+  test("a new-tab link without rel=noopener is an error", () => {
+    const dir = copyOfPassingRun();
+    editDeck(dir, (html) => html.replace(' rel="noopener noreferrer"', ""));
+    assert.match(messagesOf(errors(verifyReport(dir))), /must open in a new tab/);
+  });
+
+  test("an in-page anchor stays in the same tab", () => {
+    const dir = copyOfPassingRun();
+    editDeck(dir, (html) => html.replace("<h2>Review is the slowest step</h2>", '<h2>Review is the slowest step</h2><a href="#appendix">the appendix</a>'));
+    assert.strictEqual(errors(verifyReport(dir)).length, 0);
+  });
+});
+
+describe("Every finding is traced to a root cause the records support", () => {
+  test("a ledger without diagnoses fails the schema check", () => {
+    const dir = copyOfPassingRun();
+    const ledger = readLedger(dir);
+    delete ledger.diagnoses;
+    writeLedger(dir, ledger);
+    assert.match(messagesOf(errors(verifyReport(dir))), /fails schema sdlc-analysis-evidence-ledger-v1/);
+  });
+
+  test("a diagnosis that weighed fewer than three causes fails the schema check", () => {
+    const dir = copyOfPassingRun();
+    const ledger = readLedger(dir);
+    ledger.diagnoses[0].hypotheses.pop();
+    writeLedger(dir, ledger);
+    assert.match(messagesOf(errors(verifyReport(dir))), /fails schema sdlc-analysis-evidence-ledger-v1/);
+  });
+
+  test("a remedy aimed only at the symptom fails the schema check", () => {
+    const dir = copyOfPassingRun();
+    const ledger = readLedger(dir);
+    ledger.diagnoses[0].remedies[0].acts_on = "symptom";
+    writeLedger(dir, ledger);
+    assert.match(messagesOf(errors(verifyReport(dir))), /fails schema sdlc-analysis-evidence-ledger-v1/);
+  });
+
+  test("a diagnosis citing a claim the ledger lacks is an error", () => {
+    const dir = copyOfPassingRun();
+    const ledger = readLedger(dir);
+    ledger.diagnoses[0].symptom_claims.push("f1.not-a-claim");
+    writeLedger(dir, ledger);
+    assert.match(messagesOf(errors(verifyReport(dir))), /cites claim "f1\.not-a-claim" which the ledger does not have/);
+  });
+
+  test("a hypothesis marked supported with no deciding claim is an error", () => {
+    const dir = copyOfPassingRun();
+    const ledger = readLedger(dir);
+    ledger.diagnoses[0].hypotheses[0].claims = [];
+    writeLedger(dir, ledger);
+    assert.match(messagesOf(errors(verifyReport(dir))), /hypothesis "h1" is supported but cites no claim/);
+  });
+
+  test("an untestable hypothesis must name the evidence that would test it", () => {
+    const dir = copyOfPassingRun();
+    const ledger = readLedger(dir);
+    delete ledger.diagnoses[0].hypotheses[2].needs;
+    writeLedger(dir, ledger);
+    assert.match(messagesOf(errors(verifyReport(dir))), /hypothesis "h3" is untestable but does not say what evidence would test it/);
+  });
+
+  test("a root cause resting on a refuted hypothesis is an error", () => {
+    const dir = copyOfPassingRun();
+    const ledger = readLedger(dir);
+    ledger.diagnoses[0].root_cause.hypothesis = "h2";
+    writeLedger(dir, ledger);
+    assert.match(messagesOf(errors(verifyReport(dir))), /rests on hypothesis "h2", which the records refuted/);
+  });
+
+  test("a root cause on an untested hypothesis cannot be called supported", () => {
+    const dir = copyOfPassingRun();
+    const ledger = readLedger(dir);
+    ledger.diagnoses[0].root_cause.hypothesis = "h3";
+    writeLedger(dir, ledger);
+    assert.match(messagesOf(errors(verifyReport(dir))), /marked supported but hypothesis "h3" is untestable: mark it inferred/);
+  });
+
+  test("a root cause the deck never states is an error", () => {
+    const dir = copyOfPassingRun();
+    editDeck(dir, (html) => html.replace(" Nothing assigns a reviewer when a pull request opens.", ""));
+    assert.match(messagesOf(errors(verifyReport(dir))), /the deck never states the root cause/);
+  });
+
+  test("an Anthara workflow the ledger recommends but the deck omits is an error", () => {
+    const dir = copyOfPassingRun();
+    editDeck(dir, (html) => html.replace("Reviewer rotation", "Something else"));
+    assert.match(messagesOf(errors(verifyReport(dir))), /Anthara remedy "Reviewer rotation" is in the ledger but not in the deck/);
+  });
+});
+
 describe("Command-line contract", () => {
   test("an invocation with no run directory exits 2 with usage on stderr", () => {
     const result = runVerifier();

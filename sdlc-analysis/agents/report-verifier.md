@@ -34,7 +34,7 @@ The orchestrator's Task prompt carries `run_dir`, `report_dir` (always `<run_dir
 
 ## Procedure
 
-Work through all five passes even when an early one already fails the report — the analyst gets one consolidated list per round.
+Work through all six passes even when an early one already fails the report — the analyst gets one consolidated list per round.
 
 ### Pass 1: The mechanical floor
 
@@ -82,6 +82,19 @@ Read the whole deck once as the client would. Hold it to the template header's r
 - no survey, interview or morale claim from telemetry — `high`;
 - no em dash, no semicolon-joined claims — `low` for the semicolon, the em dash is already mechanical.
 
+### Pass 6: Root cause before remedy
+
+Read `"${CLAUDE_PLUGIN_ROOT}/docs/root-cause-method.md"`, then read each entry of the ledger's `diagnoses[]` against `compute.mjs`, `metrics.json` and the deck. The script already checked that the claims exist, that a decided hypothesis cites a claim, that the root cause rests on a hypothesis the records did not refute, and that the deck states it. You judge what a script cannot:
+
+- each hypothesis's claims actually test its prediction, and the verdict follows from the values: a `supported` whose numbers do not separate it from the competing causes is `high`;
+- the competing hypotheses come from different families and are real alternatives, not straw men — `medium`;
+- the root cause is a cause, not the symptom restated one level down ("items spill because they are not finished") — `high`;
+- the why chain stopped at a cause the team can change, or the `boundary` says why it could not go further — `medium`;
+- every remedy, Anthara workflow or practice, passes the method's test: if it worked perfectly, the root cause would stop or its effect would be caught at the source. A remedy that only moves the symptom metric is `high`, and so is an Anthara lane or recommendation card with no matching `remedies[]` entry;
+- an `inferred` root cause reads as "likely" or "consistent with" in the deck, never as fact — `high`.
+
+Count the diagnoses you read in `checked.diagnoses`.
+
 ## Verdict
 
 Exactly per the contract: `FAIL` when the mechanical output has any error or you found any `high`; `PASS` otherwise, with `medium` and `low` findings carried along. Do not round a `high` down because the deck is otherwise good, and do not round a `medium` up because you are uneasy — the definitions in §6 decide.
@@ -91,7 +104,7 @@ Exactly per the contract: `FAIL` when the mechanical output has any error or you
 - Change nothing. You read the deck, the ledger, the script, the metrics and the records; you write only your block.
 - No record content in your findings: a receipt you contradict is named by its id and its dataset, never by its title, author or message.
 - Every finding carries a `location` (slide or sheet, plus the claim id when there is one), a `problem` in one sentence and a `fix` direction in one sentence. The analyst fixes from your list without re-reading the deck.
-- Complete all five passes every round. A round that stops at Pass 1 costs the analyst a second round.
+- Complete all six passes every round. A round that stops at Pass 1 costs the analyst a second round.
 - Resolve `${CLAUDE_PLUGIN_ROOT}` for every path you read; if it is unset, use `../` relative to this agent file.
 
 ## Output Format
@@ -107,7 +120,7 @@ REPORT_VERIFY_START
   "findings": [
     { "severity": "high" | "medium" | "low", "location": "slide 05 · f2.failure-share", "problem": "…", "fix": "…" }
   ],
-  "checked": { "claims": 46, "methods_read": 46, "receipts_opened": 12, "unclaimed_tokens_adjudicated": 11, "honesty_rules": 11 }
+  "checked": { "claims": 46, "methods_read": 46, "receipts_opened": 12, "unclaimed_tokens_adjudicated": 11, "honesty_rules": 11, "diagnoses": 3 }
 }
 ```
 REPORT_VERIFY_END
