@@ -54,6 +54,16 @@
     <p class="footnote"> on the finding or recommendation it belongs to:
     one sentence, no new numbers, no new exhibits. An idea that cannot
     earn a footnote does not ship.
+  - ROOT CAUSE BEFORE REMEDY: a finding is a symptom until it is
+    diagnosed. Before any recommendation or workflow is written, every
+    finding goes through docs/root-cause-method.md: locate the symptom,
+    test at least three competing causes against the records, ask why
+    again until the cause is one the team can change, and record it all in
+    the ledger's diagnoses[]. Each finding slide's footnote states its root
+    cause in the exact words of root_cause.rendered (an inferred cause says
+    "likely"). Recommendations and Anthara workflows act on that root cause
+    or catch its effect at the source. A remedy that only makes the symptom
+    metric look better ("move tickets faster", "remind people") never ships.
   - The findings are a RANKING, not an inventory: the deck presents the
     top constraints by measured impact, and the executive summary
     discloses that in plain words. Never imply the list is exhaustive.
@@ -83,13 +93,15 @@
     add ONE light slide after the closing slide and before the appendix
     divider (the only slide allowed outside the fixed order), plus one
     appendix sheet before the footer. Both map each finding to Anthara
-    workflows or skills from docs/anthara-capabilities.md. Rules:
+    workflows or skills from docs/anthara-capabilities.md, chosen for the
+    finding's root cause, not its symptom. Rules:
     product facts are labelled as not coming from the records; never
     state that a workflow ran or did not run unless the records identify
     it; every workflow carries the "Build on Anthara" chip; never state
     what Anthara cannot do; the baseline is
-    a reused data-claim span and targets carry no new number; the slide
-    stays within 90 words and the sheet within 250. Delete both blocks
+    a reused data-claim span and targets carry no new number; each lane
+    names the root cause the workflow acts on; the slide stays within 110
+    words and the sheet within 280. Delete both blocks
     when Anthara is out of scope.
   - Stale scopes never pool with live ones. Apply the staleness filter
     below before computing anything, and disclose every exclusion.
@@ -149,6 +161,9 @@
     aggregates by person the caveat says why the pattern is structural.
     Sections are thematic, one per finding (plus hygiene extras); a
     typical appendix has 3–5 sections of 1–3 table cards each.
+  - Every link that leaves the page (an http or https href) opens in a new
+    tab: target="_blank" rel="noopener noreferrer". In-page anchors (#…)
+    stay as they are. scripts/verify-report fails a deck that breaks this.
   - Link forms (use the provider the run actually resolved):
       GitHub PR:        https://github.com/[org]/[repo]/pull/[n]
       GitHub Actions:   https://github.com/[org]/[repo]/actions/runs/[run_id]
@@ -770,10 +785,11 @@
       <p style="font-size:calc(28px * var(--ts, 1));line-height:1.45"><strong>{{The amplification fact, e.g. "Pull requests over X lines wait N× longer than those under Y."}}</strong> {{Mechanism, one sentence.}}</p>
     </div>
   </div>
-  <!-- OPTIONAL: one-line footnote carrying the system-level read this
-       finding earns (a root cause, or the measurement guardrail that
-       protects the people in it). One sentence; delete when unused. -->
-  <p class="footnote">{{The system-level read, e.g. "Read this as a property of the repository configuration, not of the people. Nothing requires an approval, so review happens only where someone volunteers. Ranking anyone on these counts would punish the person who reviews the most."}}</p>
+  <!-- REQUIRED: the root-cause footnote. It states this finding's root
+       cause in the exact words of the ledger's root_cause.rendered, then
+       at most one sentence of system-level read (e.g. the measurement
+       guardrail that protects the people in it). -->
+  <p class="footnote">{{Root cause, verbatim from root_cause.rendered, e.g. "Nothing assigns a reviewer when a pull request opens."}} {{OPTIONAL system-level read, e.g. "Read this as a property of the repository configuration, not of the people."}}</p>
 </section>
 </div>
 
@@ -827,9 +843,10 @@
       <!-- /OPTIONAL -->
     </div>
   </div>
-  <!-- OPTIONAL: one-line footnote, as on Finding 1 - here typically the
-       body-of-practice claim (queueing theory, CD/DORA) in one sentence. -->
-  <p class="footnote">{{The system-level read, e.g. "Capping the batch size also makes the review requirement feasible, since wait time grows with batch size. The batch-size cap and the review gate therefore support each other."}}</p>
+  <!-- REQUIRED: the root-cause footnote, as on Finding 1, optionally
+       followed by the body-of-practice claim (queueing theory, CD/DORA)
+       in one sentence. -->
+  <p class="footnote">{{Root cause, verbatim from root_cause.rendered}} {{OPTIONAL system-level read, e.g. "Capping the batch size also makes the review requirement feasible, since wait time grows with batch size."}}</p>
 </section>
 </div>
 
@@ -904,6 +921,8 @@
   <div class="strip card--tint" style="border:1px solid var(--green-tint-line)">
     <p><strong>{{The takeaway, e.g. "The four green numbers are produced by heroics, and one resignation ends them."}}</strong></p>
   </div>
+  <!-- REQUIRED: the root-cause footnote, as on Finding 1. -->
+  <p class="footnote">{{Root cause, verbatim from root_cause.rendered}}</p>
 </section>
 </div>
 
@@ -971,7 +990,9 @@
      SLIDE 08 · Recommendations
      One thrust per constraint found (REPEAT the card), plus one enabler
      that makes improvement compound (the dark strip - typically: the teams
-     own the measurement themselves). Every card: the intervention, first
+     own the measurement themselves). Every card's intervention acts on the
+     finding's root cause (the ledger's diagnoses[].remedies), never on the
+     symptom metric alone. Every card: the intervention, first
      concrete steps, and an expected delta TIED BACK to the exhibit that
      motivated it - same numbers, same units as the finding slides.
      ═════════════════════════════════════════════════════════════════════════ -->
@@ -1154,9 +1175,10 @@
      optional - it is the contract for a section that names people.
      ═════════════════════════════════════════════════════════════════════════ -->
 <!-- OPTIONAL: Anthara slide. Keep only when the engagement uses Anthara.
-     One lane per finding: today's baseline (reused data-claim span),
-     the workflow with its "Build on Anthara" chip and trigger, and a target with no
-     new number. Within 90 words. REPEAT the three lane cells per finding. -->
+     One lane per finding: today's baseline (reused data-claim span) with
+     the root cause under it, the workflow that acts on that cause with its
+     "Build on Anthara" chip and trigger, and a target with no new number.
+     Within 110 words. REPEAT the three lane cells per finding. -->
 <div class="slide-frame">
 <section class="slide" id="s-anthara" data-label="Anthara workflows" data-screen-label="{{NN}}">
   <div class="slide-head">
@@ -1169,7 +1191,7 @@
       <div class="kicker" style="padding:0 0 14px 32px;border-bottom:1px solid var(--line)">Anthara workflow</div>
       <div class="kicker" style="padding:0 0 14px 32px;border-bottom:1px solid var(--line)">Target</div>
       <!-- REPEAT lane -->
-      <div style="border-bottom:1px solid var(--line);padding:24px 0;display:flex;flex-direction:column;justify-content:center;gap:10px"><div class="stat stat--hero num--bad">{{<span data-claim="…">baseline</span>}}</div><div style="font-size:calc(23px * var(--ts, 1));line-height:1.35;color:var(--body-soft)">{{short base label}}</div></div>
+      <div style="border-bottom:1px solid var(--line);padding:24px 0;display:flex;flex-direction:column;justify-content:center;gap:10px"><div class="stat stat--hero num--bad">{{<span data-claim="…">baseline</span>}}</div><div style="font-size:calc(23px * var(--ts, 1));line-height:1.35;color:var(--body-soft)">{{short base label}}</div><div style="font-size:calc(22px * var(--ts, 1));line-height:1.35;color:var(--ink)"><strong>Cause:</strong> {{root cause, eight words or fewer}}</div></div>
       <div style="border-bottom:1px solid var(--line);padding:24px 0 24px 32px;border-left:1px solid var(--line);display:flex;flex-direction:column;justify-content:center;gap:12px"><div style="display:flex;align-items:center;gap:14px"><span style="font-family:var(--display);font-size:calc(34px * var(--ts, 1));font-weight:600;line-height:1.2">{{Workflow name}}</span><span class="chip chip--anthara" style="font-size:calc(20px * var(--ts, 1))">Build on Anthara</span></div><div style="font-size:calc(24px * var(--ts, 1));line-height:1.35;color:var(--body-soft)">{{What it does, five words or fewer}}</div><span class="chip" style="align-self:flex-start;border-color:var(--line);background:var(--paper);color:var(--body-soft);font-weight:600;font-size:calc(20px * var(--ts, 1))">{{trigger}}</span></div>
       <div style="border-bottom:1px solid var(--line);padding:24px 0 24px 32px;border-left:1px solid var(--line);display:flex;align-items:center"><div style="font-family:var(--display);font-size:calc(30px * var(--ts, 1));font-weight:600;line-height:1.3;color:var(--green-deep)">{{Target, no new number}}</div></div>
       <!-- /REPEAT lane -->
@@ -1286,6 +1308,25 @@
       <p class="ax-lede">{{One or two sentences of context with the headline counts.}}</p>
     </div>
 
+    <!-- REQUIRED: the causes this finding was tested against, one row per
+         hypothesis in the ledger's diagnosis, supported first, refuted
+         next, untestable last. Every number in "What the records show"
+         is a data-claim span. -->
+    <div class="ax-card">
+      <div class="ax-card-head"><span class="ax-card-title">Causes we tested</span><span class="ax-card-src">{{source dataset(s) the tests read}}</span></div>
+      <div class="ax-scroll">
+      <table>
+        <thead><tr><th>Possible cause</th><th>What the records show</th><th>Result</th></tr></thead>
+        <tbody>
+          <!-- REPEAT: one row per hypothesis -->
+          <tr><td>{{The cause, one line}}</td><td>{{The test and its result, with <span data-claim="…">figures</span>}}</td><td>{{Supported / Ruled out / Not testable from these records}}</td></tr>
+          <!-- /REPEAT -->
+        </tbody>
+      </table>
+      </div>
+      <div class="ax-caveat"><div><strong>Root cause:</strong> {{root_cause.rendered}}</div><div><strong>Where the records stop:</strong> {{root_cause.boundary}}</div></div>
+    </div>
+
     <!-- REPEAT: one CARD per table. Columns are free per table - keep ids
          first, magnitudes right-aligned (td.num), and the source dataset in
          the card header. The .ax-scroll wrapper is what keeps the table
@@ -1301,7 +1342,7 @@
                (e.g. "no approval", "no non-author comment"). Color the magnitude
                with ax-mag--bad / ax-mag--warn when it earns it. -->
           <tr>
-            <td class="id"><a href="{{provider link}}">{{repo #n / KEY-123 / run id}}</a></td>
+            <td class="id"><a href="{{provider link}}" target="_blank" rel="noopener noreferrer">{{repo #n / KEY-123 / run id}}</a></td>
             <td>{{What happened, one line}}{{OPTIONAL: <span class="ax-flag">compounding fact</span>}}</td>
             <td>{{author / actor}}</td>
             <td class="num"><span class="ax-mag ax-mag--bad">{{value}}</span></td>
@@ -1325,7 +1366,7 @@
         <tbody>
           <tr><td class="num" style="text-align:left;white-space:nowrap">{{from – to}}</td><td><div class="pillrow">
             <!-- REPEAT: one pill per run id -->
-            <span class="runpill"><a href="{{run link}}">{{run id}}</a></span>
+            <span class="runpill"><a href="{{run link}}" target="_blank" rel="noopener noreferrer">{{run id}}</a></span>
             <!-- /REPEAT -->
           </div></td></tr>
         </tbody>
@@ -1338,8 +1379,8 @@
   <!-- /REPEAT sheet -->
 
   <!-- OPTIONAL: Anthara sheet. One table card, one group row per finding
-       with its baseline, at most four rows per finding, one caveat box.
-       Within 250 words. Delete when Anthara is out of scope. -->
+       with its baseline and root cause, at most four rows per finding,
+       one caveat box. Within 280 words. Delete when Anthara is out of scope. -->
   <div class="ax-sheet" id="ax-anthara">
     <div class="ax-head">
       <div class="kicker">Anthara workflows</div>
@@ -1353,7 +1394,7 @@
         <thead><tr><th>Workflow</th><th>What it does</th><th>Starts</th></tr></thead>
         <tbody>
           <!-- REPEAT per finding -->
-          <tr><td colspan="3"><strong>Watch (share of {{base}}): {{<span data-claim="…">baseline</span>}}</strong></td></tr>
+          <tr><td colspan="3"><strong>Watch (share of {{base}}): {{<span data-claim="…">baseline</span>}}</strong><br>Cause: {{root_cause.rendered}}</td></tr>
           <!-- REPEAT row, at most four per finding -->
           <tr><td>{{Workflow}}<br><span class="chip chip--anthara">Build on Anthara</span></td><td>{{What it does, eight words or fewer}}</td><td><span class="chip-trigger">{{trigger}}</span></td></tr>
           <!-- /REPEAT row --><!-- /REPEAT per finding -->

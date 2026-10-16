@@ -4,9 +4,17 @@
   "deck_file": "deck.html",
   "compute_script": "analysis/compute.mjs",
   "metrics_file": "analysis/metrics.json",
-  "datasets_used": ["a2", "a3", "a4"],
-  "lower_bound_datasets": ["a2"],
-  "unavailable_datasets": ["d2"],
+  "datasets_used": [
+    "a2",
+    "a3",
+    "a4"
+  ],
+  "lower_bound_datasets": [
+    "a2"
+  ],
+  "unavailable_datasets": [
+    "d2"
+  ],
   "staleness_exclusions": [],
   "claims": [
     {
@@ -14,7 +22,9 @@
       "rendered": "4",
       "metric": "pull_requests.total",
       "value": 4,
-      "datasets": ["a3"],
+      "datasets": [
+        "a3"
+      ],
       "population": 4,
       "method": "every a3 record in the window",
       "lower_bound": false
@@ -24,18 +34,26 @@
       "rendered": "25%",
       "metric": "pull_requests.unreviewed.share_pct",
       "value": 25,
-      "datasets": ["a3", "a4"],
+      "datasets": [
+        "a3",
+        "a4"
+      ],
       "population": 4,
       "method": "pull requests with no a4 review event, as a percent of all a3 pull requests",
       "lower_bound": false,
-      "receipts": ["PR-103"]
+      "receipts": [
+        "PR-103"
+      ]
     },
     {
       "id": "f1.first-review-wait.p50",
       "rendered": "3 days",
       "metric": "pull_requests.time_to_first_review_days.p50",
       "value": 3,
-      "datasets": ["a3", "a4"],
+      "datasets": [
+        "a3",
+        "a4"
+      ],
       "population": 3,
       "method": "reviewed pull requests; calendar days from created_at to the earliest a4 submitted_at; nearest-rank p50",
       "lower_bound": false
@@ -45,10 +63,73 @@
       "rendered": "at least 2",
       "metric": "commits.total",
       "value": 2,
-      "datasets": ["a2"],
+      "datasets": [
+        "a2"
+      ],
       "population": 2,
       "method": "every a2 record on disk; the dataset is truncated so this is a floor",
       "lower_bound": true
+    }
+  ],
+  "diagnoses": [
+    {
+      "finding": "Finding 1",
+      "symptom": "A quarter of pull requests merged with no recorded review, and the first review took a median of three days.",
+      "symptom_claims": [
+        "f1.unreviewed.share",
+        "f1.first-review-wait.p50"
+      ],
+      "hypotheses": [
+        {
+          "id": "h1",
+          "family": "capacity",
+          "cause": "Nothing assigns a reviewer, so review happens only when someone volunteers.",
+          "prediction": "Unreviewed pull requests are spread across authors and sizes; if not, they cluster on one author or on large changes.",
+          "verdict": "supported",
+          "claims": [
+            "f1.unreviewed.share"
+          ]
+        },
+        {
+          "id": "h2",
+          "family": "size",
+          "cause": "Large pull requests take too long to review.",
+          "prediction": "The first-review wait grows with change size; if not, small changes wait as long.",
+          "verdict": "refuted",
+          "claims": [
+            "f1.first-review-wait.p50"
+          ]
+        },
+        {
+          "id": "h3",
+          "family": "gate",
+          "cause": "A release freeze pauses review.",
+          "prediction": "Waits cluster in freeze weeks; if not, they are even across weeks.",
+          "verdict": "untestable",
+          "claims": [],
+          "needs": "b-domain deployment records, which this run did not extract"
+        }
+      ],
+      "root_cause": {
+        "hypothesis": "h1",
+        "rendered": "Nothing assigns a reviewer when a pull request opens.",
+        "confidence": "supported",
+        "boundary": "Records cannot show whether unassigned review is a choice. Ask the team who owns review."
+      },
+      "remedies": [
+        {
+          "name": "Reviewer rotation",
+          "kind": "anthara",
+          "acts_on": "root_cause",
+          "how": "Assigns a reviewer to every pull request that has none."
+        },
+        {
+          "name": "Require one approval in branch protection",
+          "kind": "practice",
+          "acts_on": "root_cause",
+          "how": "No pull request merges without a reviewer."
+        }
+      ]
     }
   ]
 }

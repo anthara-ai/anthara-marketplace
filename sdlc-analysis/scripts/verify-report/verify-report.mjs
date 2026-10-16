@@ -8,7 +8,9 @@
  * The floor it holds: every number the deck shows is a ledger claim, every
  * claim resolves to a metric that `compute.mjs` reproduces from the records
  * on disk, every cited id exists in those records, and every truncated,
- * unavailable or excluded source is disclosed in the appendix. Numbers the
+ * unavailable or excluded source is disclosed in the appendix, every
+ * root-cause diagnosis rests on claims and a hypothesis the records did not
+ * refute, and every link that leaves the page opens in a new tab. Numbers the
  * deck shows outside a claim are listed as warnings for the agent to judge.
  *
  * Usage: node verify-report.mjs <run-directory>
@@ -30,6 +32,8 @@ const LEDGER_SCHEMA_ID = "sdlc-analysis-evidence-ledger-v1";
 const REPORT_SUBDIR = "report";
 const LEDGER_FILE = "evidence-ledger.json";
 const EM_DASH = "—";
+const EXTERNAL_HREF_PATTERN = /^https?:\/\//i;
+const DECIDED_VERDICTS = new Set(["supported", "refuted"]);
 const COMPUTE_TIMEOUT_MS = 120_000;
 
 const VOID_ELEMENTS = new Set(["br", "img", "hr", "input", "meta", "link", "source", "wbr", "col", "area", "base", "track", "embed", "param"]);
@@ -99,6 +103,8 @@ export function verifyReport(runDir) {
   findings.push(...checkReceipts(ledger.claims, runDir, sidecars));
   findings.push(...checkDeckHygiene(deck));
   findings.push(...checkDisclosures(ledger, deck));
+  findings.push(...checkDiagnoses(ledger, deck));
+  findings.push(...checkExternalLinks(deck));
   findings.push(...listUnclaimedNumbers(deck));
   return findings;
 }
@@ -260,17 +266,25 @@ function firstNumericToken(text) {
 
 export function parseDeck(html) {
   const stripped = html.replace(/<!--[\s\S]*?-->/g, "").replace(/<(script|style)\b[\s\S]*?<\/\1>/gi, "");
-  const deck = { text: "", appendixText: "", claimed: [], unclaimed: [] };
+  const deck = { text: "", appendixText: "", claimed: [], unclaimed: [], externalLinks: [] };
   const stack = [];
 
   for (const token of stripped.match(/<[^>]+>|[^<]+/g) ?? []) {
     if (token.startsWith("<")) {
+      collectExternalLink(deck, token);
       applyTag(stack, token);
     } else {
       collectText(deck, stack, decodeEntities(token));
     }
   }
   return deck;
+}
+
+function collectExternalLink(deck, tag) {
+  const href = /^<a\s/i.test(tag) ? attributeValue(tag, "href") : null;
+  if (href && EXTERNAL_HREF_PATTERN.test(href)) {
+    deck.externalLinks.push({ href, target: attributeValue(tag, "target"), rel: attributeValue(tag, "rel") ?? "" });
+  }
 }
 
 function applyTag(stack, tag) {
@@ -386,6 +400,12 @@ export function checkDeckHygiene(deck) {
   return findings;
 }
 
+export function checkExternalLinks(deck) {
+  return deck.externalLinks
+    .filter((link) => link.target !== "_blank" || !link.rel.split(/\s+/).includes("noopener"))
+    .map((link) => errorFinding("links", `link to ${link.href} must open in a new tab: give it target="_blank" rel="noopener noreferrer"`));
+}
+
 export function listUnclaimedNumbers(deck) {
   return deck.unclaimed.map(({ token, context }) => warningFinding("unclaimed", `number "${token}" appears outside any data-claim element: "…${context}…"`));
 }
@@ -484,6 +504,61 @@ export function textMentionsDataset(text, datasetId) {
     const inRange = target >= Number(start) && target <= Number(end ?? start);
     return mentionLetter.toLowerCase() === letter.toLowerCase() && inRange;
   });
+}
+
+// ---------------------------------------------------------------------------
+// Diagnoses — root causes rest on claims, and the deck states them
+// ---------------------------------------------------------------------------
+
+export function checkDiagnoses(ledger, deck) {
+  const claimIds = new Set(ledger.claims.map((claim) => claim.id));
+  const deckText = collapseWhitespace(deck.text);
+  return ledger.diagnoses.flatMap((diagnosis) => [
+    ...checkDiagnosisClaims(diagnosis, claimIds),
+    ...diagnosis.hypotheses.flatMap((hypothesis) => checkHypothesisEvidence(diagnosis.finding, hypothesis)),
+    ...checkRootCause(diagnosis, deckText),
+    ...checkAntharaRemediesShown(diagnosis, deckText),
+  ]);
+}
+
+function checkDiagnosisClaims(diagnosis, claimIds) {
+  const referenced = [...diagnosis.symptom_claims, ...diagnosis.hypotheses.flatMap((hypothesis) => hypothesis.claims)];
+  return [...new Set(referenced)]
+    .filter((id) => !claimIds.has(id))
+    .map((id) => errorFinding(diagnosis.finding, `diagnosis cites claim "${id}" which the ledger does not have`));
+}
+
+function checkHypothesisEvidence(finding, hypothesis) {
+  if (DECIDED_VERDICTS.has(hypothesis.verdict) && hypothesis.claims.length === 0) {
+    return [errorFinding(finding, `hypothesis "${hypothesis.id}" is ${hypothesis.verdict} but cites no claim that decided it`)];
+  }
+  if (hypothesis.verdict === "untestable" && !hypothesis.needs) {
+    return [errorFinding(finding, `hypothesis "${hypothesis.id}" is untestable but does not say what evidence would test it`)];
+  }
+  return [];
+}
+
+function checkRootCause(diagnosis, deckText) {
+  const { root_cause: rootCause, finding } = diagnosis;
+  const basis = diagnosis.hypotheses.find((hypothesis) => hypothesis.id === rootCause.hypothesis);
+  const findings = [];
+  if (!basis) {
+    findings.push(errorFinding(finding, `root cause rests on hypothesis "${rootCause.hypothesis}" which the diagnosis does not list`));
+  } else if (basis.verdict === "refuted") {
+    findings.push(errorFinding(finding, `root cause rests on hypothesis "${basis.id}", which the records refuted`));
+  } else if (rootCause.confidence === "supported" && basis.verdict !== "supported") {
+    findings.push(errorFinding(finding, `root cause is marked supported but hypothesis "${basis.id}" is ${basis.verdict}: mark it inferred`));
+  }
+  if (!deckText.includes(collapseWhitespace(rootCause.rendered))) {
+    findings.push(errorFinding(finding, `the deck never states the root cause as the ledger renders it: "${rootCause.rendered}"`));
+  }
+  return findings;
+}
+
+function checkAntharaRemediesShown(diagnosis, deckText) {
+  return diagnosis.remedies
+    .filter((remedy) => remedy.kind === "anthara" && !deckText.includes(collapseWhitespace(remedy.name)))
+    .map((remedy) => errorFinding(diagnosis.finding, `Anthara remedy "${remedy.name}" is in the ledger but not in the deck`));
 }
 
 // ---------------------------------------------------------------------------

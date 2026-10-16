@@ -144,6 +144,32 @@ Rules for the rendering: one line per selected domain, one line per missing entr
 | `lower_bound` | `true` exactly when any dataset in `datasets` is `truncated` in its sidecar. The deck text for such a claim says so ("at least", "of the records on disk", or an explicit floor note) |
 | `receipts` | Optional. Provider-native ids the claim's exhibit cites. Each must occur verbatim in one of the claim's datasets' `.jsonl` files |
 
+### The diagnoses
+
+`diagnoses[]` records how each finding was traced from symptom to root cause, following `docs/root-cause-method.md`. One entry per finding the deck presents:
+
+```json
+{
+  "finding": "Finding 1",
+  "symptom": "A quarter of pull requests merged with no recorded review.",
+  "symptom_claims": ["f1.unreviewed.share"],
+  "hypotheses": [
+    { "id": "h1", "family": "capacity", "cause": "…", "prediction": "…", "verdict": "supported", "claims": ["f1.unassigned.share"] },
+    { "id": "h2", "family": "size", "cause": "…", "prediction": "…", "verdict": "refuted", "claims": ["f1.wait-by-size.small.p50"] },
+    { "id": "h3", "family": "gate", "cause": "…", "prediction": "…", "verdict": "untestable", "claims": [], "needs": "b3 deployments" }
+  ],
+  "root_cause": { "hypothesis": "h1", "rendered": "Nothing assigns a reviewer when a pull request opens.", "confidence": "supported", "boundary": "…" },
+  "remedies": [ { "name": "Reviewer rotation", "kind": "anthara", "acts_on": "root_cause", "how": "…" } ]
+}
+```
+
+| Field | Meaning |
+|---|---|
+| `hypotheses` | At least three competing causes. `supported` and `refuted` cite the claims that decided them; `untestable` cites none and says in `needs` what would test it |
+| `root_cause.rendered` | The root cause exactly as the deck states it, on the finding slide's footnote |
+| `root_cause.confidence` | `supported` only when its hypothesis is `supported`; otherwise `inferred`, and the deck words it as likely |
+| `remedies` | Every recommendation and Anthara workflow the deck shows for this finding. `acts_on` is `root_cause` or `mechanism`; there is no value for a remedy that acts only on the symptom, because such a remedy does not ship |
+
 `lower_bound_datasets` is exactly the set of `truncated` sidecars whose dataset appears in any claim's `datasets`. `unavailable_datasets` is exactly the set of `unavailable` sidecars in the run. Both are copied from sidecars, and the verifier rejects a ledger that disagrees with disk.
 
 ### The `data-claim` attribute
@@ -180,7 +206,9 @@ Runs first, over `<run>/report/`, and its findings are the floor: any `[ERROR]` 
 7. every receipt occurs in one of its claim's records files;
 8. no `{{` survives, no em dash (U+2014) appears in deck text;
 9. every truncated dataset in `lower_bound_datasets`, and every `unavailable` dataset, is named by its records filename or dataset id somewhere in the appendix text, and every `staleness_exclusions[].disclosed_as` appears there too;
-10. every numeric token in the deck's visible text outside a `data-claim` element is listed as a warning with its surrounding words, for the agent to adjudicate.
+10. every diagnosis cites only ledger claims; every `supported` or `refuted` hypothesis cites at least one claim, and every `untestable` one names what would test it; every root cause rests on a listed hypothesis that is not `refuted`, is `supported` only on a `supported` hypothesis, and appears in the deck as `rendered`; every `anthara` remedy's name appears in the deck;
+11. every link to an `http` or `https` address carries `target="_blank"` and a `rel` containing `noopener`, so it opens in a new tab;
+12. every numeric token in the deck's visible text outside a `data-claim` element is listed as a warning with its surrounding words, for the agent to adjudicate.
 
 Findings go to stdout, diagnostics to stderr; exit `0` when there is no error, `1` when there is, `2` on usage errors. Warnings alone exit `0`.
 
@@ -192,7 +220,8 @@ Runs second, reads the script's output, and judges what a script cannot:
 - each claim's `method` matches what `compute.mjs` actually does for that metric;
 - the prose around a claim does not overstate it (a `lower_bound` claim reads as a floor; a percentile is called a percentile; elapsed time is called calendar time);
 - the template's honesty rules hold: percentiles over means, ranking disclosure present, gaps from `gaps.md` and every exclusion disclosed, every table card has a source and a caveat;
-- a sample of receipts, opened in the records, actually show what the exhibit row says they show.
+- a sample of receipts, opened in the records, actually show what the exhibit row says they show;
+- each diagnosis holds: the tests decide the verdicts, the root cause is a cause and not the symptom restated, and every remedy acts on the root cause or catches its effect at the source.
 
 It returns one block, written verbatim to `report/verification.json`:
 
@@ -203,7 +232,7 @@ It returns one block, written verbatim to `report/verification.json`:
   "findings": [
     { "severity": "high" | "medium" | "low", "location": "slide 04 · f1.first-review-wait.p50", "problem": "…", "fix": "…" }
   ],
-  "checked": { "claims": 47, "receipts_opened": 12, "unclaimed_tokens_adjudicated": 14 }
+  "checked": { "claims": 47, "receipts_opened": 12, "unclaimed_tokens_adjudicated": 14, "diagnoses": 3 }
 }
 ```
 
